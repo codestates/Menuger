@@ -1,7 +1,7 @@
 ---
 name: Pull Request Card
 about: Pull Request Card
-title: "[Client/Server] / #88 / edit: readme"
+title: "[Client/Server] / 이슈번호(#32) / edit: readme"
 labels: ''
 assignees: ''
 

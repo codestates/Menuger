@@ -15,10 +15,12 @@
 ![JSLogo](https://img.shields.io/badge/FRONT-JAVASCRIPT-yellow?style=for-the-badge&logo=javascript)
 ![ReactLogo](https://img.shields.io/badge/FRONT-REACT-9cf?style=for-the-badge&logo=react)
 ![React-RouterLogo](https://img.shields.io/badge/FRONT-REACT--ROUTER-critical?style=for-the-badge&logo=react-router)
+![Redux](https://img.shields.io/badge/FRONT-redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![Styled Components](https://img.shields.io/badge/FRONT-styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=DB7093)
 
 ## BACK-END
 
-![NodeJSLogo](https://img.shields.io/badge/BACK-REACT-green?style=for-the-badge&logo=node.js)
+![NodeJSLogo](https://img.shields.io/badge/BACK-node.js-green?style=for-the-badge&logo=node.js)
 ![ExpressLogo](https://img.shields.io/badge/BACK-EXPRESS-black?style=for-the-badge&logo=express)
 ![SequelizeLogo](https://img.shields.io/badge/BACK-SEQUELIZE-9cf?style=for-the-badge&logo=sequelize)
 ![MysqlLogo](https://img.shields.io/badge/BACK-MYSQL-blue?style=for-the-badge&logo=mysql)

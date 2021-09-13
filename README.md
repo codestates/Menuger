@@ -38,7 +38,7 @@
 
 ![Client-Side Flow Chart](https://user-images.githubusercontent.com/38288479/132779491-20092270-c28a-471f-bda0-5d0ebd7cad42.png)
 
-# Menu.Random()팀의 멤버를 소개합니다.
+# Menu.random()팀의 멤버를 소개합니다.
 
 |                  Member                   | Position  |
 | :---------------------------------------: | :-------: |

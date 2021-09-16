@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter, Router, Switch, Route, NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
 
@@ -66,7 +66,7 @@ const WriteContainer = styled.div`
 `;
 
 const HeaderContainer = styled.header`
-  position: fixed;
+  position: sticky;
   left: 0;
   top: 0;
   width: 100%;
@@ -75,9 +75,6 @@ const HeaderContainer = styled.header`
   display: flex;
   padding-left: 10rem;
   padding-right: 10rem;
-  /* width: 96%; */
-  /* max-width: 1100px; */
-  /* height: 100%; */
   margin: 0 auto;
   align-items: center;
   justify-content: center;
@@ -171,7 +168,7 @@ const Header = () => {
   }, []);
 
   return (
-    <Router>
+    <BrowserRouter>
       <HeaderContainer active={useHamburgerMenu}>
         <LeftContainer>
           <StyledLink exact to="/">
@@ -220,14 +217,14 @@ const Header = () => {
       </HeaderContainer>
 
       <Switch>
-        <Route path="/" component={LandingPage}></Route>
+        <Route exact path="/" component={LandingPage}></Route>
         <Route path="/RecipePage" component={RecipePage}></Route>
         <Route path="/RecipeEditPage" component={RecipeEditPage}></Route>
         <Route path="/DietPage" component={DietPage}></Route>
         <Route path="/DietEditPage" component={DietEditPage}></Route>
         <Route path="/MyPage" component={MyPage}></Route>
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 };
 

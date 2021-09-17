@@ -10,7 +10,11 @@ const MONGO_URI = process.env.MONGO_URL;
 
 const server = async () => {
   try {
-    await mongoose.connect(MONGO_URI, {});
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
     console.log('mongodb connected');
 
     app.use(express.json());

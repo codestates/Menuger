@@ -25,7 +25,7 @@ const server = async () => {
       res.send('Hello Server!');
     });
 
-    app.use('/user', userRouter);
+    app.use('/users', userRouter);
 
     app.listen(port, () => console.log(`server listening on port ${port}`));
   } catch (err) {

@@ -5,7 +5,6 @@ const {
 } = require('mongoose');
 
 const bcrypt = require('bcrypt');
-const e = require('express');
 let saltRound = 3; //salt를 돌리는 횟수
 
 const userSchema = new Schema(

@@ -4,13 +4,13 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
-const { User } = require('./models/user');
-
-const MONGO_URI = process.env.MONGO_URL;
+const { userRouter } = require('./routes');
 
 const server = async () => {
   try {
-    await mongoose.connect(MONGO_URI, {
+    const { MONGO_URL } = process.env;
+    if (!MONGO_URL) throw new Error('MONGO_URL이 필요합니다.');
+    await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -22,16 +22,12 @@ const server = async () => {
     app.use(cookieParser());
 
     app.get('/', (req, res) => {
-      res.send('Hello World!');
+      res.send('Hello Server!');
     });
 
-    app.post('/user', async (req, res) => {
-      const user = new User(req.body);
-      await user.save();
-      res.send({ success: true });
-    });
+    app.use('/users', userRouter);
 
-    app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+    app.listen(port, () => console.log(`server listening on port ${port}`));
   } catch (err) {
     console.log(err);
   }

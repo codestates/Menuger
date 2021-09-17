@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedContainer } from '../modules/dietColumnContainer';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 //import components
 import DietColumnContainer from '../components/diet/DietColumnContainer';
@@ -18,7 +18,7 @@ const DietEditPageStyle = styled.div`
   display: flex;
   flex-direction: column;
 
-  input {
+  > input {
     height: 30px;
     text-indent: 5px;
     border: solid 1px #000;
@@ -32,7 +32,7 @@ const DietEditPageStyle = styled.div`
     }
   }
 
-  textarea {
+  > textarea {
     height: 300px;
     border: solid 1px #000;
     border-radius: 5px;
@@ -40,7 +40,7 @@ const DietEditPageStyle = styled.div`
     margin: 10px 0;
   }
 
-  .button-box {
+  > .button-box {
     display: flex;
     justify-content: right;
 
@@ -57,7 +57,7 @@ const DietEditPage = () => {
     dispatch(setSelectedContainer(dummyData));
   }, []);
 
-  const { columnList } = useSelector(state => state.dietColumnContainer);
+  const columnList = useSelector(state => state.dietColumnContainer);
 
   return (
     <DietEditPageStyle>

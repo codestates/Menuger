@@ -44,7 +44,7 @@ module.exports = {
             sameSite: 'None',
           });
 
-          user.token = refreshToken;
+          user.refreshToken = refreshToken;
           await user.save();
 
           res.status(200).send({ message: 'sign in success' });

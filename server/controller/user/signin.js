@@ -2,7 +2,7 @@ const { User } = require('../../models/user');
 const { createAccessToken, createRefreshToken } = require('../utils/jwt');
 
 module.exports = {
-  post: async (req, res) => {
+  post: (req, res) => {
     try {
       let { email, password } = req.body;
       if (!email) {

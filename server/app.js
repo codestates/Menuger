@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const { userRouter } = require('./routes');
@@ -14,12 +15,21 @@ const server = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     });
     console.log('mongodb connected');
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
+    app.use(
+      cors({
+        // CORS 설정
+        origin: ['http://localhost', 'https://menuger.shop'],
+        credentials: true,
+        methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'DELETE'],
+      }),
+    );
 
     app.get('/', (req, res) => {
       res.send('Hello Server!');

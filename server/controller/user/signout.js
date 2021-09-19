@@ -8,7 +8,6 @@ module.exports = {
   post: (req, res) => {
     try {
       const { payload } = verifyAccessToken(req.cookies.accessToken);
-      console.log(payload);
       if (!payload) {
         return res.status(400).send({ message: '유효하지 않은 접근입니다.' });
       }

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const {
   Schema,
   model,
@@ -14,6 +15,7 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     nickname: { type: String, required: true, unique: true },
     image_url: String,
+    refreshToken: String,
     subscription: { type: ObjectId, ref: 'user' },
   },
   { timestamps: true },
@@ -38,6 +40,15 @@ userSchema.pre('save', function (next) {
   } else {
     next();
   }
+});
+
+userSchema.method('comparePassword', function (plainPassword, callback) {
+  bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
+    if (err) {
+      return callback(err);
+    }
+    callback(null, isMatch);
+  });
 });
 
 const User = model('user', userSchema);

@@ -5,7 +5,7 @@ const {
 } = require('mongoose');
 
 module.exports = {
-  post: (req, res) => {
+  delete: (req, res) => {
     try {
       const { payload } = verifyAccessToken(req.cookies.accessToken);
       if (!payload) {
@@ -16,7 +16,7 @@ module.exports = {
         return res.status(400).send({ message: '비밀번호를 입력받지 않았습니다.' });
       }
 
-      User.findOneAndUpdate({ _id: ObjectId(payload) }, { refreshToken: '' }, (err, user) => {
+      User.findOne({ _id: ObjectId(payload) }, (err, user) => {
         if (err) {
           return res.status(400).send(err);
         }
@@ -32,12 +32,17 @@ module.exports = {
           if (!isMatch) {
             return res.status(400).send({ message: '비밀번호가 일치하지 않습니다.' });
           }
+          User.deleteOne({ _id: ObjectId(payload) }, err => {
+            if (err) {
+              return res.status(400).send(err);
+            }
 
-          return res
-            .clearCookie('accessToken')
-            .clearCookie('refreshToken')
-            .status(200)
-            .send({ message: 'signout success' });
+            return res
+              .clearCookie('accessToken')
+              .clearCookie('refreshToken')
+              .status(200)
+              .send({ message: 'delete account success' });
+          });
         });
       });
     } catch (err) {

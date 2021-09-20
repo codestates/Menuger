@@ -8,4 +8,6 @@ userRouter.post('/signin', userController.signin.post);
 
 userRouter.post('/signout', userController.signout.post);
 
+userRouter.delete('/', userController.deleteAccount.delete);
+
 module.exports = userRouter;

@@ -24,7 +24,7 @@ module.exports = {
 
         user.comparePassword(password, async (err, isMatch) => {
           if (err) {
-            res.status(400).send(err);
+            return res.status(400).send(err);
           }
 
           if (!isMatch) {
@@ -35,12 +35,12 @@ module.exports = {
 
           res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            secure: true,
+            secure: false, // 로컬에서 테스트할때는 https로 제공되지 않으므로 false
             sameSite: 'None',
           });
           res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: true,
+            secure: false,
             sameSite: 'None',
           });
 

@@ -36,12 +36,12 @@ const RecipeEditor = ({ editorRef }) => {
   return (
     <>
       <Editor
-        initialValue="# 나만의 레시피를 작성해보세요😋"
         previewStyle="vertical"
         height="600px"
         initialEditType="markdown"
         plugins={[[colorSyntax]]}
         ref={editorRef}
+        placeholder="나만의 레시피를 작성해보세요😋"
       />
       {isUploadingImage && (
         <UploadForm editorRef={editorRef} setUploadModal={setIsUploadingImage} />

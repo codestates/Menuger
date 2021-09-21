@@ -12,4 +12,6 @@ userRouter.delete('/', userController.deleteAccount.delete);
 
 userRouter.get('/:nickname', userController.info.get);
 
+userRouter.patch('/', userController.info.patch);
+
 module.exports = userRouter;

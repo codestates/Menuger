@@ -10,4 +10,6 @@ userRouter.post('/signout', userController.signout.post);
 
 userRouter.delete('/', userController.deleteAccount.delete);
 
+userRouter.get('/:nickname', userController.info.get);
+
 module.exports = userRouter;

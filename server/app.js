@@ -5,7 +5,7 @@ const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
-const { userRouter } = require('./routes');
+const { userRouter, recipeRouter, dietRouter } = require('./routes');
 
 const server = async () => {
   try {
@@ -36,6 +36,8 @@ const server = async () => {
     });
 
     app.use('/users', userRouter);
+    app.use('/recipes', recipeRouter);
+    app.use('/diets', dietRouter);
 
     app.listen(port, () => console.log(`server listening on port ${port}`));
   } catch (err) {

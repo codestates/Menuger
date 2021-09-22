@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 
+import svgToComponent from '../../../utils/svg';
 import { KEYFRAME_END, BOX_TOP, SEC_IN_MS, SLIDE_DELAY } from './constants';
 
 const calcSlideKeyframes = delay => {
@@ -37,7 +38,6 @@ const ToastBox = styled.div`
   align-items: center;
   justify-content: center;
   padding: 15px;
-  color: white;
   cursor: pointer;
   border-radius: 3px;
   box-sizing: border-box;
@@ -49,6 +49,16 @@ const ToastBox = styled.div`
     transform: scale(1.05);
     z-index: 1;
   }
+`;
+
+const Icon = styled.span`
+  margin-right: 1rem;
+`;
+
+const ToastMsg = styled.span`
+  inline-size: 270px;
+  overflow-wrap: break-word;
+  color: white;
 `;
 
 const counterKeyframes = keyframes`
@@ -72,12 +82,15 @@ const Counter = styled.div`
 `;
 
 const Toast = ({ mode, message, delay, handleClose }) => {
-  const delayInSec = delay / SEC_IN_MS;
-  const counterTime = (delay - SLIDE_DELAY) / SEC_IN_MS;
+  const millisecToSec = v => v / SEC_IN_MS;
+  const ToastDelay = millisecToSec(delay);
+  const svgProps = { width: 24, height: 24, fill: 'white' };
+  const counterTime = millisecToSec(delay - SLIDE_DELAY);
 
   return (
-    <ToastBox onClick={handleClose} mode={mode} delay={delayInSec}>
-      {message}
+    <ToastBox onClick={handleClose} mode={mode} delay={ToastDelay}>
+      <Icon>{svgToComponent({ svgName: mode, props: svgProps })}</Icon>
+      <ToastMsg>{message}</ToastMsg>
       <Counter time={counterTime} />
     </ToastBox>
   );

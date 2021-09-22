@@ -8,7 +8,12 @@ const recipeSchema = new Schema(
   {
     title: { type: String, required: true },
     content: { type: String, required: true },
-    user: { type: ObjectId, ref: 'user', required: true },
+    user: {
+      _id: { type: ObjectId, ref: 'user', required: true },
+      email: { type: String, required: true },
+      nickname: { type: String, required: true },
+      image_url: { type: String, required: true },
+    },
     like_user: { type: ObjectId, ref: 'user' },
     bookmark_user: { type: ObjectId, ref: 'user' },
     hashtag: { type: Array, ref: 'hashtag' },
@@ -16,14 +21,14 @@ const recipeSchema = new Schema(
   { timestamps: true },
 );
 
-recipeSchema.virtual('comments', {
-  ref: 'comment',
-  localField: '_id',
-  foreignField: 'post',
-});
+// recipeSchema.virtual('comments', {
+//   ref: 'comment',
+//   localField: '_id',
+//   foreignField: 'post',
+// });
 
-recipeSchema.set('toObject', { virtuals: true });
-recipeSchema.set('toJSON', { virtuals: true });
+// recipeSchema.set('toObject', { virtuals: true });
+// recipeSchema.set('toJSON', { virtuals: true });
 
 const Recipe = model('recipe', recipeSchema);
 

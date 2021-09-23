@@ -29,6 +29,21 @@ const Tag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: default;
+  > .delete-btn {
+    background-color: rgba(0, 0, 0, 0);
+    color: #d0d0d0;
+    border: none;
+    cursor: pointer;
+
+    &.delete-btn:hover {
+      color: #ff0000;
+    }
+
+    &.delete-btn:active {
+      color: #bd0000;
+    }
+  }
 `;
 
 const TagInputForm = styled.form`
@@ -55,7 +70,7 @@ const TagInputForm = styled.form`
   }
 */
 
-const HashtagEditor = ({ tagList = [], addTag, width }) => {
+const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
   const [inputTag, setInputTag] = useState('');
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const inputBox = useRef();
@@ -66,12 +81,26 @@ const HashtagEditor = ({ tagList = [], addTag, width }) => {
     '한글자 이상 입력해야합니다.',
   ];
 
-  if (typeof addTag !== 'function') {
-    const error = new Error('props로 받은 "addTag"가 함수가 아닙니다. "addTag"는 함수여야 합니다.');
-    addTag = () => {
+  if (typeof updateTagList !== 'function') {
+    const error = new Error(
+      'props로 받은 "updateTagList"가 함수가 아닙니다. "updateTagList"는 함수여야 합니다.',
+    );
+    updateTagList = () => {
       console.error(error);
     };
   }
+
+  const addTag = tag => {
+    const newTagList = [...tagList, tag];
+    updateTagList(newTagList);
+  };
+
+  const removeTag = tag => {
+    const newTagList = tagList.filter(tagInList => {
+      return tagInList.name !== tag.name;
+    });
+    updateTagList(newTagList);
+  };
 
   const focusInputBox = () => {
     inputBox.current.focus();
@@ -111,7 +140,12 @@ const HashtagEditor = ({ tagList = [], addTag, width }) => {
         {tagList.map(tag => {
           return (
             <li key={tag.name}>
-              <Tag>#{tag.name}</Tag>
+              <Tag>
+                #{tag.name}{' '}
+                <button className="delete-btn" onClick={() => removeTag(tag)}>
+                  x
+                </button>
+              </Tag>
             </li>
           );
         })}

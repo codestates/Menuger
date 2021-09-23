@@ -60,10 +60,10 @@ const DietEditPage = () => {
 
   useEffect(() => {
     dispatch(setSelectedContainer(dummyData));
-  }, []);
+  }, [dispatch]);
 
-  const addTag = tag => {
-    setTagList([...tagList, tag]);
+  const updateTagList = tagList => {
+    setTagList(tagList);
   };
   return (
     <DietEditPageStyle>
@@ -71,7 +71,7 @@ const DietEditPage = () => {
       <input id="input-description" type="text" placeholder="식단 소개" />
       <DietColumnContainer columnList={columnList} />
       <textarea style={{ resize: 'none' }} cols="50" rows="10" placeholder="본문" />
-      <HashtagEditor tagList={tagList} addTag={addTag} />
+      <HashtagEditor tagList={tagList} updateTagList={updateTagList} />
       <div className="button-box">
         <StandardButton>임시저장</StandardButton>
         <StandardButton>작성</StandardButton>

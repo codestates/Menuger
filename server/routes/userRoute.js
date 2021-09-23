@@ -2,13 +2,13 @@ const { Router } = require('express');
 const userRouter = Router();
 const { userController } = require('../controller');
 
-userRouter.post('/signup', userController.signup.post);
+userRouter.post('/signup', userController.signup);
 
-userRouter.post('/signin', userController.signin.post);
+userRouter.post('/signin', userController.signin);
 
-userRouter.post('/signout', userController.signout.post);
+userRouter.post('/signout', userController.signout);
 
-userRouter.delete('/', userController.deleteAccount.delete);
+userRouter.delete('/', userController.deleteAccount);
 
 userRouter.get('/:nickname', userController.info.get);
 

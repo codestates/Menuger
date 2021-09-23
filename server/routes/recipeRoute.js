@@ -2,12 +2,12 @@ const { Router } = require('express');
 const recipeRouter = Router();
 const { recipeController } = require('../controller');
 
-recipeRouter.post('/', recipeController.createPost.post);
+recipeRouter.post('/', recipeController.createPost);
 
-recipeRouter.get('/:id', recipeController.readPost.get);
+recipeRouter.get('/:id', recipeController.readPost);
 
-recipeRouter.patch('/:id', recipeController.updatePost.patch);
+recipeRouter.patch('/:id', recipeController.updatePost);
 
-recipeRouter.delete('/:id', recipeController.deletePost.delete);
+recipeRouter.delete('/:id', recipeController.deletePost);
 
 module.exports = recipeRouter;

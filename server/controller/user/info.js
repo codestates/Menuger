@@ -9,7 +9,7 @@ module.exports = {
     try {
       const { nickname } = req.params;
       if (!nickname) {
-        res.status(400).send({ message: '닉네임을 입력받지 않았습니다.' });
+        return res.status(400).send({ message: '닉네임을 입력받지 않았습니다.' });
       }
 
       User.findOne({ nickname }, (err, user) => {
@@ -23,7 +23,7 @@ module.exports = {
 
         const { email, nickname, image_url = '' } = user;
 
-        res.status(200).send({ nickname, email, image_url });
+        return res.status(200).send({ nickname, email, image_url });
       });
     } catch (err) {
       console.log(err);

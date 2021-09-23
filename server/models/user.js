@@ -14,7 +14,7 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     nickname: { type: String, required: true, unique: true },
-    image_url: String,
+    image_url: { type: String, default: 'null' },
     refreshToken: String,
     subscription: { type: ObjectId, ref: 'user' },
   },

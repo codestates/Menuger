@@ -4,4 +4,6 @@ const { dietController } = require('../controller');
 
 dietRouter.post('/', dietController.createPost.post);
 
+dietRouter.get('/:id', dietController.readPost.get);
+
 module.exports = dietRouter;

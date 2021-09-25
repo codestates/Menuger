@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import SubscribeButton from '../components/common/buttons/SubscribeButton';
 
-const useSubscribe = (postId, isSubscribed, fontSize = 12) => {
+const useSubscribe = ({ postId, postType, subscribed: isSubscribed }, fontSize = 12) => {
   const [subscribed, setSubscribed] = useState(isSubscribed);
   const [loading, setLoading] = useState(false);
 

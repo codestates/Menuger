@@ -23,15 +23,6 @@ const recipeSchema = new Schema(
   { timestamps: true },
 );
 
-// recipeSchema.virtual('comments', {
-//   ref: 'comment',
-//   localField: '_id',
-//   foreignField: 'post._id',
-// });
-
-// recipeSchema.set('toObject', { virtuals: true });
-// recipeSchema.set('toJSON', { virtuals: true });
-
 const Recipe = model('recipe', recipeSchema);
 
 module.exports = { Recipe };

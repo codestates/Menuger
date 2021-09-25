@@ -24,15 +24,6 @@ const dietSchema = new Schema(
   { timestamps: true },
 );
 
-// dietSchema.virtual('comments', {
-//   ref: 'comment',
-//   localField: '_id',
-//   foreignField: 'post',
-// });
-
-// dietSchema.set('toObject', { virtuals: true });
-// dietSchema.set('toJSON', { virtuals: true });
-
 const Diet = model('diet', dietSchema);
 
 module.exports = { Diet };

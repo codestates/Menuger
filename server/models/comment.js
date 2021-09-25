@@ -13,7 +13,6 @@ const commentSchema = new Schema(
       nickname: { type: String, required: true },
       image_url: { type: String, required: true },
     },
-    // postType: { type: String, enum: ['recipes', 'diets'] },
   },
   { timestamps: true },
 );

@@ -3,6 +3,7 @@ const {
   model,
   Types: { ObjectId },
 } = require('mongoose');
+const { commentSchema } = require('./comment');
 
 const recipeSchema = new Schema(
   {
@@ -14,21 +15,13 @@ const recipeSchema = new Schema(
       nickname: { type: String, required: true },
       image_url: { type: String, required: true },
     },
+    comments: [commentSchema],
     like_user: { type: ObjectId, ref: 'user' },
     bookmark_user: { type: ObjectId, ref: 'user' },
     hashtag: { type: Array, ref: 'hashtag' },
   },
   { timestamps: true },
 );
-
-// recipeSchema.virtual('comments', {
-//   ref: 'comment',
-//   localField: '_id',
-//   foreignField: 'post',
-// });
-
-// recipeSchema.set('toObject', { virtuals: true });
-// recipeSchema.set('toJSON', { virtuals: true });
 
 const Recipe = model('recipe', recipeSchema);
 

@@ -37,13 +37,12 @@ module.exports = async (req, res) => {
         return res.status(400).send({ message: '유저 혹은 레시피 게시물이 존재하지 않습니다.' });
       }
 
-      const comment = new Comment({ content, user, postType });
+      const comment = new Comment({ content, user, post: postId, postType: 'recipe' });
+
       await Promise.all([
         comment.save(),
-        Recipe.updateOne({ _id: ObjectId(postId) }, { $push: { comments: comment } }),
+        Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: 1 } }),
       ]);
-
-      return res.status(200).send({ message: '댓글이 작성되었습니다.' });
     } else {
       const [user, diet] = await Promise.all([
         User.findById(ObjectId(payload)),
@@ -54,14 +53,13 @@ module.exports = async (req, res) => {
         return res.status(400).send({ message: '유저 혹은 식단 게시물이 존재하지 않습니다.' });
       }
 
-      const comment = new Comment({ content, user, postType });
+      const comment = new Comment({ content, user, post: postId, postType: 'diet' });
       await Promise.all([
         comment.save(),
-        Diet.updateOne({ _id: ObjectId(postId) }, { $push: { comments: comment } }),
+        Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: 1 } }),
       ]);
-
-      return res.status(200).send({ message: '댓글이 작성되었습니다.' });
     }
+    return res.status(201).send({ message: '댓글이 작성되었습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

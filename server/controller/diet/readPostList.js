@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     page = parseInt(page);
     sort = parseInt(sort);
     const diets = await Diet.find({})
-      .sort({ updatedAt: sort })
+      .sort({ createdAt: sort })
       .skip((page - 1) * 8)
       .limit(8);
 

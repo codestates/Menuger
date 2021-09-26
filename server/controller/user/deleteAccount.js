@@ -38,18 +38,21 @@ module.exports = async (req, res) => {
         await Promise.all([
           User.findOneAndDelete({ _id: ObjectId(payload) }),
           Recipe.deleteMany({ 'user._id': ObjectId(payload) }),
-          Recipe.updateMany(
-            { 'comments.user._id': ObjectId(payload) },
-            { $pull: { comments: { 'user._id': ObjectId(payload) } } },
-          ),
           Diet.deleteMany({ 'user._id': ObjectId(payload) }),
-          Diet.updateMany(
-            { 'comments.user._id': ObjectId(payload) },
-            { $pull: { comments: { 'user._id': ObjectId(payload) } } },
-          ),
-          Comment.deleteMany({ 'user._id': ObjectId(payload) }),
         ]);
 
+        Comment.find({ 'user._id': ObjectId(payload) }, async (err, comments) => {
+          if (err) {
+            return res.status(400).send(err);
+          }
+          for (let i = 0; i < comments.length; i++) {
+            await Promise.all([
+              Recipe.updateOne({ _id: comments[i].post }, { $inc: { commentsCount: -1 } }),
+              Diet.updateOne({ _id: comments[i].post }, { $inc: { commentsCount: -1 } }),
+            ]);
+          }
+          await Comment.deleteMany({ 'user._id': ObjectId(payload) });
+        });
         return res
           .clearCookie('accessToken')
           .clearCookie('refreshToken')

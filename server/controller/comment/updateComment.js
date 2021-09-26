@@ -1,6 +1,4 @@
 const { Comment } = require('../../models/comment');
-const { Diet } = require('../../models/diet');
-const { Recipe } = require('../../models/recipe');
 const { verifyAccessToken } = require('../utils/jwt');
 const {
   isValidObjectId,
@@ -34,18 +32,9 @@ module.exports = async (req, res) => {
     }
 
     if (postType === 'recipes') {
-      await Promise.all([
-        Comment.updateOne({ _id: ObjectId(commentId) }, { content }),
-        Recipe.updateOne(
-          { 'comments._id': ObjectId(commentId) },
-          { 'comments.$.content': content },
-        ),
-      ]);
+      await Comment.updateOne({ _id: ObjectId(commentId) }, { content });
     } else {
-      await Promise.all([
-        Comment.updateOne({ _id: ObjectId(commentId) }, { content }),
-        Diet.updateOne({ 'comments._id': ObjectId(commentId) }, { 'comments.$.content': content }),
-      ]);
+      await Comment.updateOne({ _id: ObjectId(commentId) }, { content });
     }
 
     return res.status(200).send({ message: 'modify comment success' });

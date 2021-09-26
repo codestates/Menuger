@@ -63,28 +63,12 @@ module.exports = {
             'user.image_url': image_url,
           },
         ),
-        Recipe.updateMany(
-          {},
-          {
-            'comments.$[comment].user.nickname': nickname,
-            'comments.$[comment].user.image_url': image_url,
-          },
-          { arrayFilters: [{ 'comment.user._id': ObjectId(payload) }] },
-        ),
         Diet.updateMany(
           { 'user._id': ObjectId(payload) },
           {
             'user.nickname': nickname,
             'user.image_url': image_url,
           },
-        ),
-        Diet.updateMany(
-          {},
-          {
-            'comments.$[comment].user.nickname': nickname,
-            'comments.$[comment].user.image_url': image_url,
-          },
-          { arrayFilters: [{ 'comment.user._id': ObjectId(payload) }] },
         ),
         Comment.updateMany(
           { 'user._id': ObjectId(payload) },

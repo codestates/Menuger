@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
     await user.save();
     return res.status(201).send({ message: '회원가입이 완료되었습니다.' });
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ message: err.message });
   }
 };

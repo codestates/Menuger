@@ -17,7 +17,7 @@ const server = async () => {
       useCreateIndex: true,
       useFindAndModify: false,
     });
-    mongoose.set('debug', true); // mongodb 쿼리문 디버깅 확인용 코드
+    // mongoose.set('debug', true); // mongodb 쿼리문 디버깅 확인용 코드
     console.log('mongodb connected');
 
     app.use(express.json());

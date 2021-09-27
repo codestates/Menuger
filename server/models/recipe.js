@@ -14,21 +14,13 @@ const recipeSchema = new Schema(
       nickname: { type: String, required: true },
       image_url: { type: String, required: true },
     },
+    commentsCount: { type: Number, default: 0 },
     like_user: { type: ObjectId, ref: 'user' },
     bookmark_user: { type: ObjectId, ref: 'user' },
     hashtag: { type: Array, ref: 'hashtag' },
   },
   { timestamps: true },
 );
-
-// recipeSchema.virtual('comments', {
-//   ref: 'comment',
-//   localField: '_id',
-//   foreignField: 'post',
-// });
-
-// recipeSchema.set('toObject', { virtuals: true });
-// recipeSchema.set('toJSON', { virtuals: true });
 
 const Recipe = model('recipe', recipeSchema);
 

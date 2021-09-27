@@ -1,4 +1,7 @@
 const { User } = require('../../models/user');
+const { Recipe } = require('../../models/recipe');
+const { Diet } = require('../../models/diet');
+const { Comment } = require('../../models/comment');
 const { verifyAccessToken } = require('../utils/jwt');
 const {
   Types: { ObjectId },
@@ -26,7 +29,6 @@ module.exports = {
         return res.status(200).send({ nickname, email, image_url });
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).send({ message: err.message });
     }
   },
@@ -53,11 +55,33 @@ module.exports = {
       user.image_url = image_url;
       user.nickname = nickname;
 
+      await Promise.all([
+        Recipe.updateMany(
+          { 'user._id': ObjectId(payload) },
+          {
+            'user.nickname': nickname,
+            'user.image_url': image_url,
+          },
+        ),
+        Diet.updateMany(
+          { 'user._id': ObjectId(payload) },
+          {
+            'user.nickname': nickname,
+            'user.image_url': image_url,
+          },
+        ),
+        Comment.updateMany(
+          { 'user._id': ObjectId(payload) },
+          {
+            'user.nickname': nickname,
+            'user.image_url': image_url,
+          },
+        ),
+      ]);
       await user.save();
 
       return res.status(200).send({ message: 'modify userinfo success' });
     } catch (err) {
-      console.log(err);
       return res.status(500).send({ message: err.message });
     }
   },

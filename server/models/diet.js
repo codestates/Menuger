@@ -15,21 +15,13 @@ const dietSchema = new Schema(
       nickname: { type: String, required: true },
       image_url: { type: String, required: true },
     },
+    commentsCount: { type: Number, default: 0 },
     like_user: { type: ObjectId, ref: 'user' },
     bookmark_user: { type: ObjectId, ref: 'user' },
     hashtag: { type: Array, ref: 'hashtag' },
   },
   { timestamps: true },
 );
-
-// dietSchema.virtual('comments', {
-//   ref: 'comment',
-//   localField: '_id',
-//   foreignField: 'post',
-// });
-
-// dietSchema.set('toObject', { virtuals: true });
-// dietSchema.set('toJSON', { virtuals: true });
 
 const Diet = model('diet', dietSchema);
 

@@ -1,10 +1,13 @@
 const { User } = require('../../models/user');
+const { Recipe } = require('../../models/recipe');
+const { Diet } = require('../../models/diet');
+const { Comment } = require('../../models/comment');
 const { verifyAccessToken } = require('../utils/jwt');
 const {
   Types: { ObjectId },
 } = require('mongoose');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   try {
     const { payload } = verifyAccessToken(req.cookies.accessToken);
     if (!payload) {
@@ -15,7 +18,7 @@ module.exports = (req, res) => {
       return res.status(400).send({ message: '비밀번호를 입력받지 않았습니다.' });
     }
 
-    User.findOne({ _id: ObjectId(payload) }, (err, user) => {
+    await User.findOne({ _id: ObjectId(payload) }, (err, user) => {
       if (err) {
         return res.status(400).send(err);
       }
@@ -23,7 +26,7 @@ module.exports = (req, res) => {
         return res.status(400).send({ message: '인증되지 않은 유저입니다.' });
       }
 
-      user.comparePassword(password, (err, isMatch) => {
+      user.comparePassword(password, async (err, isMatch) => {
         if (err) {
           return res.status(400).send(err);
         }
@@ -31,17 +34,30 @@ module.exports = (req, res) => {
         if (!isMatch) {
           return res.status(400).send({ message: '비밀번호가 일치하지 않습니다.' });
         }
-        User.deleteOne({ _id: ObjectId(payload) }, err => {
+
+        await Promise.all([
+          User.findOneAndDelete({ _id: ObjectId(payload) }),
+          Recipe.deleteMany({ 'user._id': ObjectId(payload) }),
+          Diet.deleteMany({ 'user._id': ObjectId(payload) }),
+        ]);
+
+        Comment.find({ 'user._id': ObjectId(payload) }, async (err, comments) => {
           if (err) {
             return res.status(400).send(err);
           }
-
-          return res
-            .clearCookie('accessToken')
-            .clearCookie('refreshToken')
-            .status(200)
-            .send({ message: 'delete account success' });
+          for (let i = 0; i < comments.length; i++) {
+            await Promise.all([
+              Recipe.updateOne({ _id: comments[i].post }, { $inc: { commentsCount: -1 } }),
+              Diet.updateOne({ _id: comments[i].post }, { $inc: { commentsCount: -1 } }),
+            ]);
+          }
+          await Comment.deleteMany({ 'user._id': ObjectId(payload) });
         });
+        return res
+          .clearCookie('accessToken')
+          .clearCookie('refreshToken')
+          .status(200)
+          .send({ message: 'delete account success' });
       });
     });
   } catch (err) {

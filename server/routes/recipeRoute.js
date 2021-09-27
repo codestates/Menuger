@@ -6,6 +6,8 @@ recipeRouter.post('/', recipeController.createPost);
 
 recipeRouter.get('/:id', recipeController.readPost);
 
+recipeRouter.get('/', recipeController.readPostList);
+
 recipeRouter.patch('/:id', recipeController.updatePost);
 
 recipeRouter.delete('/:id', recipeController.deletePost);

@@ -13,9 +13,13 @@ const commentSchema = new Schema(
       nickname: { type: String, required: true },
       image_url: { type: String, required: true },
     },
+    post: { type: ObjectId, refPath: 'postType' },
+    postType: { type: String, enum: ['recipe', 'diet'] },
   },
   { timestamps: true },
 );
+
+commentSchema.index({ createdAt: 1 });
 
 const Comment = model('comment', commentSchema);
 

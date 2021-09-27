@@ -3,7 +3,6 @@ const {
   model,
   Types: { ObjectId },
 } = require('mongoose');
-const { commentSchema } = require('./comment');
 
 const dietSchema = new Schema(
   {
@@ -16,7 +15,7 @@ const dietSchema = new Schema(
       nickname: { type: String, required: true },
       image_url: { type: String, required: true },
     },
-    comments: [commentSchema],
+    commentsCount: { type: Number, default: 0 },
     like_user: { type: ObjectId, ref: 'user' },
     bookmark_user: { type: ObjectId, ref: 'user' },
     hashtag: { type: Array, ref: 'hashtag' },

@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: '유효하지 않은 접근입니다.' });
     }
 
-    const { postType, commentId } = req.params;
+    const { postType, postId, commentId } = req.params;
     if (!isValidObjectId(commentId)) {
       return res.status(400).send({ message: '해당 댓글id는 유효하지 않습니다.' });
     }
@@ -30,18 +30,12 @@ module.exports = async (req, res) => {
     if (postType === 'recipes') {
       await Promise.all([
         Comment.deleteOne({ _id: ObjectId(commentId) }),
-        Recipe.updateOne(
-          { 'comments._id': ObjectId(commentId) },
-          { $pull: { comments: { _id: commentId } } },
-        ),
+        Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
       ]);
     } else {
       await Promise.all([
         Comment.deleteOne({ _id: ObjectId(commentId) }),
-        Diet.updateOne(
-          { 'comments._id': ObjectId(commentId) },
-          { $pull: { comments: { _id: commentId } } },
-        ),
+        Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
       ]);
     }
     return res.status(200).send({ message: 'delete comment success' });

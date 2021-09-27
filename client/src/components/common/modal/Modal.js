@@ -9,8 +9,9 @@ const Overlay = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(1px);
+  background-color: ${({ color }) => color};
+  opacity: ${({ opacity }) => opacity};
+  z-index: 9;
 `;
 
 const ModalContainer = styled.div`
@@ -19,13 +20,14 @@ const ModalContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  width: 100%;
   max-width: 1130px;
-  height: 90%;
+  width: ${({ width }) => `${width}%`};
+  height: ${({ height }) => `${height}%`};
   margin: auto;
   padding: 3rem;
   border-radius: 10px;
   background: white;
+  z-index: 9;
 `;
 
 const CloseBtn = styled.div`
@@ -44,7 +46,7 @@ const Content = styled.div`
   height: 100%;
 `;
 
-const Modal = ({ children, hideModal }) => {
+const Modal = ({ children, hideModal, style }) => {
   useKeyPress('Escape', hideModal);
 
   const modalEl = document.getElementById('modal-root');
@@ -54,8 +56,8 @@ const Modal = ({ children, hideModal }) => {
 
   return ReactDOM.createPortal(
     <>
-      <Overlay onClick={hideModal} />
-      <ModalContainer>
+      <Overlay onClick={hideModal} color={style.overlayColor} opacity={style.overlayOpacity} />
+      <ModalContainer width={style.width} height={style.height}>
         <CloseBtn onClick={hideModal}>&times;</CloseBtn>
         <Content>{children}</Content>
       </ModalContainer>

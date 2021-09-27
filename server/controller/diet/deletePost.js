@@ -1,4 +1,7 @@
 const { Diet } = require('../../models/diet');
+const { Comment } = require('../../models/comment');
+const { Like } = require('../../models/like');
+const { Bookmark } = require('../../models/bookmark');
 const { verifyAccessToken } = require('../utils/jwt');
 const {
   isValidObjectId,
@@ -23,7 +26,12 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: '게시물의 작성자만 삭제할 수 있습니다' });
     }
 
-    await Diet.deleteOne({ _id: id });
+    await Promise.all([
+      Diet.deleteOne({ _id: id }),
+      Comment.deleteMany({ post: id }),
+      Like.deleteMany({ post: id }),
+      Bookmark.deleteMany({ post: id }),
+    ]);
     return res.status(200).send({ message: 'delete diet post success' });
   } catch (err) {
     return res.status(500).send({ message: err.message });

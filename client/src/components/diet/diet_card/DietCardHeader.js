@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
+import EditButton from '../EditButton';
+
 const DietCardHeaderStyle = styled.div`
   height: 40px;
   border-bottom: solid 1px #000;
@@ -14,37 +16,6 @@ const DietCardHeaderStyle = styled.div`
     border-bottom: solid 1px #000;
     font-size: 1rem;
     outline: none;
-  }
-
-  button {
-    background-color: rgba(0, 0, 0, 0);
-    color: #d0d0d0;
-    border: none;
-    cursor: pointer;
-
-    &.edit-mode-on-btn:hover {
-      color: #000;
-    }
-
-    &.edit-mode-on-btn:active {
-      color: #757575;
-    }
-
-    &.edit-mode-off-btn:hover {
-      color: #28ee00;
-    }
-
-    &.edit-mode-off-btn:active {
-      color: #1ca700;
-    }
-
-    &.delete-btn:hover {
-      color: #ff0000;
-    }
-
-    &.delete-btn:active {
-      color: #bd0000;
-    }
   }
 `;
 
@@ -70,12 +41,8 @@ const DietCardHeader = ({
             onBlur={() => changeTitle(inputTitle)}
           />
           <div className="button-box">
-            <button className="delete-btn" onClick={onRemoveCard}>
-              ✕
-            </button>
-            <button className="edit-mode-off-btn" onClick={offEditMode}>
-              ✔
-            </button>
+            <EditButton type="remove" onClick={onRemoveCard} />
+            <EditButton type="edit-off" onClick={offEditMode} />
           </div>
         </>
       ) : (
@@ -83,9 +50,7 @@ const DietCardHeader = ({
           <h3>{title}</h3>
           {readonly || (
             <div className="button-box">
-              <button className="edit-mode-on-btn" onClick={onEditMode}>
-                ✎
-              </button>
+              <EditButton type="edit-on" onClick={onEditMode} />
             </div>
           )}
         </>

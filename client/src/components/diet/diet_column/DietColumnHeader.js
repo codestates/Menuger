@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+//import components
+import EditButton from '../EditButton';
+
 const DietColumnHeaderStyle = styled.div`
   height: 40px;
   border-bottom: solid 1px #000;
@@ -15,37 +18,6 @@ const DietColumnHeaderStyle = styled.div`
     border-bottom: solid 1px #000;
     font-size: 1rem;
     outline: none;
-  }
-
-  button {
-    background-color: rgba(0, 0, 0, 0);
-    color: #d0d0d0;
-    border: none;
-    cursor: pointer;
-
-    &.edit-title-btn:hover {
-      color: #000;
-    }
-
-    &.edit-title-btn:active {
-      color: #757575;
-    }
-
-    &.check-btn:hover {
-      color: #28ee00;
-    }
-
-    &.check-btn:active {
-      color: #1ca700;
-    }
-
-    &.delete-btn:hover {
-      color: #ff0000;
-    }
-
-    &.delete-btn:active {
-      color: #bd0000;
-    }
   }
 `;
 
@@ -78,12 +50,8 @@ const DietColumnHeader = ({ title, onRemoveColumn, changeTitle, readonly = false
             onBlur={() => changeTitle(inputTitle)}
           />
           <div className="button-box">
-            <button className="delete-btn" onClick={onRemoveColumn}>
-              ✕
-            </button>
-            <button className="check-btn" onClick={offEditMode}>
-              ✔
-            </button>
+            <EditButton type="remove" onClick={onRemoveColumn} />
+            <EditButton type="edit-off" onClick={offEditMode} />
           </div>
         </>
       ) : (
@@ -91,9 +59,7 @@ const DietColumnHeader = ({ title, onRemoveColumn, changeTitle, readonly = false
           <h2>{title}</h2>
           {readonly || (
             <div className="button-box">
-              <button className="edit-title-btn" onClick={onEditMode}>
-                ✎
-              </button>
+              <EditButton type="edit-on" onClick={onEditMode} />
             </div>
           )}
         </>

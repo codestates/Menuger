@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 //import components
 import DietCardHeader from './DietCardHeader';
 import ItemAddor from './ItemAddor';
 import DietItemList from './DietItemList';
-import { useEffect } from 'react';
 
 const DietCardStyle = styled.div`
   min-height: 30px;

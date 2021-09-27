@@ -40,7 +40,8 @@
 
 ## Deployment Architecture
 
-![Client-Side Flow Chart](https://user-images.githubusercontent.com/38288479/132779491-20092270-c28a-471f-bda0-5d0ebd7cad42.png)
+![sys-arch](https://user-images.githubusercontent.com/38288479/134836470-b06fb1d1-32df-4111-8d22-d32094bf1989.png)
+
 
 # Menu.random()팀의 멤버를 소개합니다.
 

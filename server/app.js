@@ -12,6 +12,7 @@ const {
   commentRouter,
   likeRouter,
   bookmarkRouter,
+  searchRouter,
 } = require('./routes');
 
 const server = async () => {
@@ -49,6 +50,7 @@ const server = async () => {
     app.use('/:postType/:postId/comments', commentRouter);
     app.use('/:postType/:postId/likes', likeRouter);
     app.use('/:postType/:postId/bookmarks', bookmarkRouter);
+    app.use('/search', searchRouter);
 
     app.listen(port, () => console.log(`server listening on port ${port}`));
   } catch (err) {

@@ -19,6 +19,8 @@ userRouter.post('/subscribe/:nickname', checkToken, userController.subscribe);
 
 userRouter.post('/unsubscribe/:nickname', checkToken, userController.unsubscribe);
 
-userRouter.post('/:nickname', userController.nicknameValidation);
+userRouter.post('/nickname', userController.nicknameValidation);
+
+userRouter.post('/email', userController.emailValidation);
 
 module.exports = userRouter;

@@ -22,6 +22,10 @@ module.exports = async (req, res) => {
 
     const diet = await Diet.findOne({ _id: id });
 
+    if (!diet) {
+      return res.status(400).send({ message: '존재하지 않는 게시물입니다.' });
+    }
+
     if (!diet.user._id.equals(ObjectId(payload))) {
       return res.status(400).send({ message: '게시물의 작성자만 삭제할 수 있습니다' });
     }

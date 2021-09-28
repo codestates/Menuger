@@ -7,6 +7,8 @@ dietRouter.post('/', checkToken, dietController.createPost);
 
 dietRouter.get('/:id', dietController.readPost);
 
+dietRouter.get('/', dietController.readPostList);
+
 dietRouter.patch('/:id', checkToken, dietController.updatePost);
 
 dietRouter.delete('/:id', checkToken, dietController.deletePost);

@@ -17,7 +17,7 @@ const recipeSchema = new Schema(
     commentsCount: { type: Number, default: 0 },
     likesCount: { type: Number, default: 0 },
     bookmarksCount: { type: Number, default: 0 },
-    hashtag: { type: Array, ref: 'hashtag' },
+    hashtags: { type: Array, ref: 'hashtag' },
     thumbnail_url: { type: String, default: 'thumbnail' },
     originalFileName: { type: String, default: 'fileName' },
   },

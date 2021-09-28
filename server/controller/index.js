@@ -5,4 +5,5 @@ module.exports = {
   commentController: require('./comment'),
   likeController: require('./like'),
   bookmarkController: require('./bookmark'),
+  searchController: require('./search'),
 };

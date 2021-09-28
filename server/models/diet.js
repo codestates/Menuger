@@ -19,7 +19,7 @@ const dietSchema = new Schema(
     commentsCount: { type: Number, default: 0 },
     likesCount: { type: Number, default: 0 },
     bookmarksCount: { type: Number, default: 0 },
-    hashtag: { type: Array, ref: 'hashtag' },
+    hashtags: { type: Array, ref: 'hashtag' },
   },
   { timestamps: true },
 );

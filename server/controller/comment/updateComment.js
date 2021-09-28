@@ -31,11 +31,7 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: '댓글의 수정할 내용을 입력해주세요.' });
     }
 
-    if (postType === 'recipes') {
-      await Comment.updateOne({ _id: ObjectId(commentId) }, { content });
-    } else {
-      await Comment.updateOne({ _id: ObjectId(commentId) }, { content });
-    }
+    await Comment.updateOne({ _id: ObjectId(commentId) }, { content });
 
     return res.status(200).send({ message: '해당 댓글을 수정하였습니다.' });
   } catch (err) {

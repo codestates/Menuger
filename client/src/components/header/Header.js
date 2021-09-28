@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { BiSearchAlt2 } from 'react-icons/bi';
 
@@ -53,16 +53,17 @@ const WriteContainer = styled.div`
 
 const HeaderContainer = styled.header`
   position: sticky;
+  z-index: 9;
   left: 0;
   top: 0;
   width: 100%;
   height: 80px;
-  /* background-color: #dde0ea; */
+  background-color: white;
   border-bottom: 1px solid;
   border-color: rgba(160, 160, 160, 0.25);
   display: flex;
-  padding-left: 10rem;
-  padding-right: 10rem;
+  padding-left: 7rem;
+  padding-right: 7rem;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
@@ -72,29 +73,14 @@ const HeaderContainer = styled.header`
   }
   @media screen and (max-width: 768px) {
     padding: 0rem;
-    ${RightContainer} {
-      ${props =>
-        props.active &&
-        css`
-          display: none;
-        `}
-      background-color: #dde0ea;
-      flex-direction: column;
-      position: absolute;
-      top: 80px;
-      right: 0px;
-      ${WriteByMobile} {
-        display: block;
-      }
-      ${WriteContainer} {
-        display: none;
-      }
+    ${WriteByMobile} {
+      display: block;
+    }
+    ${WriteContainer} {
+      display: none;
     }
     ${HamburgerContainer} {
       display: block;
-    }
-    ${SearchContainer} {
-      display: none;
     }
     ${SearchIconContainer} {
       display: block;
@@ -128,7 +114,7 @@ const Header = () => {
     return () => {
       document.removeEventListener('click', onClickOutside);
     };
-  }, []);
+  });
 
   return (
     <BrowserRouter>

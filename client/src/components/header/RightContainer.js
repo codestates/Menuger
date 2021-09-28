@@ -33,6 +33,7 @@ const WriteContainer = styled.div`
     background-color: #ffc436;
     font-size: 90%;
     color: white;
+    border-radius: 5px;
   }
 `;
 
@@ -70,7 +71,8 @@ const Container = styled.div`
       css`
         display: none;
       `}
-    background-color: #dde0ea;
+    background-color: white;
+    outline: 1.5px solid black;
     flex-direction: column;
     position: absolute;
     top: 80px;
@@ -92,15 +94,19 @@ const Container = styled.div`
 `;
 
 const DropdownContainer = styled.div`
-  outline: 1.5px solid black;
+  border: 1px solid black;
+  border-radius: 5px;
   display: flex;
   position: absolute;
-  top: 95%;
-  right: -5%;
+  top: 90%;
+  right: 9%;
   flex-direction: column;
+  background-color: white;
   * {
-    width: 80px;
+    display: flex;
+    width: 50px;
     text-align: center;
+    justify-content: center;
   }
   :after {
     content: '';
@@ -123,8 +129,8 @@ const RightContainer = ({
 }) => {
   return (
     <Container active={useHamburgerMenu}>
-      <div>login</div>
-      <div>sign up</div>
+      <div>로그인</div>
+      <div>회원가입</div>
       <WriteByMobile ref={popRef}>
         <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
           레시피
@@ -135,7 +141,7 @@ const RightContainer = ({
       </WriteByMobile>
       <WriteContainer ref={popRef}>
         <button onClick={handleDropdown}>
-          write
+          글쓰기
           {useDropdown && (
             <DropdownContainer>
               <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>

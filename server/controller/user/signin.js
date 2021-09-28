@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { User } = require('../../models/user');
 const { createAccessToken, createRefreshToken } = require('../utils/jwt');
 
@@ -34,7 +35,7 @@ module.exports = (req, res) => {
 
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
-          secure: false, // 로컬에서 테스트할때는 https로 제공되지 않으므로 false
+          secure: false,
           sameSite: 'None',
         });
         res.cookie('refreshToken', refreshToken, {

@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import $ from 'jquery';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+
+const rotate = keyframes`
+    0% {
+      transform: rotateX(0deg);
+    }
+    25% {
+      transform: rotateX(-690deg);
+    }
+    50% {
+      transform: rotateX(-1380deg);
+    }
+    70% {
+      transform: rotateX(-1420deg);
+    }
+    90% {
+      transform: rotateX(-1435deg);
+    }
+    100% {
+      transform: rotateX(-1400deg);
+    }
+  `;
 
 const Div = styled.div`
-  padding-left: 100px;
-  margin-right: 20px;
   @media screen and (max-width: 768px) {
     display: flex;
     align-items: center;
@@ -23,7 +41,7 @@ const Div = styled.div`
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 5px;
-    margin: 150px auto 0;
+    margin: 50px auto 0;
 
     &.view {
       overflow: visible;
@@ -47,7 +65,7 @@ const Div = styled.div`
     animation-fill-mode: both;
 
     &.rolling {
-      animation-name: rotate1;
+      animation-name: ${rotate};
     }
   }
   .item {
@@ -94,27 +112,6 @@ const Div = styled.div`
     }
   }
 
-  @keyframes rotate1 {
-    0% {
-      transform: rotateX(0deg);
-    }
-    25% {
-      transform: rotateX(-690deg);
-    }
-    50% {
-      transform: rotateX(-1380deg);
-    }
-    70% {
-      transform: rotateX(-1420deg);
-    }
-    90% {
-      transform: rotateX(-1435deg);
-    }
-    100% {
-      transform: rotateX(-1400deg);
-    }
-  }
-
   .imoji {
     display: block;
     font-size: 30px;
@@ -137,14 +134,20 @@ const Div = styled.div`
   }
 
   .btn_wrap {
-    margin: 20px auto;
+    margin: 10px auto;
     width: 200px;
   }
 `;
 
 const SlotMachine = () => {
   const [number, setNumber] = useState(0);
-  let numbering = () => {
+  const [rolling, setRolling] = useState(' rolling');
+
+  useEffect(() => {
+    handleRolling();
+  }, []);
+
+  const handleRolling = () => {
     const list = {
       0: '갈비찜',
       1: '김치찜',
@@ -159,21 +162,17 @@ const SlotMachine = () => {
     };
     let randomNumber = Math.floor(Math.random() * 10);
     setNumber(list[randomNumber]);
-  };
 
-  $(function () {
-    $('.btn_first').on('click', function () {
-      $('.list').removeClass('rolling');
-      setTimeout(() => {
-        $('.list').addClass('rolling');
-      }, 10);
-    });
-  });
+    setRolling('');
+    setTimeout(() => {
+      setRolling(' rolling');
+    }, 10);
+  };
 
   return (
     <Div number={number}>
       <div className="wrap">
-        <ul className="list">
+        <ul className={'list' + rolling}>
           <li className="item">
             <span className="imoji">🍕</span>
           </li>
@@ -209,7 +208,7 @@ const SlotMachine = () => {
       </div>
 
       <div className="btn_wrap">
-        <button type="button" className="btn btn_first" onClick={numbering}>
+        <button type="button" className="btn btn_first" onClick={handleRolling}>
           이게 땡길껄?
         </button>
       </div>

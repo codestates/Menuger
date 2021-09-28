@@ -2,6 +2,8 @@ const { User } = require('../../models/user');
 const { Recipe } = require('../../models/recipe');
 const { Diet } = require('../../models/diet');
 const { Comment } = require('../../models/comment');
+const { Like } = require('../../models/like');
+const { Bookmark } = require('../../models/bookmark');
 const { verifyAccessToken } = require('../utils/jwt');
 const {
   Types: { ObjectId },
@@ -45,13 +47,37 @@ module.exports = async (req, res) => {
           if (err) {
             return res.status(400).send(err);
           }
-          for (let i = 0; i < comments.length; i++) {
+          comments.map(async comment => {
             await Promise.all([
-              Recipe.updateOne({ _id: comments[i].post }, { $inc: { commentsCount: -1 } }),
-              Diet.updateOne({ _id: comments[i].post }, { $inc: { commentsCount: -1 } }),
+              Recipe.updateOne({ _id: comment.post }, { $inc: { commentsCount: -1 } }),
+              Diet.updateOne({ _id: comment.post }, { $inc: { commentsCount: -1 } }),
             ]);
-          }
+          });
           await Comment.deleteMany({ 'user._id': ObjectId(payload) });
+        });
+        Like.find({ user: ObjectId(payload) }, async (err, likes) => {
+          if (err) {
+            return res.status(400).send(err);
+          }
+          likes.map(async like => {
+            await Promise.all([
+              Recipe.updateOne({ _id: like.post }, { $inc: { likesCount: -1 } }),
+              Diet.updateOne({ _id: like.post }, { $inc: { likesCount: -1 } }),
+            ]);
+          });
+          await Like.deleteMany({ user: ObjectId(payload) });
+        });
+        Bookmark.find({ user: ObjectId(payload) }, async (err, bookmarks) => {
+          if (err) {
+            return res.status(400).send(err);
+          }
+          bookmarks.map(async bookmark => {
+            await Promise.all([
+              Recipe.updateOne({ _id: bookmark.post }, { $inc: { bookmarksCount: -1 } }),
+              Diet.updateOne({ _id: bookmark.post }, { $inc: { bookmarksCount: -1 } }),
+            ]);
+          });
+          await Bookmark.deleteMany({ user: ObjectId(payload) });
         });
         return res
           .clearCookie('accessToken')

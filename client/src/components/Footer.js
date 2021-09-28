@@ -52,7 +52,7 @@ const Footer = () => {
         <a href="https://github.com/codestates/Menuger">Repository</a>
       </AboutUs>
       <Contact>
-        <Ptag>Contack</Ptag>
+        <Ptag>Contact</Ptag>
         <a href="https://github.com/Soujiro-a">Back-end 김경윤</a>
         <a href="https://github.com/minbyoungdae">Front-end 민병대</a>
         <a href="https://github.com/jihunv8">Front-end 박지훈</a>

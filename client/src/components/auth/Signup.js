@@ -141,6 +141,9 @@ const Signup = ({ handleMenuClick }) => {
           } else {
             resolve({ result: false, message });
           }
+        })
+        .catch(err => {
+          resolve({ result: false, message: err.response.data.message });
         });
     });
   };

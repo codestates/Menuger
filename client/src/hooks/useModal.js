@@ -2,9 +2,7 @@ import { useState } from 'react';
 
 import Modal from '../components/common/modal/Modal';
 
-const useModal = (
-  style = { overlayColor: 'black', overlayOpacity: 0.2, width: 100, height: 90 },
-) => {
+const useModal = style => {
   const [isVisible, setIsVisible] = useState(false);
 
   const showModal = () => setIsVisible(true);

@@ -1,4 +1,10 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({
+  path: path.resolve(
+    process.cwd(),
+    process.env.NODE_ENV == 'production' ? '.env' : '.env.development',
+  ),
+});
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -34,7 +40,7 @@ const server = async () => {
     app.use(
       cors({
         // CORS 설정
-        origin: ['http://localhost', 'https://menuger.shop'],
+        origin: ['http://localhost:2000', 'https://menuger.shop'],
         credentials: true,
         methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'DELETE'],
       }),

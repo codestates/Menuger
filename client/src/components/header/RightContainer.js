@@ -1,6 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
+
+import useModal from '../../hooks/useModal';
+import Signup from '../auth/Signup';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -121,34 +124,48 @@ const RightContainer = ({
   handleDropdown,
   useHamburgerMenu,
 }) => {
+  const [modalContent, setModalContent] = useState('');
+  const { showModal, ModalContainer } = useModal({ width: 30, height: 70, padding: 2.5 });
+
+  const handleMenuClick = menu => {
+    setModalContent(menu);
+    showModal();
+  };
+
   return (
-    <Container active={useHamburgerMenu}>
-      <div>login</div>
-      <div>sign up</div>
-      <WriteByMobile ref={popRef}>
-        <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
-          레시피
-        </StyledLink>
-        <StyledLink to="/DietEditPage" onClick={handleHamburgerMenu}>
-          식단
-        </StyledLink>
-      </WriteByMobile>
-      <WriteContainer ref={popRef}>
-        <button onClick={handleDropdown}>
-          write
-          {useDropdown && (
-            <DropdownContainer>
-              <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>
-                레시피
-              </StyledLink>
-              <StyledLink to="/DietEditPage" onClick={handleDropdown}>
-                식단
-              </StyledLink>
-            </DropdownContainer>
-          )}
-        </button>
-      </WriteContainer>
-    </Container>
+    <>
+      <ModalContainer>
+        {modalContent === 'signup' && <Signup handleMenuClick={handleMenuClick} />}
+        {modalContent === 'signin' && <div>signin 입니다</div>}
+      </ModalContainer>
+      <Container active={useHamburgerMenu}>
+        <div onClick={() => handleMenuClick('signin')}>login</div>
+        <div onClick={() => handleMenuClick('signup')}>sign up</div>
+        <WriteByMobile ref={popRef}>
+          <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
+            레시피
+          </StyledLink>
+          <StyledLink to="/DietEditPage" onClick={handleHamburgerMenu}>
+            식단
+          </StyledLink>
+        </WriteByMobile>
+        <WriteContainer ref={popRef}>
+          <button onClick={handleDropdown}>
+            write
+            {useDropdown && (
+              <DropdownContainer>
+                <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>
+                  레시피
+                </StyledLink>
+                <StyledLink to="/DietEditPage" onClick={handleDropdown}>
+                  식단
+                </StyledLink>
+              </DropdownContainer>
+            )}
+          </button>
+        </WriteContainer>
+      </Container>
+    </>
   );
 };
 

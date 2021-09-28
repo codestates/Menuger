@@ -47,7 +47,7 @@ const SubmitBtn = styled.button`
 `;
 
 const Footer = styled.div`
-  margin-top: 2rem;
+  margin-top: 3rem;
 `;
 
 const LoginLink = styled.span`

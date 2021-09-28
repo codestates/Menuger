@@ -2,7 +2,11 @@ const { User } = require('../../models/user');
 
 module.exports = (req, res) => {
   try {
-    const { nickname } = req.params;
+    const { nickname } = req.body;
+
+    if (!nickname) {
+      return res.status(400).send({ message: '닉네임을 입력받지 않았습니다.' });
+    }
 
     User.findOne({ nickname }, (err, user) => {
       if (err) {

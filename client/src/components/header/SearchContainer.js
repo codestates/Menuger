@@ -6,9 +6,17 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  border: solid 2px;
+  height: 40px;
   * {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    border: 0px;
+    height: 100%;
+  }
+  > :focus {
+    outline: none;
+  }
+  input {
+    padding-left: 3px;
   }
   @media screen and (max-width: 768px) {
     display: none;
@@ -32,7 +40,7 @@ const SearchContainer = ({ useSearch }) => {
         <option value="레시피">레시피</option>
         <option value="식단">식단</option>
       </select>
-      <input></input>
+      <input type="text"></input>
     </Container>
   );
 };

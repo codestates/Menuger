@@ -14,4 +14,8 @@ userRouter.get('/:nickname', userController.info.get);
 
 userRouter.patch('/', userController.info.patch);
 
+userRouter.post('/subscribe/:nickname', userController.subscribe);
+
+userRouter.post('/unsubscribe/:nickname', userController.unsubscribe);
+
 module.exports = userRouter;

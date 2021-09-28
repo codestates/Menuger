@@ -1,25 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ReactPageScroller from 'react-page-scroller';
 
 import SlotMachine from '../components/SlotMachine';
+import Footer from '../components/Footer';
 
 const PageScrollerContainer = styled.div`
   z-index: 100;
   .full-page {
+    margin: 0 auto;
+    height: 80%;
     display: flex;
-    height: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     font-weight: bold;
-    padding-top: 15rem;
-    padding-left: 20rem;
+    max-width: 1130px;
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    > * {
+      padding-right: 50px;
+      padding-left: 50px;
+    }
   }
-
-  height: 100%;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
   @media screen and (max-width: 768px) {
     .full-page {
       padding-top: 0rem;
@@ -32,11 +36,28 @@ const PageScrollerContainer = styled.div`
   }
 `;
 
+const Section4 = styled.div`
+  display: flex;
+  flex-direction: column;
+  > :first-child {
+    flex: 6 0 auto;
+  }
+  > :last-child {
+    flex: 1 0 auto;
+  }
+`;
+
 const LandingPage = () => {
-  document.body.style.overflow = 'hidden';
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'scroll';
+    };
+  }, []);
+
   return (
     <PageScrollerContainer>
-      <ReactPageScroller animationTimer={500}>
+      <ReactPageScroller className="scroller" animationTimer={500}>
         <section className="full-page">
           <h1>
             '오늘 점심 뭐 먹지?'<br></br> '가성비 좋은 식단은 없을까?'<br></br> '새우 알레르기가
@@ -50,9 +71,10 @@ const LandingPage = () => {
         <section className="full-page">
           <h1>Page 3</h1>
         </section>
-        <section className="full-page">
+        <Section4 className="full-page">
           <h1>Page 4</h1>
-        </section>
+          <Footer />
+        </Section4>
       </ReactPageScroller>
     </PageScrollerContainer>
   );

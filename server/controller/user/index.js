@@ -6,4 +6,5 @@ module.exports = {
   info: require('./info'),
   subscribe: require('./subscribe'),
   unsubscribe: require('./unsubscribe'),
+  nicknameValidation: require('./nicknameValidation'),
 };

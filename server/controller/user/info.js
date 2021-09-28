@@ -45,9 +45,59 @@ module.exports = {
           }),
         );
 
+        const likePosts = await Promise.all(
+          likes.map(async like => {
+            if (like.postType === 'recipe') {
+              const post = await Recipe.findOne({ _id: ObjectId(like.post) });
+              const postInfo = {
+                user: post.user,
+                title: post.title,
+                thumbnail_url: post.thumbnail_url,
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt,
+              };
+              return postInfo;
+            } else {
+              const post = await Diet.findOne({ _id: ObjectId(like.post) });
+              const postInfo = {
+                user: post.user,
+                title: post.title,
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt,
+              };
+              return postInfo;
+            }
+          }),
+        );
+
+        const bookmarkPosts = await Promise.all(
+          bookmarks.map(async bookmark => {
+            if (bookmark.postType === 'recipe') {
+              const post = await Recipe.findOne({ _id: ObjectId(bookmark.post) });
+              const postInfo = {
+                user: post.user,
+                title: post.title,
+                thumbnail_url: post.thumbnail_url,
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt,
+              };
+              return postInfo;
+            } else {
+              const post = await Diet.findOne({ _id: ObjectId(bookmark.post) });
+              const postInfo = {
+                user: post.user,
+                title: post.title,
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt,
+              };
+              return postInfo;
+            }
+          }),
+        );
+
         return res
           .status(200)
-          .send({ nickname, email, image_url, likes, bookmarks, subscribeUsers });
+          .send({ nickname, email, image_url, likePosts, bookmarkPosts, subscribeUsers });
       });
     } catch (err) {
       return res.status(500).send({ message: err.message });

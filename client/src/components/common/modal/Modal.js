@@ -3,14 +3,16 @@ import styled from 'styled-components';
 
 import useKeyPress from '../../../hooks/useKeyPress';
 
+const { REACT_APP_WEB_MAX_WIDTH } = process.env;
+
 const Overlay = styled.div`
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: ${({ color }) => color};
-  opacity: ${({ opacity }) => opacity};
+  background-color: ${({ color }) => (color ? color : 'black')};
+  opacity: ${({ opacity }) => (opacity ? opacity : 0.2)};
   z-index: 9;
 `;
 
@@ -20,14 +22,30 @@ const ModalContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  max-width: 1130px;
-  width: ${({ width }) => `${width}%`};
-  height: ${({ height }) => `${height}%`};
+  min-width: 600px;
+  max-width: ${REACT_APP_WEB_MAX_WIDTH};
+  width: ${({ width }) => (width ? `${width}%` : '100%')};
+  height: ${({ height }) => (height ? `${height}%` : '90%')};
   margin: auto;
-  padding: 3rem;
+  padding: ${({ padding }) => (padding ? `${padding}em` : '3rem')};
   border-radius: 10px;
   background: white;
   z-index: 9;
+  overflow-y: auto;
+  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s linear;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    min-width: 100%;
+  }
+  @keyframes slideIn {
+    0% {
+      bottom: -50%;
+    }
+    100% {
+      bottom: 0;
+    }
+  }
 `;
 
 const CloseBtn = styled.div`
@@ -57,7 +75,7 @@ const Modal = ({ children, hideModal, style }) => {
   return ReactDOM.createPortal(
     <>
       <Overlay onClick={hideModal} color={style.overlayColor} opacity={style.overlayOpacity} />
-      <ModalContainer width={style.width} height={style.height}>
+      <ModalContainer width={style.width} height={style.height} padding={style.padding}>
         <CloseBtn onClick={hideModal}>&times;</CloseBtn>
         <Content>{children}</Content>
       </ModalContainer>

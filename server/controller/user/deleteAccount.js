@@ -83,7 +83,7 @@ module.exports = async (req, res) => {
           .clearCookie('accessToken')
           .clearCookie('refreshToken')
           .status(200)
-          .send({ message: 'delete account success' });
+          .send({ message: '계정이 정상적으로 삭제되었습니다.' });
       });
     });
   } catch (err) {

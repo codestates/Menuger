@@ -23,7 +23,7 @@ module.exports = (req, res) => {
         .clearCookie('accessToken')
         .clearCookie('refreshToken')
         .status(200)
-        .send({ message: 'signout success' });
+        .send({ message: '로그아웃 하였습니다.' });
     });
   } catch (err) {
     return res.status(500).send({ message: err.message });

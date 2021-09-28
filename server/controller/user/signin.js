@@ -47,7 +47,7 @@ module.exports = (req, res) => {
         user.refreshToken = refreshToken;
         await user.save();
 
-        return res.status(200).send({ message: 'sign in success' });
+        return res.status(200).send({ message: '로그인에 성공하였습니다.' });
       });
     });
   } catch (err) {

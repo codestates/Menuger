@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
       await Comment.updateOne({ _id: ObjectId(commentId) }, { content });
     }
 
-    return res.status(200).send({ message: 'modify comment success' });
+    return res.status(200).send({ message: '해당 댓글을 수정하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

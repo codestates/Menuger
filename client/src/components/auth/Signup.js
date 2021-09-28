@@ -121,6 +121,9 @@ const Signup = ({ handleMenuClick }) => {
             } else {
               resolve({ result: false, message });
             }
+          })
+          .catch(err => {
+            resolve({ result: false, message: err.response.data.message });
           });
       } else {
         resolve({ result: false, message: '사용 불가능한 이메일 형식입니다.' });
@@ -138,6 +141,9 @@ const Signup = ({ handleMenuClick }) => {
           } else {
             resolve({ result: false, message });
           }
+        })
+        .catch(err => {
+          resolve({ result: false, message: err.response.data.message });
         });
     });
   };

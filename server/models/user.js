@@ -1,9 +1,5 @@
 require('dotenv').config();
-const {
-  Schema,
-  model,
-  Types: { ObjectId },
-} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const bcrypt = require('bcrypt');
 let saltRound = 3; //salt를 돌리는 횟수
@@ -16,7 +12,7 @@ const userSchema = new Schema(
     nickname: { type: String, required: true, unique: true },
     image_url: { type: String, default: 'null' },
     refreshToken: String,
-    subscription: { type: ObjectId, ref: 'user' },
+    subscribes: Array,
   },
   { timestamps: true },
 );

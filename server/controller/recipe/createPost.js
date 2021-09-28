@@ -13,13 +13,13 @@ module.exports = async (req, res) => {
     }
 
     const user = await User.findById(ObjectId(payload));
-    const { title, content, hashtag = [] } = req.body;
+    const { title, content, hashtags = [] } = req.body;
 
     const post = new Recipe({
       title,
       content,
       user,
-      hashtag,
+      hashtags,
     });
     await post.save();
     return res.status(201).send({ message: '레시피 작성이 완료되었습니다.' });

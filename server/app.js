@@ -5,7 +5,15 @@ const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
-const { userRouter, recipeRouter, dietRouter, commentRouter } = require('./routes');
+const {
+  userRouter,
+  recipeRouter,
+  dietRouter,
+  commentRouter,
+  likeRouter,
+  bookmarkRouter,
+  searchRouter,
+} = require('./routes');
 
 const server = async () => {
   try {
@@ -40,6 +48,9 @@ const server = async () => {
     app.use('/recipes', recipeRouter);
     app.use('/diets', dietRouter);
     app.use('/:postType/:postId/comments', commentRouter);
+    app.use('/:postType/:postId/likes', likeRouter);
+    app.use('/:postType/:postId/bookmarks', bookmarkRouter);
+    app.use('/search', searchRouter);
 
     app.listen(port, () => console.log(`server listening on port ${port}`));
   } catch (err) {

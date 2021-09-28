@@ -22,8 +22,11 @@ const ToastPortal = forwardRef((_, ref) => {
   const handleClose = id => setToasts(toasts.filter(toast => toast.id !== id));
 
   useImperativeHandle(ref, () => ({
-    addMessage(toast) {
+    addMessage(toast, cb) {
       setToasts([...toasts, { ...toast, id: uuid() }]);
+      if (cb && typeof cb === 'function') {
+        setTimeout(cb, toast.delay + SLIDE_DELAY);
+      }
     },
   }));
 

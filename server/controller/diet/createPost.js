@@ -13,14 +13,14 @@ module.exports = async (req, res) => {
     }
 
     const user = await User.findById(ObjectId(payload));
-    const { title, subtitle, content, hashtag = [] } = req.body;
+    const { title, subtitle, content, hashtags = [] } = req.body;
 
     const post = new Diet({
       title,
       subtitle,
       content,
       user,
-      hashtag,
+      hashtags,
     });
     await post.save();
     return res.status(201).send({ message: '식단 작성이 완료되었습니다.' });

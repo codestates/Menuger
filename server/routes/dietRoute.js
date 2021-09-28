@@ -1,13 +1,16 @@
 const { Router } = require('express');
 const dietRouter = Router();
 const { dietController } = require('../controller');
+const { checkToken } = require('../controller/utils/checktoken');
 
-dietRouter.post('/', dietController.createPost);
+dietRouter.post('/', checkToken, dietController.createPost);
 
 dietRouter.get('/:id', dietController.readPost);
 
-dietRouter.patch('/:id', dietController.updatePost);
+dietRouter.get('/', dietController.readPostList);
 
-dietRouter.delete('/:id', dietController.deletePost);
+dietRouter.patch('/:id', checkToken, dietController.updatePost);
+
+dietRouter.delete('/:id', checkToken, dietController.deletePost);
 
 module.exports = dietRouter;

@@ -1,6 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
+
+import useModal from '../../hooks/useModal';
+import Signup from '../auth/Signup';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -127,6 +130,14 @@ const RightContainer = ({
   handleDropdown,
   useHamburgerMenu,
 }) => {
+  const [modalContent, setModalContent] = useState('');
+  const { showModal, ModalContainer } = useModal({ width: 30, height: 70, padding: 2.5 });
+
+  const handleMenuClick = menu => {
+    setModalContent(menu);
+    showModal();
+  };
+
   return (
     <Container active={useHamburgerMenu}>
       <div>로그인</div>

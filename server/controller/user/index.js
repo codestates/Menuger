@@ -4,4 +4,8 @@ module.exports = {
   signout: require('./signout'),
   deleteAccount: require('./deleteAccount'),
   info: require('./info'),
+  subscribe: require('./subscribe'),
+  unsubscribe: require('./unsubscribe'),
+  nicknameValidation: require('./nicknameValidation'),
+  emailValidation: require('./emailValidation'),
 };

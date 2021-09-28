@@ -5,4 +5,5 @@ module.exports = {
   commentRouter: require('./commentRoute'),
   likeRouter: require('./likeRoute'),
   bookmarkRouter: require('./bookmarkRoute'),
+  searchRouter: require('./searchRouter'),
 };

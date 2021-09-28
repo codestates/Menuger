@@ -3,4 +3,5 @@ module.exports = {
   readPost: require('./readPost'),
   updatePost: require('./updatePost'),
   deletePost: require('./deletePost'),
+  readPostList: require('./readPostList'),
 };

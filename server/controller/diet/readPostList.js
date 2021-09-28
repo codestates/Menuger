@@ -2,13 +2,35 @@ const { Diet } = require('../../models/diet');
 
 module.exports = async (req, res) => {
   try {
-    let { page = 1, sort = -1 } = req.query;
+    let { page = 1, sort = -1, hashtag, user, title } = req.query;
+
+    if (!hashtag && !user && !title) {
+      const diets = await Diet.find({})
+        .sort({ createdAt: sort })
+        .skip((page - 1) * 8)
+        .limit(8);
+      return res.status(200).send({ diets });
+    }
     page = parseInt(page);
     sort = parseInt(sort);
-    const diets = await Diet.find({})
-      .sort({ createdAt: sort })
-      .skip((page - 1) * 8)
-      .limit(8);
+
+    let diets;
+    if (title) {
+      diets = await Diet.find({ title: new RegExp(title) })
+        .sort({ createdAt: sort })
+        .skip((page - 1) * 8)
+        .limit(8);
+    } else if (hashtag) {
+      diets = await Diet.find({ hashtags: hashtag })
+        .sort({ createdAt: sort })
+        .skip((page - 1) * 8)
+        .limit(8);
+    } else {
+      diets = await Diet.find({ 'user.nickname': user })
+        .sort({ createdAt: sort })
+        .skip((page - 1) * 8)
+        .limit(8);
+    }
 
     return res.status(200).send({ diets });
   } catch (err) {

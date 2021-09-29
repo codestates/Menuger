@@ -35,8 +35,8 @@ module.exports = {
             const newAccessToken = createAccessToken(user._id.toHexString());
             res.cookie('accessToken', newAccessToken, {
               httpOnly: true,
-              secure: false,
-              sameSite: 'None',
+              // secure: false,
+              // sameSite: 'None',
             });
             req.cookies.accessToken = newAccessToken;
             next();
@@ -56,8 +56,8 @@ module.exports = {
             const newRefreshToken = createRefreshToken({});
             res.cookie('refreshToken', newRefreshToken, {
               httpOnly: true,
-              secure: false,
-              sameSite: 'None',
+              // secure: false,
+              // sameSite: 'None',
             });
             req.cookies.refreshToken = newRefreshToken;
             next();

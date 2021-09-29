@@ -39,6 +39,7 @@ const WriteContainer = styled.div`
     background-color: #ffc436;
     font-size: 90%;
     color: white;
+    border-radius: 5px;
   }
 `;
 
@@ -92,7 +93,8 @@ const Container = styled.div`
       css`
         display: none;
       `}
-    background-color: #dde0ea;
+    background-color: white;
+    outline: 1.5px solid black;
     flex-direction: column;
     position: absolute;
     top: 80px;
@@ -114,15 +116,19 @@ const Container = styled.div`
 `;
 
 const DropdownContainer = styled.div`
-  outline: 1.5px solid black;
+  border: 1px solid black;
+  border-radius: 5px;
   display: flex;
   position: absolute;
-  top: 95%;
-  right: -5%;
+  top: 90%;
+  right: 9%;
   flex-direction: column;
+  background-color: white;
   * {
-    width: 80px;
+    display: flex;
+    width: 50px;
     text-align: center;
+    justify-content: center;
   }
   :after {
     content: '';
@@ -175,8 +181,8 @@ const RightContainer = ({
         )}
         {!userInfo.email && (
           <>
-            <div onClick={() => handleMenuClick('signin')}>login</div>
-            <div onClick={() => handleMenuClick('signup')}>sign up</div>
+            <div onClick={() => handleMenuClick('signin')}>로그인</div>
+            <div onClick={() => handleMenuClick('signup')}>회원가입</div>
           </>
         )}
         <WriteByMobile ref={popRef}>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import logo from '../../utils/logo.png';
+import svgToComponent from '../../utils/svg';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -32,8 +32,8 @@ const Container = styled.div`
 const LeftContainer = () => {
   return (
     <Container>
-      <StyledLink exact to="/">
-        <img src={logo}></img>
+      <StyledLink exact to="/" style={{ fontFamily: 'Debussy' }}>
+        {svgToComponent({ svgName: 'logoYellow', props: { width: '100px' } })}
       </StyledLink>
       <StyledLink to="/RecipePage">레시피</StyledLink>
       <StyledLink to="/DietPage">식단</StyledLink>

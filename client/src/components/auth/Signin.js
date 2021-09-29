@@ -174,7 +174,7 @@ const Signin = ({ handleMenuClick, hideModal }) => {
           <SocialLoginBtn onClick={handleKakaoLogin}>
             {svgToComponent({ svgName: 'kakao', props: { width: '60px', height: '60px' } })}
           </SocialLoginBtn>
-          <SocialLoginBtn>
+          <SocialLoginBtn onClick={() => alert('🙇‍♂️11월 부터 지원 예정인 서비스입니다🙇‍♀️')}>
             {svgToComponent({ svgName: 'google', props: { width: '60px', height: '60px' } })}
           </SocialLoginBtn>
         </BtnsContainer>

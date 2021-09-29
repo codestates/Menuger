@@ -13,7 +13,7 @@ const Overlay = styled.div`
   bottom: 0;
   background-color: ${({ color }) => (color ? color : 'black')};
   opacity: ${({ opacity }) => (opacity ? opacity : 0.2)};
-  z-index: 9;
+  z-index: 10;
 `;
 
 const ModalContainer = styled.div`
@@ -30,7 +30,7 @@ const ModalContainer = styled.div`
   padding: ${({ padding }) => (padding ? `${padding}em` : '3rem')};
   border-radius: 10px;
   background: white;
-  z-index: 9;
+  z-index: 10;
   overflow-y: auto;
   box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s linear;

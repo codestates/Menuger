@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
             Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { bookmarksCount: -1 } }),
           ]);
         }
-        return res.status(201).send({ message: '해당 게시물의 북마크 등록을 취소하였습니다.' });
+        return res.status(200).send({ message: '해당 게시물의 북마크 등록을 취소하였습니다.' });
       }
     });
   } catch (err) {

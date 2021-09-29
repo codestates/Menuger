@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import axios from 'axios';
 
 const Container = styled.div`
   flex: 1 1 auto;
@@ -34,13 +35,33 @@ const Container = styled.div`
 `;
 
 const SearchContainer = ({ useSearch }) => {
+  const [selected, setSelected] = useState('레시피');
+  const [search, setSearch] = useState('');
+
+  const handleSelect = e => {
+    setSelected(e.target.value);
+  };
+
+  const handleSearch = e => {
+    setSearch(e.target.value);
+  };
+
+  const onClickEvent = async e => {
+    if (e.key === 'Enter') {
+      await axios.post(`http://localhost:80/search`, {
+        postType: selected,
+        input: search,
+      });
+    }
+  };
+
   return (
-    <Container useSearch={useSearch}>
-      <select name="드롭다운" id="">
+    <Container useSearch={useSearch} onKeyPress={onClickEvent}>
+      <select onChange={handleSelect}>
         <option value="레시피">레시피</option>
         <option value="식단">식단</option>
       </select>
-      <input type="text"></input>
+      <input type="text" onChange={handleSearch}></input>
     </Container>
   );
 };

@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
     diet.hashtag = hashtag;
 
     await diet.save();
-    return res.status(200).send({ message: 'modify diet post success' });
+    return res.status(200).send({ message: '해당 식단을 수정하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

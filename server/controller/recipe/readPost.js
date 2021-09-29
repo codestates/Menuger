@@ -10,6 +10,10 @@ module.exports = async (req, res) => {
 
     const recipe = await Recipe.findOne({ _id: id });
 
+    if (!recipe) {
+      return res.status(400).send({ message: '존재하지 않는 게시물입니다.' });
+    }
+
     return res.status(200).send({ recipe });
   } catch (err) {
     return res.status(500).send({ message: err.message });

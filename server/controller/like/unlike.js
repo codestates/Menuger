@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
             Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { likesCount: -1 } }),
           ]);
         }
-        return res.status(201).send({ message: '해당 게시물의 좋아요를 취소하였습니다.' });
+        return res.status(200).send({ message: '해당 게시물의 좋아요를 취소하였습니다.' });
       }
     });
   } catch (err) {

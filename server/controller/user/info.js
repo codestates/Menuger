@@ -151,7 +151,7 @@ module.exports = {
       ]);
       await user.save();
 
-      return res.status(200).send({ message: 'modify userinfo success' });
+      return res.status(200).send({ message: '유저 정보가 수정되었습니다.' });
     } catch (err) {
       return res.status(500).send({ message: err.message });
     }

@@ -1,3 +1,4 @@
+const { User } = require('../../models/user');
 const { Recipe } = require('../../models/recipe');
 const { Comment } = require('../../models/comment');
 const { Like } = require('../../models/like');
@@ -22,8 +23,16 @@ module.exports = async (req, res) => {
 
     const recipe = await Recipe.findOne({ _id: id });
 
-    if (!recipe.user._id.equals(ObjectId(payload))) {
-      return res.status(400).send({ message: '게시물의 작성자만 삭제할 수 있습니다' });
+    if (!recipe) {
+      return res.status(400).send({ message: '존재하지 않는 게시물입니다.' });
+    }
+
+    const user = await User.findOne({ _id: ObjectId(payload) });
+
+    if (user.type !== 'admin') {
+      if (!recipe.user._id.equals(ObjectId(payload))) {
+        return res.status(400).send({ message: '게시물의 작성자만 삭제할 수 있습니다' });
+      }
     }
 
     await Promise.all([
@@ -32,7 +41,7 @@ module.exports = async (req, res) => {
       Like.deleteMany({ post: id }),
       Bookmark.deleteMany({ post: id }),
     ]);
-    return res.status(200).send({ message: 'delete recipe post success' });
+    return res.status(200).send({ message: '해당 레시피를 삭제하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

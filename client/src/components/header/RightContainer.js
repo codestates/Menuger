@@ -72,11 +72,19 @@ const Container = styled.div`
     padding: 1.2rem;
   }
   & > .img-wrapper {
+    & > svg:hover {
+      fill: #ffc436;
+    }
     & > .profile-img {
       width: 3rem;
       padding: 0rem;
       border-radius: 50%;
       cursor: pointer;
+      &:hover {
+        border: 2px solid #ffc436;
+        width: calc(3rem + 4px);
+        margin: 0 -2px;
+      }
     }
   }
   ${({ signedIn }) =>
@@ -195,7 +203,7 @@ const RightContainer = ({
         </WriteByMobile>
         <WriteContainer ref={popRef}>
           <button onClick={handleDropdown}>
-            write
+            글쓰기
             {useDropdown && (
               <DropdownContainer>
                 <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>

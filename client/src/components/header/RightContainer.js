@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
+import Signin from '../auth/Signin';
+import { ReactComponent as DefaultImage } from '../../svgs/defaultImage.svg';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -68,6 +71,22 @@ const Container = styled.div`
   * {
     padding: 1.2rem;
   }
+  & > .img-wrapper {
+    & > .profile-img {
+      width: 3rem;
+      padding: 0rem;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+  ${({ signedIn }) =>
+    signedIn &&
+    css`
+      svg {
+        margin-right: -1.5rem;
+        cursor: pointer;
+      }
+    `}
   @media screen and (max-width: 768px) {
     ${props =>
       props.active &&
@@ -130,8 +149,13 @@ const RightContainer = ({
   handleDropdown,
   useHamburgerMenu,
 }) => {
+  const userInfo = useSelector(state => state.userReducer);
   const [modalContent, setModalContent] = useState('');
-  const { showModal, ModalContainer } = useModal({ width: 30, height: 70, padding: 2.5 });
+  const { showModal, hideModal, ModalContainer } = useModal({
+    width: 30,
+    height: 70,
+    padding: 2.5,
+  });
 
   const handleMenuClick = menu => {
     setModalContent(menu);
@@ -139,33 +163,53 @@ const RightContainer = ({
   };
 
   return (
-    <Container active={useHamburgerMenu}>
-      <div>로그인</div>
-      <div>회원가입</div>
-      <WriteByMobile ref={popRef}>
-        <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
-          레시피
-        </StyledLink>
-        <StyledLink to="/DietEditPage" onClick={handleHamburgerMenu}>
-          식단
-        </StyledLink>
-      </WriteByMobile>
-      <WriteContainer ref={popRef}>
-        <button onClick={handleDropdown}>
-          글쓰기
-          {useDropdown && (
-            <DropdownContainer>
-              <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>
-                레시피
-              </StyledLink>
-              <StyledLink to="/DietEditPage" onClick={handleDropdown}>
-                식단
-              </StyledLink>
-            </DropdownContainer>
-          )}
-        </button>
-      </WriteContainer>
-    </Container>
+    <>
+      <ModalContainer>
+        {modalContent === 'signup' && <Signup handleMenuClick={handleMenuClick} />}
+        {modalContent === 'signin' && (
+          <Signin handleMenuClick={handleMenuClick} hideModal={hideModal} />
+        )}
+      </ModalContainer>
+      <Container active={useHamburgerMenu} signedIn={!!userInfo.email}>
+        {userInfo.email && (
+          <div className="img-wrapper" onClick={() => alert('드랍다운 메뉴가 추가되어야 합니다!')}>
+            {userInfo.image_url !== 'null' && (
+              <img className="profile-img" src={userInfo.image_url} alt={userInfo.image_url} />
+            )}
+            {userInfo.image_url === 'null' && <DefaultImage width="120" height="120" />}
+          </div>
+        )}
+        {!userInfo.email && (
+          <>
+            <div onClick={() => handleMenuClick('signin')}>로그인</div>
+            <div onClick={() => handleMenuClick('signup')}>회원가입</div>
+          </>
+        )}
+        <WriteByMobile ref={popRef}>
+          <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
+            레시피
+          </StyledLink>
+          <StyledLink to="/DietEditPage" onClick={handleHamburgerMenu}>
+            식단
+          </StyledLink>
+        </WriteByMobile>
+        <WriteContainer ref={popRef}>
+          <button onClick={handleDropdown}>
+            write
+            {useDropdown && (
+              <DropdownContainer>
+                <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>
+                  레시피
+                </StyledLink>
+                <StyledLink to="/DietEditPage" onClick={handleDropdown}>
+                  식단
+                </StyledLink>
+              </DropdownContainer>
+            )}
+          </button>
+        </WriteContainer>
+      </Container>
+    </>
   );
 };
 

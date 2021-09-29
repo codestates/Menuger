@@ -1,8 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import RecipeEditor from '../components/recipe_edit/RecipeEditor';
-import extractThumbnail from '../utils/thumbnail';
+import useToast from '../hooks/toast/useToast';
+//import extractThumbnail from '../utils/thumbnail';
 
 const { REACT_APP_MOBILE_WIDTH, REACT_APP_WEB_MAX_WIDTH } = process.env;
 
@@ -74,19 +76,38 @@ const SaveBtn = styled(Button)`
 
 const RecipeEditPage = () => {
   const editorRef = useRef();
+  const titleRef = useRef();
+  const [images, setImages] = useState();
+  const addMessage = useToast();
 
-  const onClickTempSave = () => {};
-  const onClickSave = () => {
+  const onClickTempSave = () => {
+    alert('개발 진행중인 서비스입니다.');
+  };
+  const onClickSave = async () => {
     const editorInstance = editorRef.current.getInstance();
     const recipeContent = editorInstance.getHTML();
-    const thumbnail = extractThumbnail(recipeContent);
+    //const thumbnail_url = extractThumbnail(recipeContent);
     //TODO: save recipeContent and thumbnail
+
+    const { message } = await axios.post(
+      `${process.env.REACT_APP_ENDPOINT_URL}/recipes`,
+      {
+        images,
+        title: titleRef.current.value,
+        content: recipeContent,
+        hashtags: [],
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    addMessage({ message });
   };
 
   return (
     <Wrapper>
-      <RecipeTitleInput type="text" placeholder="제목" />
-      <RecipeEditor editorRef={editorRef} />
+      <RecipeTitleInput ref={titleRef} type="text" placeholder="제목" />
+      <RecipeEditor editorRef={editorRef} setImages={setImages} />
       <HashTagInput type="text" placeholder="#해시태그" />
       <Buttons>
         <TempSaveBtn onClick={onClickTempSave}>임시저장</TempSaveBtn>

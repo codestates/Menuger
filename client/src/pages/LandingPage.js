@@ -22,6 +22,7 @@ const ScrollToTop = styled.div`
   color: #ffc436;
   :hover {
     color: #fc9f77;
+    cursor: pointer;
   }
 `;
 
@@ -121,7 +122,7 @@ const LandingPage = () => {
       setUseScroll(null);
     }, 1);
   };
-  
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 

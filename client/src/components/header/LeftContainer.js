@@ -27,13 +27,28 @@ const Container = styled.div`
   img {
     width: 80px;
   }
+  svg {
+    height: 60px;
+    padding: 0;
+    &:hover {
+      animation: rotate 0.5s linear infinite alternate;
+      @keyframes rotate {
+        50% {
+          transform: translateY(4px) rotate(15deg);
+        }
+        100% {
+          transform: translateY(-4px) rotate(-10deg);
+        }
+      }
+    }
+  }
 `;
 
 const LeftContainer = () => {
   return (
     <Container>
       <StyledLink exact to="/" style={{ fontFamily: 'Debussy' }}>
-        {svgToComponent({ svgName: 'logoYellow', props: { width: '100px' } })}
+        {svgToComponent({ svgName: 'logoYellow', props: { width: 65 } })}
       </StyledLink>
       <StyledLink to="/RecipePage">레시피</StyledLink>
       <StyledLink to="/DietPage">식단</StyledLink>

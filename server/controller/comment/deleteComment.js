@@ -1,3 +1,4 @@
+const { User } = require('../../models/user');
 const { Comment } = require('../../models/comment');
 const { Diet } = require('../../models/diet');
 const { Recipe } = require('../../models/recipe');
@@ -24,9 +25,14 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: '존재하지 않는 댓글입니다.' });
     }
 
-    if (!comment.user._id.equals(ObjectId(payload))) {
-      return res.status(400).send({ message: '댓글 작성자만 삭제할 수 있습니다.' });
+    const user = await User.findOne({ _id: ObjectId(payload) });
+
+    if (user.type !== 'admin') {
+      if (!comment.user._id.equals(ObjectId(payload))) {
+        return res.status(400).send({ message: '댓글 작성자만 삭제할 수 있습니다.' });
+      }
     }
+
     if (postType === 'recipes') {
       await Promise.all([
         Comment.deleteOne({ _id: ObjectId(commentId) }),

@@ -48,11 +48,13 @@ module.exports = (req, res) => {
         await user.save();
 
         return res.status(200).send({
-          user: {
-            type: user._type,
-            image_url: user.image_url,
-            nickname: user.nickname,
-            email: user.email,
+          data: {
+            user: {
+              type: user.type,
+              image_url: user.image_url,
+              nickname: user.nickname,
+              email: user.email,
+            },
           },
           message: '로그인에 성공하였습니다.',
         });

@@ -34,7 +34,7 @@ const server = async () => {
     app.use(
       cors({
         // CORS 설정
-        origin: ['http://localhost', 'https://menuger.shop'],
+        origin: ['http://localhost:2000', 'https://menuger.shop'],
         credentials: true,
         methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'DELETE'],
       }),

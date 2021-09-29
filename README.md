@@ -33,11 +33,11 @@
 
 ## Server-Side Flow Chart
 
-![Client-Side Flow Chart](https://user-images.githubusercontent.com/68040092/135194280-ec21154d-b30b-425d-8543-ac7cc2622613.png)
+![Server-Side Flow Chart](https://user-images.githubusercontent.com/68040092/135194280-ec21154d-b30b-425d-8543-ac7cc2622613.png)
 
 ## Deployment Architecture
 
-![Client-Side Flow Chart](https://user-images.githubusercontent.com/38288479/134836470-b06fb1d1-32df-4111-8d22-d32094bf1989.png)
+![Deployment Architecture](https://user-images.githubusercontent.com/38288479/134836470-b06fb1d1-32df-4111-8d22-d32094bf1989.png)
 
 # Menu.random()팀의 멤버를 소개합니다.
 

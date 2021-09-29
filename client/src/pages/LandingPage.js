@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ReactPageScroller from 'react-page-scroller';
 
 import SlotMachine from '../components/SlotMachine';
 import Footer from '../components/Footer';
+import getCookie from '../utils/cookieParser';
+import { setUserInfo } from '../modules/user';
+import useToast from '../hooks/toast/useToast';
 
 const PageScrollerContainer = styled.div`
   z-index: 100;
@@ -17,7 +21,7 @@ const PageScrollerContainer = styled.div`
     font-weight: bold;
     max-width: 1130px;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     > * {
       padding-right: 50px;
@@ -48,12 +52,37 @@ const Section4 = styled.div`
 `;
 
 const LandingPage = () => {
+  const { toastRef } = useSelector(state => state.toastReducer);
+  const dispatch = useDispatch();
+  const addMessage = useToast();
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+
     return () => {
-      document.body.style.overflow = 'scroll';
+      document.body.style.overflow = 'visible';
     };
   }, []);
+
+  useEffect(() => {
+    if (!toastRef) {
+      return;
+    }
+    if (getCookie('kakao_login') === 'success') {
+      addMessage({ message: '카카오 로그인에 성공하였습니다.', delay: 500 });
+      dispatch(
+        setUserInfo({
+          email: getCookie('email'),
+          image_url: getCookie('image_url'),
+          nickname: getCookie('nickname'),
+          type: 'kakao',
+        }),
+      );
+    }
+    if (getCookie('error') === 'fail') {
+      addMessage({ message: '카카오 로그인에 실패하였습니다.' });
+    }
+  }, [toastRef]);
 
   return (
     <PageScrollerContainer>

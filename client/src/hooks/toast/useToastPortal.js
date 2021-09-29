@@ -10,7 +10,7 @@ const useToastPortal = () => {
   useEffect(() => {
     const portal = document.createElement('div');
     portal.id = portalId;
-    portal.style = `position: fixed; top: ${BOX_TOP}px; right: ${BOX_RIGHT}px; z-index: 10`;
+    portal.style = `position: fixed; top: ${BOX_TOP}px; right: ${BOX_RIGHT}px; z-index: 11`;
     const target = document.getElementById('root');
     target.parentNode.insertBefore(portal, target);
     setLoaded(true);

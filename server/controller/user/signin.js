@@ -35,19 +35,27 @@ module.exports = (req, res) => {
 
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
-          secure: false,
-          sameSite: 'None',
+          // secure: false,
+          // sameSite: 'None',
         });
         res.cookie('refreshToken', refreshToken, {
           httpOnly: true,
-          secure: false,
-          sameSite: 'None',
+          // secure: false,
+          // sameSite: 'None',
         });
 
         user.refreshToken = refreshToken;
         await user.save();
 
-        return res.status(200).send({ message: 'sign in success' });
+        return res.status(200).send({
+          user: {
+            type: user._type,
+            image_url: user.image_url,
+            nickname: user.nickname,
+            email: user.email,
+          },
+          message: '로그인에 성공하였습니다.',
+        });
       });
     });
   } catch (err) {

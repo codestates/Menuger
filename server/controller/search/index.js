@@ -7,7 +7,7 @@ module.exports = (req, res) => {
       } else if (input[0] === '@') {
         return res.redirect(`/recipes?user=${input.slice(1)}`);
       } else {
-        return res.redirect(`/recipes?title=${input.slice(1)}`);
+        return res.redirect(`/recipes?title=${input}`);
       }
     } else {
       if (input[0] === '#') {
@@ -15,7 +15,7 @@ module.exports = (req, res) => {
       } else if (input[0] === '@') {
         return res.redirect(`/diets?user=${input.slice(1)}`);
       } else {
-        return res.redirect(`/diets?title=${input.slice(1)}`);
+        return res.redirect(`/diets?title=${input}`);
       }
     }
   } catch (err) {

@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
       Like.deleteMany({ post: id }),
       Bookmark.deleteMany({ post: id }),
     ]);
-    return res.status(200).send({ message: 'delete recipe post success' });
+    return res.status(200).send({ message: '해당 레시피를 삭제하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

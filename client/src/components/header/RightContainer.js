@@ -7,6 +7,7 @@ import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
 import Signin from '../auth/Signin';
 import { ReactComponent as DefaultImage } from '../../svgs/defaultImage.svg';
+import svgToComponent from '../../utils/svg';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -40,6 +41,22 @@ const WriteContainer = styled.div`
     font-size: 90%;
     color: white;
     border-radius: 5px;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+      background-color: #fc9f77;
+    }
+    & > svg {
+      padding: 0;
+      width: 12px;
+      height: 12px;
+      fill: white;
+      margin-left: 0.5rem;
+    }
   }
 `;
 
@@ -72,6 +89,11 @@ const Container = styled.div`
     padding: 1.2rem;
   }
   & > .img-wrapper {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     & > svg:hover {
       fill: #ffc436;
     }
@@ -86,12 +108,22 @@ const Container = styled.div`
         margin: 0 -2px;
       }
     }
+    @media screen and (max-width: 768px) {
+      height: 90px;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      svg {
+        margin-right: 0;
+        padding: 0;
+      }
+    }
   }
   ${({ signedIn }) =>
     signedIn &&
     css`
       svg {
-        margin-right: -1.5rem;
+        margin-right: -2rem;
         cursor: pointer;
       }
     `}
@@ -204,6 +236,7 @@ const RightContainer = ({
         <WriteContainer ref={popRef}>
           <button onClick={handleDropdown}>
             글쓰기
+            {svgToComponent({ svgName: 'arrowDown' })}
             {useDropdown && (
               <DropdownContainer>
                 <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>

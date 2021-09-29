@@ -8,4 +8,5 @@ module.exports = {
   unsubscribe: require('./unsubscribe'),
   nicknameValidation: require('./nicknameValidation'),
   emailValidation: require('./emailValidation'),
+  signinKakao: require('./signinKakao'),
 };

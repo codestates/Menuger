@@ -23,4 +23,6 @@ userRouter.post('/nickname', userController.nicknameValidation);
 
 userRouter.post('/email', userController.emailValidation);
 
+userRouter.get('/kakao/callback', userController.signinKakao);
+
 module.exports = userRouter;

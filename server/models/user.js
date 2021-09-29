@@ -6,9 +6,9 @@ let saltRound = 3; //salt를 돌리는 횟수
 
 const userSchema = new Schema(
   {
-    type: { type: String, default: 'user', enum: ['user', 'admin'] },
+    type: { type: String, default: 'user', enum: ['user', 'admin', 'kakao'] },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String },
     nickname: { type: String, required: true, unique: true },
     image_url: { type: String, default: 'null' },
     refreshToken: String,

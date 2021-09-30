@@ -195,7 +195,7 @@ const RightContainer = ({
         </WriteByMobile>
         <WriteContainer ref={popRef}>
           <button onClick={handleDropdown}>
-            write
+            글쓰기
             {useDropdown && (
               <DropdownContainer>
                 <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>

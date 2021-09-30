@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 
@@ -6,7 +6,7 @@ const Container = styled.div`
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   border: solid 2px;
   height: 40px;
   * {
@@ -17,19 +17,25 @@ const Container = styled.div`
     outline: none;
   }
   input {
-    padding-left: 3px;
+    padding-left: 5px;
+    padding-right: 3px;
+    width: 150px;
+  }
+  select {
+    background-color: white;
+    padding-left: 1em;
   }
   @media screen and (max-width: 768px) {
     display: none;
     ${props =>
       props.useSearch &&
       css`
-        padding-top: 100px;
         right: 0px;
         display: block;
         position: absolute;
         align-items: center;
         justify-content: center;
+        margin-top: 120px;
       `}
   }
 `;

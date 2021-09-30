@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
+import { darken } from 'polished';
 
 const HashtagEditorStyle = styled.div`
   width: ${props => props.width || 'auto'};
-  border: solid 1px #000;
+  border: solid 1px #dadde6;
   border-radius: 5px;
   padding: 5px 10px;
   cursor: text;
@@ -23,25 +24,27 @@ const HashtagEditorStyle = styled.div`
 const Tag = styled.div`
   height: 100%;
   font-size: 0.8rem;
-  border: solid 1px #000;
+  background-color: #dadde6;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 5px 5px 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: default;
   > .delete-btn {
     background-color: rgba(0, 0, 0, 0);
-    color: #d0d0d0;
+    color: #5e5e5e;
     border: none;
     cursor: pointer;
 
+    padding: 0 4px;
+
     &.delete-btn:hover {
-      color: #ff0000;
+      color: #f66d6d;
     }
 
     &.delete-btn:active {
-      color: #bd0000;
+      color: ${darken(0.2, '#f66d6d')};
     }
   }
 `;
@@ -52,7 +55,7 @@ const TagInputForm = styled.form`
     width: 180px;
     padding: 5px;
     outline: none;
-    border: ${props => (props.isError ? 'solid 1px #ff0000' : 'solid 1px rgba(0, 0, 0, 0)')};
+    border: ${props => (props.isError ? 'solid 1px #f66d6d' : 'solid 1px rgba(0, 0, 0, 0)')};
     border-radius: 5px;
   }
 `;
@@ -72,7 +75,7 @@ const TagInputForm = styled.form`
 
 const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
   const [inputTag, setInputTag] = useState('');
-  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const inputBox = useRef();
 
   const placeholderList = [
@@ -97,7 +100,7 @@ const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
 
   const removeTag = tag => {
     const newTagList = tagList.filter(tagInList => {
-      return tagInList.name !== tag.name;
+      return tagInList !== tag;
     });
     updateTagList(newTagList);
   };
@@ -107,30 +110,33 @@ const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
   };
 
   const onChange = e => {
-    if (placeholderIndex !== 0) {
-      setPlaceholderIndex(0);
+    if (currentPlaceholder !== 0) {
+      setCurrentPlaceholder(0);
     }
     setInputTag(e.target.value);
   };
 
   const onSubmit = e => {
     e.preventDefault();
+
+    const trimedTag = inputTag.trim();
     //입력값 없음
-    if (inputTag.length <= 0) {
-      setPlaceholderIndex(2);
+    if (trimedTag.length <= 0) {
+      setCurrentPlaceholder(2);
+      setInputTag('');
       return;
     }
 
     //중복된 태그
-    const alreadyTag = tagList.find(tag => tag.name === inputTag);
+    const alreadyTag = tagList.find(tag => tag === trimedTag);
     if (alreadyTag !== undefined) {
-      setPlaceholderIndex(1);
+      setCurrentPlaceholder(1);
       setInputTag('');
       return;
     }
 
     //태그 추가
-    addTag({ id: -1, name: inputTag });
+    addTag(trimedTag);
     setInputTag('');
   };
 
@@ -139,9 +145,9 @@ const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
       <ul>
         {tagList.map(tag => {
           return (
-            <li key={tag.name}>
+            <li key={tag}>
               <Tag>
-                #{tag.name}{' '}
+                #{tag}
                 <button className="delete-btn" onClick={() => removeTag(tag)}>
                   x
                 </button>
@@ -150,11 +156,11 @@ const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
           );
         })}
         <li>
-          <TagInputForm onSubmit={onSubmit} isError={placeholderIndex !== 0}>
+          <TagInputForm onSubmit={onSubmit} isError={currentPlaceholder !== 0}>
             <input
               type="text"
               value={inputTag}
-              placeholder={placeholderList[placeholderIndex]}
+              placeholder={placeholderList[currentPlaceholder]}
               onChange={onChange}
               ref={inputBox}
             />

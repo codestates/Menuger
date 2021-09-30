@@ -4,4 +4,5 @@ module.exports = {
   readPostList: require('./readPostList'),
   updatePost: require('./updatePost'),
   deletePost: require('./deletePost'),
+  createPresigned: require('./createPresigned'),
 };

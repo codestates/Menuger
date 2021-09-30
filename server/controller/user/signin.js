@@ -37,13 +37,13 @@ module.exports = (req, res) => {
           httpOnly: true,
           secure: true,
           sameSite: 'None',
-          domain: 'https://menuger.shop',
+          domain: 'menuger.shop',
         });
         res.cookie('refreshToken', refreshToken, {
           httpOnly: true,
           secure: true,
           sameSite: 'None',
-          domain: 'https://menuger.shop',
+          domain: 'menuger.shop',
         });
 
         user.refreshToken = refreshToken;

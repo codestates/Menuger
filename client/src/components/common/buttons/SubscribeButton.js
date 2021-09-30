@@ -28,7 +28,7 @@ const SubscribeButton = ({ subscribed, toggle, loading, fontSize }) => {
   return (
     <SubBtn subscribed={subscribed} onClick={toggle} fontSize={fontSize} disabled={loading}>
       {loading && <ButtonSpinner width={spinnerWidth} />}
-      {!loading && (subscribed ? 'SUBSCRIBED' : 'SUBSCRIBE')}
+      {!loading && (subscribed ? '구독중' : '구독하기')}
     </SubBtn>
   );
 };

@@ -30,6 +30,12 @@ const Title = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   align-self: center;
+  font-weight: bold;
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  overflow: hidden;
 `;
 
 const Figure = styled.figure`
@@ -38,6 +44,11 @@ const Figure = styled.figure`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover; // 가로, 세로 길이에 상관없이 컨테이너에 맞게
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.2);
+    transition: all 0.3s;
+  }
 `;
 
 const Img = styled.img`
@@ -51,17 +62,17 @@ const Info = styled.div`
 `;
 
 const UserInfo = styled.div`
-  border: 1px solid green;
+  border: 1px solid #646060;
   width: 40%;
 `;
 
 const PostInfo = styled.div`
-  border: 1px solid blue;
+  border: 1px solid #646060;
   width: 60%;
 `;
 
 const TagInfo = styled.div`
-  border: 1px solid red;
+  border: 1px solid #646060;
   flex-grow: 1;
 `;
 
@@ -84,9 +95,11 @@ const CardItem = ({
         <Title>{title}</Title>
         <SubscribeBtn />
       </Header>
-      <Figure style={{ backgroundImage: `url(${img})` }}>
-        <Img src={img} alt={imgFileName} />
-      </Figure>
+      <Wrapper>
+        <Figure style={{ backgroundImage: `url(${img})` }}>
+          <Img src={img} alt={imgFileName} />
+        </Figure>
+      </Wrapper>
       <Info>
         <UserInfo userInfo={userInfo}>UserInfo Component</UserInfo>
         <PostInfo postInfo={postInfo}>PostInfo Component</PostInfo>

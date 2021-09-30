@@ -1,27 +1,48 @@
 import styled from 'styled-components';
+import { darken, lighten } from 'polished';
 
 const StandardButtonStyle = styled.button`
   width: ${props => props.width || 'fit-content'};
   height: ${props => props.height || '35px'};
-  color: ${props => props.color};
-  background-color: ${props => props.backgroundColor || 'rgba(0, 0, 0, 0)'};
-  font-size: ${props => props.fontSize};
-  border: solid 1px #000;
-  border-radius: 5px;
+  color: ${props => props.color || '#ffffff'};
+  background-color: ${props => props.backgroundColor || '#ffc436'};
+  font-size: ${props => props.fontSize || '1rem'};
+  border: ${props => props.border || 'none'};
+  border-radius: ${props => props.borderRadius || '5px'};
   padding: 0 10px;
   cursor: pointer;
 
-  //유틸함수 사용하기 (어둡게, 밝게)
   &:hover {
-    background-color: #a2a2a2;
+    background-color: ${props => lighten(0.1, props.backgroundColor || '#ffc436')};
   }
 
   &:active {
-    background-color: #c6c6c6;
+    background-color: ${props => darken(0.1, props.backgroundColor || '#ffc436')};
   }
 `;
 
-const StandardButton = ({ children, width, height, color, backgroundColor, fontSize, onClick }) => {
+/*
+default
+  width: 'fit-content'
+  height: '35px'
+  color: '#ffffff'
+  background-color: '#ffc436'
+  font-size: '1rem'
+  border: 'none'
+  border-radius: '5px'
+*/
+
+const StandardButton = ({
+  children,
+  width,
+  height,
+  color,
+  backgroundColor,
+  fontSize,
+  border,
+  borderRadius,
+  onClick,
+}) => {
   if (typeof onClick !== 'function') {
     onClick = () => {};
   }
@@ -32,6 +53,8 @@ const StandardButton = ({ children, width, height, color, backgroundColor, fontS
       color={color}
       backgroundColor={backgroundColor}
       fontSize={fontSize}
+      border={border}
+      borderRadius={borderRadius}
       onClick={onClick}
     >
       {children}

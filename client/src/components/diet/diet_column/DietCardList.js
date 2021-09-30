@@ -13,24 +13,48 @@ const DietCardListStyle = styled.ul`
   }
 `;
 
-const DietCardList = ({ column, removeCard, updateCard, readonly = false, setFromColumn }) => {
+const Shadow = styled.div`
+  height: 40px;
+  border-radius: 5px;
+  background-color: #dadde6;
+  margin-bottom: 10px;
+`;
+
+const DietCardList = ({
+  column,
+  removeCard,
+  updateCard,
+  readonly = false,
+  setFromColumn,
+  shadowIndex,
+  setShadowIndex,
+}) => {
   const { dietCardList } = column;
   return (
     <DietCardListStyle>
       {dietCardList.map((card, i) => {
         return (
           <li key={i}>
-            <DietCard
-              index={i}
-              card={card}
-              removeCard={removeCard}
-              updateCard={updateCard}
-              setFromColumn={setFromColumn}
-              readonly={readonly}
-            />
+            <>
+              {shadowIndex === i && <Shadow />}
+              <DietCard
+                index={i}
+                card={card}
+                removeCard={removeCard}
+                updateCard={updateCard}
+                setFromColumn={setFromColumn}
+                readonly={readonly}
+                setShadowIndex={setShadowIndex}
+              />
+            </>
           </li>
         );
       })}
+      {shadowIndex >= dietCardList.length && (
+        <li key={dietCardList.length}>
+          <Shadow />
+        </li>
+      )}
     </DietCardListStyle>
   );
 };

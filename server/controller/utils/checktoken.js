@@ -31,6 +31,9 @@ module.exports = {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
               },
             },
+            {
+              withCredentials: true,
+            },
           );
           if (expires_in <= 0) {
             const { access_token, refresh_token = null } = await axios.post(
@@ -44,6 +47,9 @@ module.exports = {
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
                 },
+              },
+              {
+                withCredentials: true,
               },
             );
 

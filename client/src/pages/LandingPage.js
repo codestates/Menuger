@@ -6,19 +6,93 @@ import SlotMachine from '../components/SlotMachine';
 import Footer from '../components/Footer';
 
 import { HiOutlineArrowCircleUp } from 'react-icons/hi';
-import MobileFoodImg from '../utils/undraw_healthy_options_sdo3.svg';
-import EatingTogether from '../utils/undraw_Eating_together_re_ux62.svg';
-import Cooking from '../utils/undraw_cooking_lyxy.svg';
+import MobileFoodImg from '../utils/landingPageImage/undraw_healthy_options_sdo3.svg';
+import EatingTogether from '../utils/landingPageImage/undraw_Eating_together_re_ux62.svg';
+import Cooking from '../utils/landingPageImage/undraw_cooking_lyxy.svg';
+
+const CircleContainer = styled.div`
+  z-index: 8;
+  position: fixed;
+  right: 23px;
+  bottom: 300px;
+  * {
+    border: #fc9f77 solid 1px;
+    height: 20px;
+    width: 20px;
+    border-radius: 75px;
+    margin-bottom: 10px;
+    :hover {
+      cursor: pointer;
+    }
+  }
+  .active {
+    background-color: #fc9f77;
+  }
+`;
 
 const ScrollToTop = styled.div`
   position: fixed;
   z-index: 200;
-  right: 50px;
-  bottom: 50px;
+  right: 10px;
+  bottom: 10px;
   font-size: 50px;
   color: #ffc436;
   :hover {
     color: #fc9f77;
+    cursor: pointer;
+  }
+`;
+
+const Section1 = styled.section`
+  h1 {
+    padding-bottom: 40%;
+  }
+  :nth-child(2) {
+    margin-left: 30%;
+  }
+`;
+const Section2 = styled.section`
+  h1 {
+    padding-bottom: 20%;
+  }
+  img {
+    padding-top: 20%;
+    width: 400px;
+  }
+`;
+const Section3 = styled.section`
+  h1 {
+    padding-bottom: 40%;
+  }
+  img {
+    width: 400px;
+    padding-top: 20%;
+  }
+`;
+
+const Section4 = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  > :first-child {
+    flex: 2 0 auto;
+  }
+  > :last-child {
+    flex: 1 0 auto;
+  }
+  .contents {
+    display: flex;
+    flex-direction: row;
+    > * {
+      flex: 1 0 auto;
+    }
+    > h1 {
+      padding-top: 20%;
+    }
+    > img {
+      width: 200px;
+      padding-top: 20%;
+    }
   }
 `;
 
@@ -49,71 +123,21 @@ const PageScrollerContainer = styled.div`
       align-items: center;
       justify-content: center;
       flex-direction: column;
-    }
-  }
-`;
-
-const Section1 = styled.section`
-  h1 {
-    padding-bottom: 40%;
-  }
-  :nth-child(2) {
-    margin-left: 30%;
-  }
-`;
-const Section2 = styled.section`
-  display: flex;
-  flex: 1 0 auto;
-  h1 {
-    padding-bottom: 40%;
-  }
-  img {
-    width: 600px;
-    padding-top: 20%;
-    padding-left: 30%;
-  }
-`;
-const Section3 = styled.section`
-  h1 {
-    padding-bottom: 40%;
-  }
-  img {
-    width: 600px;
-    padding-top: 20%;
-  }
-`;
-
-const Section4 = styled.section`
-  display: flex;
-  flex-direction: column;
-  > :first-child {
-    flex: 4 0 auto;
-  }
-  > :last-child {
-    flex: 1 0 auto;
-  }
-  .contents {
-    display: flex;
-    flex-direction: row;
-    > h1 {
-      padding-top: 20%;
-    }
-    > img {
-      width: 300px;
-      padding-top: 20%;
-      padding-left: 30%;
+      font-size: 1em;
     }
   }
 `;
 
 const LandingPage = () => {
-  const [useScroll, setUseScroll] = useState();
+  const [useScroll, setUseScroll] = useState(0);
+  const arr = [0, 1, 2, 3];
 
-  const page = () => {
-    setUseScroll(0);
-    setTimeout(() => {
-      setUseScroll(null);
-    }, 1);
+  console.log(useScroll);
+
+  const page = e => {
+    if (e >= 0 && e < 4) {
+      setUseScroll(e);
+    }
   };
 
   useEffect(() => {
@@ -121,16 +145,38 @@ const LandingPage = () => {
     return () => {
       document.body.style.overflow = 'scroll';
     };
-  }, []);
+  });
 
   return (
     <>
+      <CircleContainer>
+        {arr.map(idx => {
+          return (
+            <div
+              key={idx}
+              className={`${idx === useScroll ? 'active' : ''}`}
+              onClick={() => {
+                page(idx);
+              }}
+            ></div>
+          );
+        })}
+      </CircleContainer>
       <ScrollToTop>
-        <HiOutlineArrowCircleUp onClick={page} />
+        <HiOutlineArrowCircleUp
+          onClick={() => {
+            page(0);
+          }}
+        />
       </ScrollToTop>
       <PageScrollerContainer>
-        <ReactPageScroller className="scroller" animationTimer={500} customPageNumber={useScroll}>
-          <Section1 className="full-page one">
+        <ReactPageScroller
+          className="scroller"
+          animationTimer={250}
+          pageOnChange={page}
+          customPageNumber={useScroll}
+        >
+          <Section1 className="full-page">
             <h1>
               '오늘 점심 뭐 먹지?'<br></br> '가성비 좋은 식단은 없을까?'<br></br> '새우 알레르기가
               있는데... 새우를 쓰지않는 레시피는 없을까?'<br></br> 이런 고민을 해보신 적이
@@ -138,15 +184,15 @@ const LandingPage = () => {
             </h1>
             <SlotMachine />
           </Section1>
-          <Section2 className="full-page two">
+          <Section2 className="full-page">
             <h1>두번째 페이지입니다.</h1>
             <img src={MobileFoodImg} alt="main-second"></img>
           </Section2>
-          <Section3 className="full-page three">
+          <Section3 className="full-page">
             <img src={EatingTogether} alt="third"></img>
             <h1>세번째 페이지입니다.</h1>
           </Section3>
-          <Section4 className="full-page four">
+          <Section4 className="full-page">
             <div className="contents">
               <h1>네번째 페이지입니다.</h1>
               <img src={Cooking} alt="fourth"></img>

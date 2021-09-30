@@ -1,63 +1,56 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import EditButton from '../EditButton';
 
 const DietCardHeaderStyle = styled.div`
-  height: 40px;
-  border-bottom: solid 1px #000;
-  padding: 8px 20px;
+  border-radius: 5px 5px 0 0;
+  background-color: #dadde6;
+  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  .input-title {
-    border: none;
-    border-bottom: solid 1px #000;
-    font-size: 1rem;
-    outline: none;
+  > .button-box {
+    display: flex;
   }
 
-  button {
-    background-color: rgba(0, 0, 0, 0);
-    color: #d0d0d0;
+  > .card-title {
+    font-size: 0.9rem;
+  }
+
+  > .input-title {
+    width: 0;
+    padding: 0;
     border: none;
-    cursor: pointer;
-
-    &.edit-mode-on-btn:hover {
-      color: #000;
-    }
-
-    &.edit-mode-on-btn:active {
-      color: #757575;
-    }
-
-    &.edit-mode-off-btn:hover {
-      color: #28ee00;
-    }
-
-    &.edit-mode-off-btn:active {
-      color: #1ca700;
-    }
-
-    &.delete-btn:hover {
-      color: #ff0000;
-    }
-
-    &.delete-btn:active {
-      color: #bd0000;
-    }
+    border-bottom: solid 1px #000;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 0.9rem;
+    outline: none;
+    flex-grow: 1;
   }
 `;
 
 const DietCardHeader = ({
   title,
+  index,
   changeTitle,
-  onRemoveCard,
+  removeCard,
   offEditMode,
   onEditMode,
   editable = false,
   readonly = false,
 }) => {
   const [inputTitle, setInputTitle] = useState(title);
+
+  useEffect(() => {
+    setInputTitle(title);
+  }, [title]);
+
+  const onRemoveCard = () => {
+    offEditMode();
+    removeCard(index);
+  };
 
   return (
     <DietCardHeaderStyle>
@@ -70,22 +63,16 @@ const DietCardHeader = ({
             onBlur={() => changeTitle(inputTitle)}
           />
           <div className="button-box">
-            <button className="delete-btn" onClick={onRemoveCard}>
-              ✕
-            </button>
-            <button className="edit-mode-off-btn" onClick={offEditMode}>
-              ✔
-            </button>
+            <EditButton type="remove" onClick={onRemoveCard} />
+            <EditButton type="edit-off" onClick={offEditMode} />
           </div>
         </>
       ) : (
         <>
-          <h3>{title}</h3>
+          <h3 className="card-title">{title}</h3>
           {readonly || (
             <div className="button-box">
-              <button className="edit-mode-on-btn" onClick={onEditMode}>
-                ✎
-              </button>
+              <EditButton type="edit-on" onClick={onEditMode} />
             </div>
           )}
         </>

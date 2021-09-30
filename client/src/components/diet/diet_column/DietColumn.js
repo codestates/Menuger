@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { allowDrop } from '../../../utils/drag';
-import { compareOrder } from '../../../utils/compareFunction';
+import { useDragCardData, useDragColumnData } from '../../../utils/drag';
+import { useRef } from 'react';
 
 //import components
 import DietColumnHeader from './DietColumnHeader';
@@ -8,106 +9,156 @@ import AddCardButton from './AddCardButton';
 import DietCardList from './DietCardList';
 
 const DietColumnStyle = styled.div`
-  width: 300px;
-  min-height: 0%;
-  max-height: 100%;
-  border: solid 1px #000;
+  min-width: 200px;
   border-radius: 5px;
   overflow-y: hidden;
-
+  background-color: #f5f5f5;
+  box-shadow: 0 1px rgba(0, 0, 0, 0.3);
   > .button-container {
     padding: 10px;
   }
 `;
 
-const DietColumn = ({ column, updateColumn, removeColumn, moveCard, readonly = false }) => {
+const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, readonly = false }) => {
   const { title } = column;
+  const columnView = useRef();
+  const dragCardData = useDragCardData();
+  const dragColumnData = useDragColumnData();
 
-  const addCard = (target, card) => {
-    const newColumn = {
-      ...target,
-      dietcard: [...target.dietcard, { ...card }],
-    };
-    newColumn.dietcard.forEach((cardInColumn, index) => {
-      cardInColumn.order = index;
-    });
-
-    return newColumn;
+  const changeTitle = newTitle => {
+    updateColumn(
+      {
+        ...column,
+        title: newTitle,
+      },
+      index,
+    );
   };
 
-  const changeTitle = title => {
-    updateColumn({
-      ...column,
-      title,
-    });
+  const setFromColumn = dragData => {
+    dragData.setFromColumn(column, index);
   };
 
-  const removeCard = (target, card) => {
-    const newColumn = {
-      ...target,
-      dietcard: target.dietcard.filter(cardInList => {
-        return cardInList.order !== card.order;
-      }),
-    };
-    return newColumn;
-  };
-
-  const updateCard = card => {
+  const addCard = () => {
+    const initCard = { title: '식단 카드', dietItemList: [] };
     const newColumn = {
       ...column,
-      dietcard: column.dietcard.filter(cardInColumn => {
-        return cardInColumn.order !== card.order;
-      }),
+      dietCardList: [...column.dietCardList, initCard],
     };
-
-    newColumn.dietcard.push(card);
-    newColumn.dietcard.sort(compareOrder);
-    updateColumn(newColumn);
+    updateColumn(newColumn, index);
   };
 
-  const onRemoveColumn = () => {
-    removeColumn(column);
+  const updateCard = (card, cardIndex) => {
+    const newColumn = {
+      ...column,
+      dietCardList: [
+        ...column.dietCardList.slice(0, cardIndex),
+        card,
+        ...column.dietCardList.slice(cardIndex + 1, column.dietCardList.length),
+      ],
+    };
+    updateColumn(newColumn, index);
+  };
+
+  const removeCard = cardIndex => {
+    const newColumn = {
+      ...column,
+      dietCardList: [
+        ...column.dietCardList.slice(0, cardIndex),
+        ...column.dietCardList.slice(cardIndex + 1, column.dietCardList.length),
+      ],
+    };
+    updateColumn(newColumn, index);
   };
 
   const onDragStart = e => {
-    const card = JSON.parse(e.dataTransfer.getData('card') || 'null');
-    if (card === null) return;
-    e.dataTransfer.setData('fromColumn', JSON.stringify(column));
+    e.dataTransfer.effectAllowed = 'move';
+    const { layerX, layerY } = e.nativeEvent;
+    e.dataTransfer.setDragImage(columnView.current, layerX, layerY);
+
+    dragColumnData.setColumn(column, index);
+  };
+
+  const onDragEnd = () => {
+    dragColumnData.dragEnd();
+  };
+
+  const onDragOver = e => {
+    allowDrop(e);
+    const { column } = dragColumnData;
+    if (column === null) {
+      return;
+    }
+    const halfOfWidth = columnView.current.clientWidth / 2;
+    const { layerX } = e.nativeEvent;
+    if (halfOfWidth > layerX) {
+      dragColumnData.setToIndex(index);
+    } else {
+      dragColumnData.setToIndex(index + 1);
+    }
   };
 
   const onDrop = e => {
-    const card = JSON.parse(e.dataTransfer.getData('card') || 'null');
-    const fromColumn = JSON.parse(e.dataTransfer.getData('fromColumn') || 'null');
-    if (card === null) return;
+    const { card, index: cardIndex, fromColumn } = dragCardData;
+    let { toIndex: cardToIndex } = dragCardData;
 
-    const getMoveResult = (isCopy = false) => {
-      if (isCopy === true) {
-        return [addCard(column, card), fromColumn];
-      }
-      return [addCard(column, card), removeCard(fromColumn, card)];
+    if (card === null) {
+      return;
+    }
+
+    const newFromDietCardList = [...fromColumn.column.dietCardList];
+    newFromDietCardList.splice(cardIndex, 1);
+    const newFromColumn = {
+      ...fromColumn.column,
+      dietCardList: newFromDietCardList,
     };
+    let newDietCardList = [...column.dietCardList];
 
-    moveCard(getMoveResult);
+    if (index === fromColumn.index) {
+      newDietCardList = newFromDietCardList;
+      if (cardIndex < cardToIndex) {
+        cardToIndex--;
+      }
+    }
+
+    newDietCardList.splice(cardToIndex, 0, card);
+    const newColumn = {
+      ...column,
+      dietCardList: newDietCardList,
+    };
+    moveCard(dietColumnList => {
+      const newDietCardList = [...dietColumnList];
+      newDietCardList.splice(fromColumn.index, 1, newFromColumn);
+      newDietCardList.splice(index, 1, newColumn);
+      return newDietCardList;
+    });
   };
 
   return (
-    <DietColumnStyle onDrop={onDrop} onDragOver={allowDrop} onDragStart={onDragStart}>
+    <DietColumnStyle
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      ref={columnView}
+    >
       <DietColumnHeader
+        index={index}
         title={title}
         changeTitle={changeTitle}
-        onRemoveColumn={onRemoveColumn}
+        removeColumn={removeColumn}
         readonly={readonly}
       />
       <DietCardList
         column={column}
-        updateColumn={updateColumn}
         removeCard={removeCard}
         updateCard={updateCard}
+        setFromColumn={setFromColumn}
         readonly={readonly}
       />
-      {readonly || (
+      {!readonly && (
         <div className="button-container">
-          <AddCardButton updateColumn={updateColumn} addCard={addCard} column={column} />
+          <AddCardButton addCard={addCard} />
         </div>
       )}
     </DietColumnStyle>

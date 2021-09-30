@@ -4,12 +4,13 @@ import axios from 'axios';
 
 import ProgressBar from './ProgressBar';
 import useKeyPress from '../../hooks/useKeyPress';
+import useToast from '../../hooks/toast/useToast';
 
 const FILE_NUM_LIMIT = 5;
 const PERCENT_TO_RATE_RATIO = 100;
 const FILE_UPLOAD_MESSAGE = '이미지 파일을 업로드 해주세요';
 const TOO_MANY_FILES_MESSAGE = '최대 5개의 이미지 파일만 올려주세요';
-const { REACT_APP_MOBILE_WIDTH, REACT_APP_ENDPOINT_URL } = process.env;
+const { REACT_APP_MOBILE_WIDTH, REACT_APP_ENDPOINT_URL, REACT_APP_S3_URL } = process.env;
 
 const Overlay = styled.div`
   position: fixed;
@@ -18,6 +19,7 @@ const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
+  z-index: 9;
 `;
 
 const FormWrapper = styled.div`
@@ -94,11 +96,12 @@ const Button = styled.button`
   }
 `;
 
-const UploadForm = ({ editorRef, width, setUploadModal }) => {
+const UploadForm = ({ editorRef, width, setUploadModal, setImages }) => {
   const marginRef = useRef();
   const [files, setFiles] = useState(null);
   const [percents, setPercents] = useState([]);
   const [uploadedImages, setUploadedImages] = useState(null);
+  const addMessage = useToast();
 
   const closeUploadModal = () => setUploadModal(false);
   useKeyPress('Escape', closeUploadModal);
@@ -116,8 +119,7 @@ const UploadForm = ({ editorRef, width, setUploadModal }) => {
       return setFiles(null);
     }
     if (fileNum > FILE_NUM_LIMIT) {
-      // TODO: replace with custom modal
-      alert(TOO_MANY_FILES_MESSAGE);
+      addMessage({ mode: 'warning', message: TOO_MANY_FILES_MESSAGE, delay: 2000 });
       return setFiles(null);
     }
     setFiles(target.files);
@@ -126,50 +128,62 @@ const UploadForm = ({ editorRef, width, setUploadModal }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      // DELETE: sample code (start)
-      const links = [
-        'https://i.im.ge/2021/09/20/TtmBXL.jpg',
-        'https://i.im.ge/2021/09/20/Ttmv10.jpg',
-      ];
-      const editorInstance = editorRef.current.getInstance();
-      links.forEach(link => editorInstance.insertText(`<img src="${link}" width="200" />\n`));
-      setUploadModal(false);
-      // DELETE (end)
+      const { data: presignedData } = await axios.post(
+        `${REACT_APP_ENDPOINT_URL}/recipes/presigned`,
+        {
+          contentTypes: [...files].map(file => file.type),
+        },
+      );
 
-      // TODO: save to S3 then insertText
-      // const presignedData = await axios.post(`${REACT_APP_ENDPOINT_URL}/images/presigned`, {
-      //   contentTypes: [...files].map(file => file.type),
-      // });
-      // await Promise.all(
-      //   [...files].map((file, idx) => {
-      //     const { presigned } = presignedData.data[idx];
-      //     const formData = new FormData();
-      //     for (const key in presigned.fields) {
-      //       formData.append(key, presigned.fields[key]);
-      //     }
-      //     formData.append('Content-Type', file.type);
-      //     formData.append('file', file);
-      //     return axios.post(presigned.url, formData, {
-      //       onUploadProgress: ({ loaded, total }) => {
-      //         setPercents(prevPercents => {
-      //           const newData = [...prevPercents];
-      //           newData[idx] = Math.round((loaded / total) * PERCENT_TO_RATE_RATIO);
-      //           return newData;
-      //         });
-      //       },
-      //     });
-      //   }),
-      // );
-      // const { data: images } = await axios.post(`${REACT_APP_ENDPOINT_URL}/images`, {
-      //   images: [...files].map((file, idx) => ({
-      //     imageKey: presignedData.data[idx].imageKey,
-      //     originalname: file.name,
-      //   })),
-      // });
-      // setUploadedImages(images);
-      // TODO: add alert modal
+      await Promise.all(
+        [...files].map((file, idx) => {
+          const { presigned } = presignedData.data[idx];
+          const formData = new FormData();
+
+          for (const key in presigned.fields) {
+            formData.append(key, presigned.fields[key]);
+          }
+          formData.append('Content-Type', file.type);
+          formData.append('file', file);
+
+          return axios.post(presigned.url, formData, {
+            onUploadProgress: ({ loaded, total }) => {
+              setPercents(prevPercents => {
+                const newData = [...prevPercents];
+                newData[idx] = Math.round((loaded / total) * PERCENT_TO_RATE_RATIO);
+                return newData;
+              });
+            },
+          });
+        }),
+      );
+
+      const editorInstance = editorRef.current.getInstance();
+
+      presignedData.data.forEach(({ imageKey }) => {
+        editorInstance.insertText(`<img src=${REACT_APP_S3_URL}/raw/${imageKey} width="200" />\n`);
+      });
+
+      /*
+      const { data: images } = await axios.post(`${process.env.REACT_APP_ENDPOINT_URL}/recipes`, {
+      images: [...files].map((file, idx) => ({
+        imageKey: presignedData.data[idx].imageKey,
+        originalname: file.name,
+      })),
+    });
+      */
+      //setFile(files?.[0]);
+      setImages([
+        {
+          imageKey: presignedData.data[0].imageKey,
+          originalname: files[0].name,
+        },
+      ]);
+
+      setUploadModal(false);
+      addMessage({ message: '이미지 업로드 성공', delay: 2000 });
     } catch (err) {
-      // TODO: add alert modal
+      addMessage({ mode: 'error', message: '이미지 업로드 실패', delay: 2000 });
     }
   };
 

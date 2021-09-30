@@ -45,6 +45,7 @@ module.exports = async (req, res) => {
           nickname,
           image_url,
           type: 'kakao',
+          refreshToken: data.refresh_token,
         }).save();
       }
     });
@@ -53,6 +54,8 @@ module.exports = async (req, res) => {
     res.cookie('email', email, { maxAge });
     res.cookie('nickname', nickname, { maxAge });
     res.cookie('image_url', image_url, { maxAge });
+    res.cookie('kakaoAccessToken', data.access_token);
+    res.cookie('kakaoRefreshToken', data.refresh_token);
     res.redirect(process.env.SITE_DOMAIN);
   } catch (err) {
     res.cookie('kakao_login', 'fail', { maxAge });

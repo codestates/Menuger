@@ -5,23 +5,28 @@ import styled from 'styled-components';
 import EditButton from '../EditButton';
 
 const DietColumnHeaderStyle = styled.div`
-  height: 40px;
-  border-bottom: solid 1px #000;
-  padding: 8px 20px;
+  padding: 15px 20px 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: ${props => (props.draggable ? 'grab' : 'default')};
+  background-color: #ffc436;
 
-  .input-title {
+  > .button-box {
+    display: flex;
+  }
+
+  > .input-title {
+    outline: none;
     border: none;
     border-bottom: solid 1px #000;
+    background-color: rgba(0, 0, 0, 0);
     font-size: 1rem;
-    outline: none;
+    padding: 0;
   }
 `;
 
-const DietColumnHeader = ({ title, onRemoveColumn, changeTitle, readonly = false }) => {
+const DietColumnHeader = ({ title, index, removeColumn, changeTitle, readonly = false }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [inputTitle, setInputTitle] = useState(title);
 
@@ -31,26 +36,35 @@ const DietColumnHeader = ({ title, onRemoveColumn, changeTitle, readonly = false
     }
   }, [readonly]);
 
+  useEffect(() => {
+    setInputTitle(title);
+  }, [title]);
+
   const onEditMode = () => {
     setIsEditMode(true);
   };
 
   const offEditMode = () => {
+    changeTitle(inputTitle);
     setIsEditMode(false);
   };
 
+  const onRemove = () => {
+    setIsEditMode(false);
+    removeColumn(index);
+  };
+
   return (
-    <DietColumnHeaderStyle draggable={!readonly}>
+    <DietColumnHeaderStyle draggable={!readonly && !isEditMode}>
       {!readonly && isEditMode ? (
         <>
           <input
             className="input-title"
             value={inputTitle}
             onChange={e => setInputTitle(e.target.value)}
-            onBlur={() => changeTitle(inputTitle)}
           />
           <div className="button-box">
-            <EditButton type="remove" onClick={onRemoveColumn} />
+            <EditButton type="remove" onClick={onRemove} />
             <EditButton type="edit-off" onClick={offEditMode} />
           </div>
         </>

@@ -1,7 +1,6 @@
 class Item {
-  constructor(id, content) {
-    this.id = id;
-    this.content = content;
+  constructor(name) {
+    this.name = name;
   }
 }
 

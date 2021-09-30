@@ -10,7 +10,8 @@ const AddCardButtonStyle = styled.button`
   font-size: 0.8rem;
   text-indent: 0.2rem;
   cursor: pointer;
-  background-color: #d0d0d0;
+  background-color: #f5f5f5;
+  /* background-color: #d0d0d0; */
 
   &:hover {
     background-color: #d8d8d8;
@@ -21,19 +22,8 @@ const AddCardButtonStyle = styled.button`
   }
 `;
 
-const AddCardButton = ({ updateColumn, addCard, column }) => {
-  const initCard = {
-    id: -1,
-    title: 'new card',
-    order: -1,
-    dietitem: [],
-  };
-
-  const onClick = () => {
-    updateColumn(addCard(column, initCard));
-  };
-
-  return <AddCardButtonStyle onClick={onClick}>+ Add Card</AddCardButtonStyle>;
+const AddCardButton = ({ addCard }) => {
+  return <AddCardButtonStyle onClick={addCard}>+ 식단 추가</AddCardButtonStyle>;
 };
 
 export default AddCardButton;

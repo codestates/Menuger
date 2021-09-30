@@ -1,9 +1,7 @@
 class Column {
-  constructor(id, title, order, dietcard = []) {
-    this.id = id;
+  constructor(title, dietCardList = []) {
     this.title = title;
-    this.order = order;
-    this.dietcard = dietcard;
+    this.dietCardList = dietCardList;
   }
 }
 

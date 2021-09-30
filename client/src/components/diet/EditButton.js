@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 const EditButtonStyle = styled.button`
   background-color: rgba(0, 0, 0, 0);
-  color: #d0d0d0;
+  color: #5e5e5e;
   border: none;
   cursor: pointer;
 
   &.edit-on:hover {
-    color: #000;
+    color: #000000;
   }
 
   &.edit-on:active {
@@ -15,7 +15,7 @@ const EditButtonStyle = styled.button`
   }
 
   &.edit-off:hover {
-    color: #28ee00;
+    color: #9be998;
   }
 
   &.edit-off:active {
@@ -23,7 +23,7 @@ const EditButtonStyle = styled.button`
   }
 
   &.remove:hover {
-    color: #ff0000;
+    color: #f66d6d;
   }
 
   &.remove:active {

@@ -2,49 +2,49 @@ import styled from 'styled-components';
 
 const DietItemStyle = styled.div`
   width: fit-content;
-  border: solid 1px #000;
   border-radius: 5px;
-  background-color: #555555;
   display: flex;
+  background-color: #fff;
 
   button {
     padding: 3px 5px;
-    border-radius: 5px;
-    background-color: #555555;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0);
+    color: #000;
     border: none;
-    color: #ffffff;
-    cursor: pointer;
-
     &.main-btn {
+      cursor: pointer;
       &:hover {
-        background-color: #808080;
+        color: #fc9f77;
       }
       &:active {
-        background-color: #393939;
+        background-color: rgba(0, 0, 0, 0.1);
       }
     }
 
     &.remove-btn {
-      &:hover {
-        background-color: #808080;
+      cursor: pointer;
+      :hover {
+        color: #f66d6d;
       }
-      &:active {
-        background-color: #393939;
+
+      :active {
+        color: #bd0000;
       }
     }
   }
 `;
 
-const DietItem = ({ content, removeItem, editable = false }) => {
+const DietItem = ({ item, removeItem, editable = false }) => {
   const onRemove = () => {
-    removeItem(content);
+    removeItem(item.name);
   };
-  const onClick = e => {
-    e.stopPropagation();
-  };
+
+  const onClick = () => {};
+
   return (
     <DietItemStyle onClick={editable ? null : onClick}>
-      <button className="main-btn">{content}</button>
+      <button className={editable ? '' : 'main-btn'}>{item.name}</button>
       {editable ? (
         <button className="remove-btn" onClick={onRemove}>
           x

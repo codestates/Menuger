@@ -5,7 +5,6 @@ import DietCard from '../diet_card/DietCard';
 
 const DietCardListStyle = styled.ul`
   height: fit-content;
-  max-height: 365px;
   padding: 10px;
   overflow-y: auto;
 
@@ -14,19 +13,19 @@ const DietCardListStyle = styled.ul`
   }
 `;
 
-const DietCardList = ({ column, updateColumn, removeCard, updateCard, readonly = false }) => {
-  const { dietcard } = column;
+const DietCardList = ({ column, removeCard, updateCard, readonly = false, setFromColumn }) => {
+  const { dietCardList } = column;
   return (
     <DietCardListStyle>
-      {dietcard.map(card => {
+      {dietCardList.map((card, i) => {
         return (
-          <li key={card.id}>
+          <li key={i}>
             <DietCard
+              index={i}
               card={card}
-              removeCard={card => {
-                updateColumn(removeCard(column, card));
-              }}
+              removeCard={removeCard}
               updateCard={updateCard}
+              setFromColumn={setFromColumn}
               readonly={readonly}
             />
           </li>

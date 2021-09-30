@@ -1,34 +1,56 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import EditButton from '../EditButton';
 
 const DietCardHeaderStyle = styled.div`
-  height: 40px;
-  border-bottom: solid 1px #000;
-  padding: 8px 20px;
+  border-radius: 5px 5px 0 0;
+  background-color: #dadde6;
+  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  .input-title {
+  > .button-box {
+    display: flex;
+  }
+
+  > .card-title {
+    font-size: 0.9rem;
+  }
+
+  > .input-title {
+    width: 0;
+    padding: 0;
     border: none;
     border-bottom: solid 1px #000;
-    font-size: 1rem;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 0.9rem;
     outline: none;
+    flex-grow: 1;
   }
 `;
 
 const DietCardHeader = ({
   title,
+  index,
   changeTitle,
-  onRemoveCard,
+  removeCard,
   offEditMode,
   onEditMode,
   editable = false,
   readonly = false,
 }) => {
   const [inputTitle, setInputTitle] = useState(title);
+
+  useEffect(() => {
+    setInputTitle(title);
+  }, [title]);
+
+  const onRemoveCard = () => {
+    offEditMode();
+    removeCard(index);
+  };
 
   return (
     <DietCardHeaderStyle>
@@ -47,7 +69,7 @@ const DietCardHeader = ({
         </>
       ) : (
         <>
-          <h3>{title}</h3>
+          <h3 className="card-title">{title}</h3>
           {readonly || (
             <div className="button-box">
               <EditButton type="edit-on" onClick={onEditMode} />

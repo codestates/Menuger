@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -79,6 +80,7 @@ const RecipeEditPage = () => {
   const titleRef = useRef();
   const [images, setImages] = useState();
   const addMessage = useToast();
+  const history = useHistory();
 
   const onClickTempSave = () => {
     alert('개발 진행중인 서비스입니다.');
@@ -89,7 +91,9 @@ const RecipeEditPage = () => {
     //const thumbnail_url = extractThumbnail(recipeContent);
     //TODO: save recipeContent and thumbnail
 
-    const { message } = await axios.post(
+    const {
+      data: { message },
+    } = await axios.post(
       `${process.env.REACT_APP_ENDPOINT_URL}/recipes`,
       {
         images,
@@ -101,7 +105,8 @@ const RecipeEditPage = () => {
         withCredentials: true,
       },
     );
-    addMessage({ message });
+
+    addMessage({ message }, () => history.push('/RecipePage'));
   };
 
   return (

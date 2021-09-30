@@ -29,17 +29,18 @@ const server = async () => {
     // mongoose.set('debug', true); // mongodb 쿼리문 디버깅 확인용 코드
     console.log('mongodb connected');
 
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
-    app.use(cookieParser());
     app.use(
       cors({
         // CORS 설정
-        origin: true,
+        origin: true, // 클라이언트 도메인 주소가 자동으로 추가됨. 와일드카드와는 다름.
         credentials: true,
         methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'DELETE'],
       }),
     );
+
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(cookieParser());
 
     app.get('/', (req, res) => {
       res.send('Hello Server!');

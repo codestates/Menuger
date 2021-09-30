@@ -12,6 +12,7 @@ import svgToComponent from '../../utils/svg';
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
   color: black;
+  font-weight: normal;
   &:hover {
     color: #ffc436;
     cursor: pointer;
@@ -46,6 +47,7 @@ const WriteContainer = styled.div`
     justify-content: center;
     align-items: center;
     font-weight: bold;
+
     &:hover {
       cursor: pointer;
       background-color: #fc9f77;
@@ -85,6 +87,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  & > div {
+    cursor: pointer;
+    &:hover {
+      color: #ffc436;
+    }
+  }
   * {
     padding: 1.2rem;
   }
@@ -170,6 +178,18 @@ const DropdownContainer = styled.div`
     text-align: center;
     justify-content: center;
   }
+  :before {
+    z-index: 2;
+    content: '';
+    position: absolute;
+    bottom: 99.5%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+  }
+
   :after {
     content: '';
     position: absolute;
@@ -221,8 +241,12 @@ const RightContainer = ({
         )}
         {!userInfo.email && (
           <>
-            <div onClick={() => handleMenuClick('signin')}>로그인</div>
-            <div onClick={() => handleMenuClick('signup')}>회원가입</div>
+            <div className="guest-menu" onClick={() => handleMenuClick('signin')}>
+              로그인
+            </div>
+            <div className="guest-menu" onClick={() => handleMenuClick('signup')}>
+              회원가입
+            </div>
           </>
         )}
         <WriteByMobile ref={popRef}>

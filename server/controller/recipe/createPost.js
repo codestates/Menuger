@@ -13,15 +13,21 @@ module.exports = async (req, res) => {
     }
 
     const user = await User.findById(ObjectId(payload));
-    const { title, content, hashtags = [] } = req.body;
+    const { title, content, images, hashtags = [] } = req.body;
 
-    const post = new Recipe({
-      title,
-      content,
-      user,
-      hashtags,
-    });
-    await post.save();
+    await Promise.all(
+      images.map(image =>
+        new Recipe({
+          title,
+          content,
+          user,
+          hashtags,
+          thumbnail_url: image.imageKey,
+          originalFileName: image.originalname,
+        }).save(),
+      ),
+    );
+
     return res.status(201).send({ message: '레시피 작성이 완료되었습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });

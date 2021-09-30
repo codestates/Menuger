@@ -3,12 +3,14 @@ import styled, { css } from 'styled-components';
 import axios from 'axios';
 
 const Container = styled.div`
-  flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 2px;
+  border: 2px solid;
   height: 40px;
+  &:focus-within {
+    border: 2px solid #ffc436;
+  }
   * {
     border: 0px;
     height: 100%;
@@ -17,7 +19,11 @@ const Container = styled.div`
     outline: none;
   }
   input {
-    padding-left: 3px;
+    flex-grow: 1;
+  }
+  select {
+    padding: 0 5px;
+    background-color: transparent;
   }
   @media screen and (max-width: 768px) {
     display: none;

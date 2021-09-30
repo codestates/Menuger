@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
     if (!payload) {
       return res.status(400).send({ message: '유효하지 않은 접근입니다.' });
     }
+
     const { password } = req.body;
     if (!password) {
       return res.status(400).send({ message: '비밀번호를 입력받지 않았습니다.' });

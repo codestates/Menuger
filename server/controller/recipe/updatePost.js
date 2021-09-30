@@ -1,3 +1,4 @@
+const { User } = require('../../models/user');
 const { Recipe } = require('../../models/recipe');
 const { verifyAccessToken } = require('../utils/jwt');
 const {
@@ -7,9 +8,15 @@ const {
 
 module.exports = async (req, res) => {
   try {
-    const { payload } = verifyAccessToken(req.cookies.accessToken);
-    if (!payload) {
-      return res.status(400).send({ message: '유효하지 않은 접근입니다.' });
+    let payload;
+    if (req.cookies.kakaoAccessToken) {
+      const kakaoUser = await User.findOne({ refreshToken: req.cookies.kakaoRefreshToken });
+      payload = kakaoUser._id;
+    } else {
+      payload = verifyAccessToken(req.cookies.accessToken).payload;
+      if (!payload) {
+        return res.status(400).send({ message: '유효하지 않은 접근입니다.' });
+      }
     }
 
     const { id } = req.params;

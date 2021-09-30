@@ -94,7 +94,7 @@ const DietEditPage = () => {
         <textarea style={{ resize: 'none' }} cols="50" rows="10" placeholder="본문" />
         <HashtagEditor tagList={tagList} updateTagList={updateTagList} />
         <div className="button-box">
-          <StandardButton>임시저장</StandardButton>
+          <StandardButton backgroundColor="#fc9f77">임시저장</StandardButton>
           <StandardButton>작성</StandardButton>
         </div>
       </DietEditPageStyle>

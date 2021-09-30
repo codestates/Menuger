@@ -24,6 +24,7 @@ const DietCard = ({
   editable = false,
   readonly = false,
   setFromColumn,
+  setShadowIndex,
 }) => {
   const { title, dietItemList } = card;
   const [isEditMode, setIsEditMode] = useState(editable);
@@ -107,8 +108,10 @@ const DietCard = ({
     const { layerY } = e.nativeEvent;
     if (halfOfHeight > layerY) {
       dragCardData.setToIndex(index);
+      setShadowIndex(index);
     } else {
       dragCardData.setToIndex(index + 1);
+      setShadowIndex(index + 1);
     }
   };
 

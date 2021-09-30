@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { allowDrop } from '../../../utils/drag';
 import { useDragCardData, useDragColumnData } from '../../../utils/drag';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 //import components
 import DietColumnHeader from './DietColumnHeader';
@@ -20,8 +20,10 @@ const DietColumnStyle = styled.div`
 `;
 
 const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, readonly = false }) => {
+  const [shadowIndex, setShadowIndex] = useState(-1);
   const { title } = column;
   const columnView = useRef();
+  const dragEnterAndLeaveCount = useRef(0);
   const dragCardData = useDragCardData();
   const dragColumnData = useDragColumnData();
 
@@ -83,6 +85,20 @@ const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, reado
     dragColumnData.dragEnd();
   };
 
+  const onDragEnter = () => {
+    if (dragEnterAndLeaveCount.current === 0 && column.dietCardList.length === 0) {
+      setShadowIndex(0);
+    }
+    dragEnterAndLeaveCount.current++;
+  };
+
+  const onDragLeave = () => {
+    dragEnterAndLeaveCount.current--;
+    if (dragEnterAndLeaveCount.current === 0) {
+      setShadowIndex(-1);
+    }
+  };
+
   const onDragOver = e => {
     allowDrop(e);
     const { column } = dragColumnData;
@@ -132,6 +148,9 @@ const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, reado
       newDietCardList.splice(index, 1, newColumn);
       return newDietCardList;
     });
+
+    setShadowIndex(-1);
+    dragEnterAndLeaveCount.current = 0;
   };
 
   return (
@@ -139,6 +158,8 @@ const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, reado
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
       onDrop={onDrop}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
       onDragOver={onDragOver}
       ref={columnView}
     >
@@ -155,6 +176,8 @@ const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, reado
         updateCard={updateCard}
         setFromColumn={setFromColumn}
         readonly={readonly}
+        shadowIndex={shadowIndex}
+        setShadowIndex={setShadowIndex}
       />
       {!readonly && (
         <div className="button-container">

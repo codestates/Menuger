@@ -164,15 +164,6 @@ const UploadForm = ({ editorRef, width, setUploadModal, setImages }) => {
         editorInstance.insertText(`<img src=${REACT_APP_S3_URL}/raw/${imageKey} width="200" />\n`);
       });
 
-      /*
-      const { data: images } = await axios.post(`${process.env.REACT_APP_ENDPOINT_URL}/recipes`, {
-      images: [...files].map((file, idx) => ({
-        imageKey: presignedData.data[idx].imageKey,
-        originalname: file.name,
-      })),
-    });
-      */
-      //setFile(files?.[0]);
       setImages([
         {
           imageKey: presignedData.data[0].imageKey,

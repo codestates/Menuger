@@ -40,8 +40,7 @@
 
 ## Deployment Architecture
 
-![sys-arch](https://user-images.githubusercontent.com/38288479/134836470-b06fb1d1-32df-4111-8d22-d32094bf1989.png)
-
+![sys-arch](https://user-images.githubusercontent.com/38288479/135580783-6fb04ca7-690c-4d12-a374-a311a7b212f5.png)
 
 # Menu.random()팀의 멤버를 소개합니다.
 

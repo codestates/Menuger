@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 2px solid;
+  justify-content: flex-start;
+  border: solid 2px;
   height: 40px;
   &:focus-within {
     border: 2px solid #ffc436;
@@ -19,23 +19,25 @@ const Container = styled.div`
     outline: none;
   }
   input {
-    flex-grow: 1;
+    padding-left: 5px;
+    padding-right: 3px;
+    width: 150px;
   }
   select {
-    padding: 0 5px;
-    background-color: transparent;
+    background-color: white;
+    padding-left: 1em;
   }
   @media screen and (max-width: 768px) {
     display: none;
     ${props =>
       props.useSearch &&
       css`
-        padding-top: 100px;
         right: 0px;
         display: block;
         position: absolute;
         align-items: center;
         justify-content: center;
+        margin-top: 120px;
       `}
   }
 `;

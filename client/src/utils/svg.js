@@ -70,41 +70,6 @@ const svgs = {
       </g>
     </svg>
   ),
-  logoYellow: props => (
-    <svg width="326" height="262" viewBox="0 0 326 262" {...props}>
-      <defs>
-        <style>
-          {`.cls-1{ font-size: 72px;}
-            .cls-1{ fill: #ffcd36;}
-            .cls-1{ text-anchor: middle;}
-            .cls-1{ font-family: Debussy;}
-          `}
-        </style>
-      </defs>
-      <text
-        id="M"
-        className="cls-1"
-        transform="translate(133.928 241.634) rotate(15.089) scale(0.594)"
-      >
-        <tspan x="0">M</tspan>
-      </text>
-      <text
-        id="M-2"
-        data-name="M"
-        className="cls-1"
-        transform="translate(174.092 82.226) rotate(-7.622) scale(0.85)"
-      >
-        <tspan x="0">M</tspan>
-      </text>
-      <image
-        id="cooking"
-        y="-1"
-        width="326"
-        height="263"
-        xlinkHref="https://user-images.githubusercontent.com/38288479/135029689-88ccbfaf-086a-46fd-92b4-f1c3f2ff0633.jpeg"
-      />
-    </svg>
-  ),
   sortIcon: props => (
     <svg
       viewBox="0 0 24 24"

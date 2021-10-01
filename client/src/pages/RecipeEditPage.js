@@ -24,7 +24,7 @@ const RecipeTitleInput = styled.input`
   height: 50px;
   padding-left: 0.5rem;
   font-size: 1.5rem;
-  margin: 1rem 0;
+  margin: 1rem 0 0;
   &:focus {
     padding-top: 2px;
     outline: none;
@@ -53,8 +53,20 @@ const RecipeEditPage = () => {
   const history = useHistory();
 
   const onClickSave = async () => {
+    const title = titleRef.current.value;
     const editorInstance = editorRef.current.getInstance();
     const recipeContent = editorInstance.getHTML();
+
+    if (!title.trim().length) {
+      titleRef.current.focus();
+      addMessage({ mode: 'info', message: '제목을 입력해주세요', delay: 1000 });
+      return;
+    }
+    if (!recipeContent.trim().length) {
+      editorInstance.mdEditor.el.childNodes[1].focus();
+      addMessage({ mode: 'info', message: '본문을 입력해주세요', delay: 1000 });
+      return;
+    }
 
     const {
       data: { message },
@@ -62,7 +74,7 @@ const RecipeEditPage = () => {
       `${process.env.REACT_APP_ENDPOINT_URL}/recipes`,
       {
         images,
-        title: titleRef.current.value,
+        title,
         content: recipeContent,
         hashtags: tagList,
       },

@@ -111,7 +111,7 @@ const PageScrollerContainer = styled.div`
     font-weight: bold;
     max-width: 1130px;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     > * {
       padding-right: 50px;
@@ -136,7 +136,7 @@ const LandingPage = () => {
   const { toastRef } = useSelector(state => state.toastReducer);
   const dispatch = useDispatch();
   const addMessage = useToast();
-  
+
   const arr = [0, 1, 2, 3];
   const page = e => {
     if (e >= 0 && e < 4) {

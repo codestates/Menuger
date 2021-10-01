@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
 import Signin from '../auth/Signin';
-import { ReactComponent as DefaultImage } from '../../svgs/defaultImage.svg';
 import svgToComponent from '../../utils/svg';
 
 const StyledLink = styled(NavLink)`
@@ -35,7 +34,7 @@ const WriteByMobile = styled.div`
 
 const WriteContainer = styled.div`
   position: relative;
-  button {
+  & > button {
     border: 0;
     outline: 0;
     background-color: #ffc436;
@@ -231,22 +230,11 @@ const RightContainer = ({
         )}
       </ModalContainer>
       <Container active={useHamburgerMenu} signedIn={!!userInfo.email}>
-        {userInfo.email && (
-          <div className="img-wrapper" onClick={() => alert('드랍다운 메뉴가 추가되어야 합니다!')}>
-            {userInfo.image_url !== 'null' && (
-              <img className="profile-img" src={userInfo.image_url} alt={userInfo.image_url} />
-            )}
-            {userInfo.image_url === 'null' && <DefaultImage width="120" height="120" />}
-          </div>
-        )}
+        {userInfo.email && <div>{userInfo.nickname}</div>}
         {!userInfo.email && (
           <>
-            <div className="guest-menu" onClick={() => handleMenuClick('signin')}>
-              로그인
-            </div>
-            <div className="guest-menu" onClick={() => handleMenuClick('signup')}>
-              회원가입
-            </div>
+            <div onClick={() => handleMenuClick('signin')}>로그인</div>
+            <div onClick={() => handleMenuClick('signup')}>회원가입</div>
           </>
         )}
         <WriteByMobile ref={popRef}>

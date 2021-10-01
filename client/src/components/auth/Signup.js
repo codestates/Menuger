@@ -44,6 +44,10 @@ const SubmitBtn = styled.button`
     cursor: pointer;
     opacity: 0.8;
   }
+  &:disabled {
+    background-color: #696969;
+    cursor: not-allowed;
+  }
 `;
 
 const Footer = styled.div`
@@ -61,6 +65,8 @@ const LoginLink = styled.span`
 
 const Signup = ({ handleMenuClick }) => {
   const [isValidPwd, setIsValidPwd] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
   const emailRef = useRef();
   const nicknameRef = useRef();
   const pwdRef = useRef();
@@ -88,6 +94,7 @@ const Signup = ({ handleMenuClick }) => {
     }
 
     try {
+      setDisabled(true);
       const {
         data: { message },
         status,
@@ -102,9 +109,11 @@ const Signup = ({ handleMenuClick }) => {
           handleMenuClick('signin');
         });
       } else {
+        setDisabled(false);
         addMessage({ mode: 'error', message: '이미 가입된 이메일 입니다.' });
       }
     } catch (err) {
+      setDisabled(false);
       addMessage({ mode: 'error', message: '서버오류로 인해 회원가입을 진행할 수 없습니다.' });
     }
   };
@@ -204,7 +213,9 @@ const Signup = ({ handleMenuClick }) => {
             disabled={!isValidPwd}
           />
         </UserInput>
-        <SubmitBtn onClick={handleSubmit}>회원가입</SubmitBtn>
+        <SubmitBtn onClick={handleSubmit} disabled={disabled}>
+          회원가입
+        </SubmitBtn>
       </Form>
       <Footer>
         이미 회원이신가요? <LoginLink onClick={() => handleMenuClick('signin')}>로그인</LoginLink>

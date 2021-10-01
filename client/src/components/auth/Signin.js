@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setUserInfo } from '../../modules/user';
@@ -61,6 +61,10 @@ const SubmitBtn = styled.button`
     cursor: pointer;
     opacity: 0.8;
   }
+  &:disabled {
+    background-color: #696969;
+    cursor: not-allowed;
+  }
 `;
 
 const Footer = styled.div`
@@ -102,6 +106,8 @@ const Signin = ({ handleMenuClick, hideModal }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [disabled, setDisabled] = useState(false);
+
   const handleSubmit = async e => {
     e.preventDefault();
     const email = emailRef.current.value;
@@ -117,6 +123,7 @@ const Signin = ({ handleMenuClick, hideModal }) => {
     }
 
     try {
+      setDisabled(true);
       const {
         data: {
           data: { user },
@@ -147,6 +154,7 @@ const Signin = ({ handleMenuClick, hideModal }) => {
         });
       }
     } catch (err) {
+      setDisabled(false);
       addMessage({ mode: 'error', message: err.response.data.message });
     }
   };
@@ -166,7 +174,9 @@ const Signin = ({ handleMenuClick, hideModal }) => {
           <Email ref={emailRef} placeholder="이메일" type="text" />
           <Password ref={pwdRef} placeholder="비밀번호" type="password" />
         </UserInput>
-        <SubmitBtn onClick={handleSubmit}>로그인</SubmitBtn>
+        <SubmitBtn onClick={handleSubmit} disabled={disabled}>
+          로그인
+        </SubmitBtn>
       </Form>
       <Footer>
         <Text>소셜 로그인</Text>

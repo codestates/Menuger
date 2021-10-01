@@ -8,26 +8,39 @@ module.exports = async (req, res) => {
   const { code } = req.query;
 
   try {
-    const { data } = await axios.post('https://kauth.kakao.com/oauth/token', null, {
-      params: {
-        grant_type: 'authorization_code',
-        client_id: process.env.CLIENT_ID,
-        redirect_uri: process.env.REDIRECT_URI,
-        code,
+    const { data } = await axios.post(
+      'https://kauth.kakao.com/oauth/token',
+      null,
+      {
+        params: {
+          grant_type: 'authorization_code',
+          client_id: process.env.CLIENT_ID,
+          redirect_uri: process.env.REDIRECT_URI,
+          code,
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
       },
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+      {
+        withCredentials: true,
       },
-    });
+    );
 
     const {
       data: { kakao_account },
-    } = await axios.get('https://kapi.kakao.com/v2/user/me', {
-      headers: {
-        Authorization: `Bearer ${data.access_token}`,
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+    } = await axios.get(
+      'https://kapi.kakao.com/v2/user/me',
+      {
+        headers: {
+          Authorization: `Bearer ${data.access_token}`,
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
       },
-    });
+      {
+        withCredentials: true,
+      },
+    );
 
     const {
       email,
@@ -56,13 +69,13 @@ module.exports = async (req, res) => {
     res.cookie('image_url', image_url, { maxAge });
     res.cookie('kakaoAccessToken', data.access_token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'None',
+      // secure: true,
+      // sameSite: 'None',
     });
     res.cookie('kakaoRefreshToken', data.refresh_token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'None',
+      // secure: true,
+      // sameSite: 'None',
     });
     res.redirect(process.env.SITE_DOMAIN);
   } catch (err) {

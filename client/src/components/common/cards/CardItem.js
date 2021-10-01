@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import useSubscribe from '../../../hooks/useSubscribe';
+import defaultImage from '../../../utils/logoImage/logoImageYellow.png';
 
 const CardContainer = styled.li`
   display: flex;
@@ -48,6 +49,7 @@ const Figure = styled.figure`
   &:hover {
     transform: scale(1.2);
     transition: all 0.3s;
+    cursor: pointer;
   }
 `;
 
@@ -81,7 +83,7 @@ const CardItem = ({
   postType,
   title,
   subscribed = false,
-  img = 'default image', //TODO: Default Image 추가하기
+  img,
   imgFileName,
   userInfo,
   postInfo,
@@ -96,7 +98,12 @@ const CardItem = ({
         <SubscribeBtn />
       </Header>
       <Wrapper>
-        <Figure style={{ backgroundImage: `url(${img})` }}>
+        <Figure
+          style={{
+            backgroundImage: `url(${img || defaultImage})`,
+            backgroundSize: `${!img && '50%'}`,
+          }}
+        >
           <Img src={img} alt={imgFileName} />
         </Figure>
       </Wrapper>

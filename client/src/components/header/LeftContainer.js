@@ -15,17 +15,6 @@ const StyledLink = styled(NavLink)`
   &.active {
     color: #ffc436;
   }
-  :hover {
-    animation: rotate 0.5s linear infinite alternate;
-    @keyframes rotate {
-      50% {
-        transform: translateY(4px) rotate(15deg);
-      }
-      100% {
-        transform: translateY(-4px) rotate(-10deg);
-      }
-    }
-  }
   > :nth-child(1) {
     height: 50px;
     padding: 0;

@@ -50,15 +50,10 @@ module.exports = async (req, res) => {
       }
     });
 
-    res.cookie('kakao_login', 'success', {
-      maxAge,
-      httpOnly: true,
-      secure: true,
-      sameSite: 'None',
-    });
-    res.cookie('email', email, { maxAge, httpOnly: true, secure: true, sameSite: 'None' });
-    res.cookie('nickname', nickname, { maxAge, httpOnly: true, secure: true, sameSite: 'None' });
-    res.cookie('image_url', image_url, { maxAge, httpOnly: true, secure: true, sameSite: 'None' });
+    res.cookie('kakao_login', 'success', { maxAge });
+    res.cookie('email', email, { maxAge });
+    res.cookie('nickname', nickname, { maxAge });
+    res.cookie('image_url', image_url, { maxAge });
     res.cookie('kakaoAccessToken', data.access_token, {
       httpOnly: true,
       secure: true,

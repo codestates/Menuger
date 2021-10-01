@@ -18,6 +18,18 @@ const Shadow = styled.div`
   border-radius: 5px;
   background-color: #dadde6;
   margin-bottom: 10px;
+  animation-duration: 0.3s;
+  animation-name: card-shadow;
+
+  @keyframes card-shadow {
+    from {
+      height: 10px;
+    }
+
+    to {
+      height: 40px;
+    }
+  }
 `;
 
 const DietCardList = ({

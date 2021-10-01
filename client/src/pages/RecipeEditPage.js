@@ -49,6 +49,7 @@ const RecipeEditPage = () => {
   const titleRef = useRef();
   const [images, setImages] = useState();
   const [tagList, setTagList] = useState([]);
+  const [disabled, setDisabled] = useState(false);
   const addMessage = useToast();
   const history = useHistory();
 
@@ -67,23 +68,43 @@ const RecipeEditPage = () => {
       addMessage({ mode: 'info', message: '본문을 입력해주세요', delay: 1000 });
       return;
     }
-
-    const {
-      data: { message },
-    } = await axios.post(
-      `${process.env.REACT_APP_ENDPOINT_URL}/recipes`,
-      {
-        images,
-        title,
-        content: recipeContent,
-        hashtags: tagList,
-      },
-      {
-        withCredentials: true,
-      },
-    );
-
-    addMessage({ message }, () => history.push('/RecipePage'));
+    setDisabled(true);
+    try {
+      const {
+        data: {
+          message,
+          data: { postId },
+        },
+        status,
+      } = await axios.post(
+        `${process.env.REACT_APP_ENDPOINT_URL}/recipes`,
+        {
+          images,
+          title,
+          content: recipeContent,
+          hashtags: tagList,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      if (status === 201) {
+        addMessage({ message, delay: 1000 }, () => {
+          history.push({
+            pathname: '/RecipePage',
+            state: { postId },
+          });
+        });
+      } else {
+        addMessage({ mode: 'error', message: '레시피 등록 중 오류가 발생하였습니다.' }, () => {
+          history.push('/RecipePage');
+        });
+      }
+    } catch (err) {
+      addMessage({ mode: 'error', message: err.response.data.message }, () =>
+        history.push('/RecipePage'),
+      );
+    }
   };
 
   return (
@@ -97,10 +118,16 @@ const RecipeEditPage = () => {
           padding="0.5rem 1rem"
           height="auto"
           onClick={() => alert('준비중인 서비스입니다')}
+          disabled={disabled}
         >
           임시저장
         </StandardButton>
-        <StandardButton padding="0.5rem 1rem" height="auto" onClick={onClickSave}>
+        <StandardButton
+          padding="0.5rem 1rem"
+          height="auto"
+          onClick={onClickSave}
+          disabled={disabled}
+        >
           작성
         </StandardButton>
       </Buttons>

@@ -49,17 +49,21 @@ module.exports = (req, res) => {
         user.refreshToken = refreshToken;
         await user.save();
 
-        return res.status(200).send({
-          data: {
-            user: {
-              type: user.type,
-              image_url: user.image_url,
-              nickname: user.nickname,
-              email: user.email,
+        return res
+          .clearCookie('kakaoAccessToken')
+          .clearCookie('kakaoRefreshToken')
+          .status(200)
+          .send({
+            data: {
+              user: {
+                type: user.type,
+                image_url: user.image_url,
+                nickname: user.nickname,
+                email: user.email,
+              },
             },
-          },
-          message: '로그인에 성공하였습니다.',
-        });
+            message: '로그인에 성공하였습니다.',
+          });
       });
     });
   } catch (err) {

@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     }
 
     const user = await User.findById(ObjectId(payload));
-    const { title, subtitle, content, hashtags = [] } = req.body;
+    const { title, subtitle, content, hashtags = [], dietColumnList = [] } = req.body;
 
     const post = new Diet({
       title,
@@ -27,9 +27,12 @@ module.exports = async (req, res) => {
       content,
       user,
       hashtags,
+      dietColumnList,
     });
     await post.save();
-    return res.status(201).send({ message: '식단 작성이 완료되었습니다.' });
+    return res
+      .status(201)
+      .send({ data: { postId: post._id }, message: '식단 작성이 완료되었습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

@@ -1,0 +1,21 @@
+.toastui-editor-defaultUI-toolbar {
+  background-color: #fff9ee;
+}
+.toastui-editor-defaultUI-toolbar .scroll-sync.active::before {
+  color: #fc9f77;
+}
+.toastui-editor-defaultUI-toolbar .scroll-sync {
+  color: #fc9f77;
+}
+.toastui-editor-defaultUI-toolbar .switch::before {
+  background-color: #fc9f77;
+}
+.toastui-editor-defaultUI-toolbar input:checked + .switch::before {
+  background-color: #fc9f77;
+}
+.toastui-editor-defaultUI-toolbar .switch {
+  background-color: #fdd8c8;
+}
+.toastui-editor-defaultUI-toolbar input:checked + .switch {
+  background-color: #fdd8c8;
+}

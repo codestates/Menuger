@@ -1,9 +1,7 @@
 class Card {
-  constructor(id, title, order, dietitem = []) {
-    this.id = id;
+  constructor(title, dietItemList = []) {
     this.title = title;
-    this.order = order;
-    this.dietitem = dietitem;
+    this.dietItemList = dietItemList;
   }
 }
 

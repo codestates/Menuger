@@ -1,29 +1,79 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useDragCardData } from '../../../utils/drag';
 
 //import components
 import DietCardHeader from './DietCardHeader';
 import ItemAddor from './ItemAddor';
 import DietItemList from './DietItemList';
-import { useEffect } from 'react';
 
 const DietCardStyle = styled.div`
   min-height: 30px;
-  border: solid 1px #000;
   border-radius: 5px;
   position: relative;
   cursor: ${props => (props.draggable ? 'grab' : 'default')};
+  background-color: ${props => (props.isSelected ? '#f5f5f5' : '#fff')};
+  box-shadow: 0 1px rgba(0, 0, 0, 0.3);
 `;
 
-const DietCard = ({ card, removeCard, updateCard, editable = false, readonly = false }) => {
-  const { title, dietitem } = card;
+const DietCard = ({
+  card,
+  index,
+  removeCard,
+  updateCard,
+  editable = false,
+  readonly = false,
+  setFromColumn,
+  setShadowIndex,
+}) => {
+  const { title, dietItemList } = card;
   const [isEditMode, setIsEditMode] = useState(editable);
+  const [isSelected, setIsSelected] = useState(false);
+  const dragCardData = useDragCardData();
+  const cardView = useRef();
+  const enterAndLeaveCount = useRef(0);
 
   useEffect(() => {
     if (readonly === true) {
       setIsEditMode(false);
     }
   }, [readonly]);
+
+  const changeTitle = newTitle => {
+    updateCard(
+      {
+        ...card,
+        title: newTitle,
+      },
+      index,
+    );
+  };
+
+  const addItem = name => {
+    const newItem = {
+      name,
+    };
+
+    updateCard(
+      {
+        ...card,
+        dietItemList: [...card.dietItemList, newItem],
+      },
+      index,
+    );
+  };
+
+  const removeItem = name => {
+    updateCard(
+      {
+        ...card,
+        dietItemList: card.dietItemList.filter(itemInList => {
+          return itemInList.name !== name;
+        }),
+      },
+      index,
+    );
+  };
 
   const onEditMode = () => {
     setIsEditMode(true);
@@ -33,54 +83,61 @@ const DietCard = ({ card, removeCard, updateCard, editable = false, readonly = f
     setIsEditMode(false);
   };
 
-  const addItem = content => {
-    const newItem = {
-      id: -1,
-      content: content,
-    };
-    updateCard({
-      ...card,
-      dietitem: [...card.dietitem, newItem],
-    });
-  };
-
-  const removeItem = content => {
-    updateCard({
-      ...card,
-      dietitem: card.dietitem.filter(itemInList => {
-        return itemInList.content !== content;
-      }),
-    });
-  };
-
-  const changeTitle = newTitle => {
-    updateCard({
-      ...card,
-      title: newTitle,
-    });
-  };
-
-  const onRemoveCard = () => {
-    removeCard(card);
-  };
-
   const onDragStart = e => {
-    e.dataTransfer.setData('card', JSON.stringify(card));
+    e.stopPropagation();
+    dragCardData.setCard(card, index);
+    setFromColumn(dragCardData);
+    setIsSelected(true);
+  };
+
+  const onDragEnd = e => {
+    dragCardData.dragEnd();
+    setIsSelected(false);
+  };
+
+  const onDragEnter = () => {
+    enterAndLeaveCount.current++;
+  };
+
+  const onDragLeave = () => {
+    enterAndLeaveCount.current--;
+  };
+
+  const onDragOver = e => {
+    const halfOfHeight = cardView.current.clientHeight / 2;
+    const { layerY } = e.nativeEvent;
+    if (halfOfHeight > layerY) {
+      dragCardData.setToIndex(index);
+      setShadowIndex(index);
+    } else {
+      dragCardData.setToIndex(index + 1);
+      setShadowIndex(index + 1);
+    }
   };
 
   return (
-    <DietCardStyle draggable={!readonly && !isEditMode} onDragStart={onDragStart}>
+    <DietCardStyle
+      isSelected={isSelected}
+      draggable={!readonly && !isEditMode}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
+      ref={cardView}
+    >
       <DietCardHeader
         title={title}
+        index={index}
         changeTitle={changeTitle}
-        onRemoveCard={onRemoveCard}
+        removeCard={removeCard}
         offEditMode={offEditMode}
         onEditMode={onEditMode}
         editable={isEditMode}
         readonly={readonly}
       />
       <DietItemList
-        dietitem={dietitem}
+        dietItemList={dietItemList}
         removeItem={removeItem}
         editable={isEditMode}
         readonly={readonly}

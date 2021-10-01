@@ -1,14 +1,28 @@
+const axios = require('axios');
 const { User } = require('../../models/user');
 const { verifyAccessToken } = require('../utils/jwt');
 const {
   Types: { ObjectId },
 } = require('mongoose');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   try {
-    const { payload } = verifyAccessToken(req.cookies.accessToken);
-    if (!payload) {
-      return res.status(400).send({ message: '유효하지 않은 접근입니다.' });
+    let payload;
+    if (req.cookies.kakaoAccessToken) {
+      const kakaoUser = await User.findOne({ refreshToken: req.cookies.kakaoRefreshToken });
+      payload = kakaoUser._id;
+
+      await axios.post('https://kapi.kakao.com/vi/user/logout', {
+        headers: {
+          Authorization: `Bearer ${req.cookies.kakaoAccessToken}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+    } else {
+      payload = verifyAccessToken(req.cookies.accessToken).payload;
+      if (!payload) {
+        return res.status(400).send({ message: '유효하지 않은 접근입니다.' });
+      }
     }
 
     User.findOneAndUpdate({ _id: ObjectId(payload) }, { refreshToken: '' }, (err, user) => {
@@ -22,6 +36,8 @@ module.exports = (req, res) => {
       return res
         .clearCookie('accessToken')
         .clearCookie('refreshToken')
+        .clearCookie('kakaoAccessToken')
+        .clearCookie('kakaoRefreshToken')
         .status(200)
         .send({ message: '로그아웃 하였습니다.' });
     });

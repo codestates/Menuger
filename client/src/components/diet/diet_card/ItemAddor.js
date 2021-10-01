@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const ItemAddorStyle = styled.form`
-  background-color: #d0d0d0;
+  background-color: #dadde6;
   border-radius: 0 0 5px 5px;
   padding: 10px;
 
@@ -11,19 +11,31 @@ const ItemAddorStyle = styled.form`
     display: flex;
 
     input {
+      border: none;
+      outline: none;
+      text-indent: 2px;
+      border-radius: 5px;
       width: 70%;
+      box-shadow: 0 1px rgba(0, 0, 0, 0.3);
     }
 
     button[type='submit'] {
+      cursor: pointer;
       width: 30%;
-      margin-left: 3px;
-    }
-  }
+      margin-left: 5px;
+      border: none;
+      border-radius: 5px;
+      background-color: #9be998;
+      box-shadow: 0 1px rgba(0, 0, 0, 0.3);
 
-  button[type='button'] {
-    width: 100%;
-    height: 25px;
-    margin-top: 5px;
+      &:hover {
+        background-color: #a0f19d;
+      }
+
+      &:active {
+        background-color: #8fd78c;
+      }
+    }
   }
 `;
 
@@ -31,6 +43,9 @@ const ItemAddor = ({ addItem }) => {
   const [inputItem, setInputItem] = useState('');
   const onSubmit = e => {
     e.preventDefault();
+    if (inputItem.length <= 0) {
+      return;
+    }
     addItem(inputItem);
     setInputItem('');
   };

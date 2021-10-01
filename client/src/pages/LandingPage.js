@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ReactPageScroller from 'react-page-scroller';
 
 import SlotMachine from '../components/SlotMachine';
 import Footer from '../components/Footer';
-
+import getCookie from '../utils/cookieParser';
+import { setUserInfo } from '../modules/user';
+import useToast from '../hooks/toast/useToast';
 import { HiOutlineArrowCircleUp } from 'react-icons/hi';
 import MobileFoodImg from '../utils/landingPageImage/undraw_healthy_options_sdo3.svg';
 import EatingTogether from '../utils/landingPageImage/undraw_Eating_together_re_ux62.svg';
@@ -130,10 +133,11 @@ const PageScrollerContainer = styled.div`
 
 const LandingPage = () => {
   const [useScroll, setUseScroll] = useState(0);
+  const { toastRef } = useSelector(state => state.toastReducer);
+  const dispatch = useDispatch();
+  const addMessage = useToast();
+  
   const arr = [0, 1, 2, 3];
-
-  console.log(useScroll);
-
   const page = e => {
     if (e >= 0 && e < 4) {
       setUseScroll(e);
@@ -142,10 +146,31 @@ const LandingPage = () => {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+
     return () => {
-      document.body.style.overflow = 'scroll';
+      document.body.style.overflow = 'visible';
     };
   });
+
+  useEffect(() => {
+    if (!toastRef) {
+      return;
+    }
+    if (getCookie('kakao_login') === 'success') {
+      addMessage({ message: '카카오 로그인에 성공하였습니다.', delay: 500 });
+      dispatch(
+        setUserInfo({
+          email: getCookie('email'),
+          image_url: getCookie('image_url'),
+          nickname: getCookie('nickname'),
+          type: 'kakao',
+        }),
+      );
+    }
+    if (getCookie('error') === 'fail') {
+      addMessage({ message: '카카오 로그인에 실패하였습니다.' });
+    }
+  }, [toastRef]);
 
   return (
     <>

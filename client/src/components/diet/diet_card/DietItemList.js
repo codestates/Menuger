@@ -13,21 +13,21 @@ const DietItemListStyle = styled.ul`
   }
 `;
 
-const DietItemList = ({ dietitem, removeItem, editable = false, readonly = false }) => {
+const DietItemList = ({ dietItemList, removeItem, editable = false, readonly = false }) => {
   return (
     <DietItemListStyle>
       {!readonly && editable
-        ? dietitem.map(item => {
+        ? dietItemList.map((item, i) => {
             return (
-              <li key={item.content}>
-                <DietItem content={item.content} removeItem={removeItem} editable />
+              <li key={i}>
+                <DietItem item={item} removeItem={removeItem} editable />
               </li>
             );
           })
-        : dietitem.map(item => {
+        : dietItemList.map(item => {
             return (
-              <li key={item.content}>
-                <DietItem content={item.content} />
+              <li key={item.name}>
+                <DietItem item={item} />
               </li>
             );
           })}

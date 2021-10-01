@@ -70,4 +70,20 @@ const svgs = {
       </g>
     </svg>
   ),
+  sortIcon: props => (
+    <svg
+      viewBox="0 0 24 24"
+      preserveAspectRatio="xMidYMid meet"
+      focusable="false"
+      class="style-scope yt-icon"
+      {...props}
+    >
+      <g class="style-scope yt-icon">
+        <path
+          d="M21,6H3V5h18V6z M15,11H3v1h12V11z M9,17H3v1h6V17z"
+          class="style-scope yt-icon"
+        ></path>
+      </g>
+    </svg>
+  ),
 };

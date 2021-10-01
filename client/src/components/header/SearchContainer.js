@@ -3,12 +3,14 @@ import styled, { css } from 'styled-components';
 import axios from 'axios';
 
 const Container = styled.div`
-  flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   border: solid 2px;
   height: 40px;
+  &:focus-within {
+    border: 2px solid #ffc436;
+  }
   * {
     border: 0px;
     height: 100%;

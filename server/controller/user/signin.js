@@ -35,13 +35,13 @@ module.exports = (req, res) => {
 
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
-          // secure: false,
-          // sameSite: 'None',
+          secure: true,
+          sameSite: 'None',
         });
         res.cookie('refreshToken', refreshToken, {
           httpOnly: true,
-          // secure: false,
-          // sameSite: 'None',
+          secure: true,
+          sameSite: 'None',
         });
 
         user.refreshToken = refreshToken;

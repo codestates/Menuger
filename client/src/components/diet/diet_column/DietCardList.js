@@ -5,7 +5,6 @@ import DietCard from '../diet_card/DietCard';
 
 const DietCardListStyle = styled.ul`
   height: fit-content;
-  max-height: 365px;
   padding: 10px;
   overflow-y: auto;
 
@@ -14,24 +13,48 @@ const DietCardListStyle = styled.ul`
   }
 `;
 
-const DietCardList = ({ column, updateColumn, removeCard, updateCard, readonly = false }) => {
-  const { dietcard } = column;
+const Shadow = styled.div`
+  height: 40px;
+  border-radius: 5px;
+  background-color: #dadde6;
+  margin-bottom: 10px;
+`;
+
+const DietCardList = ({
+  column,
+  removeCard,
+  updateCard,
+  readonly = false,
+  setFromColumn,
+  shadowIndex,
+  setShadowIndex,
+}) => {
+  const { dietCardList } = column;
   return (
     <DietCardListStyle>
-      {dietcard.map(card => {
+      {dietCardList.map((card, i) => {
         return (
-          <li key={card.id}>
-            <DietCard
-              card={card}
-              removeCard={card => {
-                updateColumn(removeCard(column, card));
-              }}
-              updateCard={updateCard}
-              readonly={readonly}
-            />
+          <li key={i}>
+            <>
+              {shadowIndex === i && <Shadow />}
+              <DietCard
+                index={i}
+                card={card}
+                removeCard={removeCard}
+                updateCard={updateCard}
+                setFromColumn={setFromColumn}
+                readonly={readonly}
+                setShadowIndex={setShadowIndex}
+              />
+            </>
           </li>
         );
       })}
+      {shadowIndex >= dietCardList.length && (
+        <li key={dietCardList.length}>
+          <Shadow />
+        </li>
+      )}
     </DietCardListStyle>
   );
 };

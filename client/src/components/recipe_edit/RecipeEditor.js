@@ -7,7 +7,7 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 
 import UploadForm from './UploadForm';
 
-const RecipeEditor = ({ editorRef }) => {
+const RecipeEditor = ({ editorRef, setImages }) => {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   useEffect(() => {
@@ -44,7 +44,11 @@ const RecipeEditor = ({ editorRef }) => {
         placeholder="나만의 레시피를 작성해보세요😋"
       />
       {isUploadingImage && (
-        <UploadForm editorRef={editorRef} setUploadModal={setIsUploadingImage} />
+        <UploadForm
+          editorRef={editorRef}
+          setUploadModal={setIsUploadingImage}
+          setImages={setImages}
+        />
       )}
     </>
   );

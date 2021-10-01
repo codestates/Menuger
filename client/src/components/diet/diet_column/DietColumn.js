@@ -19,7 +19,15 @@ const DietColumnStyle = styled.div`
   }
 `;
 
-const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, readonly = false }) => {
+const DietColumn = ({
+  column,
+  index,
+  updateColumn,
+  removeColumn,
+  setColumnShadowIndex,
+  moveCard,
+  readonly = false,
+}) => {
   const [shadowIndex, setShadowIndex] = useState(-1);
   const { title } = column;
   const columnView = useRef();
@@ -81,12 +89,12 @@ const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, reado
     dragColumnData.setColumn(column, index);
   };
 
-  const onDragEnd = () => {
-    dragColumnData.dragEnd();
-  };
-
   const onDragEnter = () => {
-    if (dragEnterAndLeaveCount.current === 0 && column.dietCardList.length === 0) {
+    if (
+      dragEnterAndLeaveCount.current === 0 &&
+      column.dietCardList.length === 0 &&
+      dragCardData.card !== null
+    ) {
       setShadowIndex(0);
     }
     dragEnterAndLeaveCount.current++;
@@ -109,8 +117,10 @@ const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, reado
     const { layerX } = e.nativeEvent;
     if (halfOfWidth > layerX) {
       dragColumnData.setToIndex(index);
+      setColumnShadowIndex(index);
     } else {
       dragColumnData.setToIndex(index + 1);
+      setColumnShadowIndex(index + 1);
     }
   };
 
@@ -151,6 +161,10 @@ const DietColumn = ({ column, index, updateColumn, removeColumn, moveCard, reado
 
     setShadowIndex(-1);
     dragEnterAndLeaveCount.current = 0;
+  };
+
+  const onDragEnd = () => {
+    dragColumnData.dragEnd();
   };
 
   return (

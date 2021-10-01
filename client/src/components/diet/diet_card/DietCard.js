@@ -90,11 +90,6 @@ const DietCard = ({
     setIsSelected(true);
   };
 
-  const onDragEnd = e => {
-    dragCardData.dragEnd();
-    setIsSelected(false);
-  };
-
   const onDragEnter = () => {
     enterAndLeaveCount.current++;
   };
@@ -104,6 +99,9 @@ const DietCard = ({
   };
 
   const onDragOver = e => {
+    if (dragCardData.card === null) {
+      return;
+    }
     const halfOfHeight = cardView.current.clientHeight / 2;
     const { layerY } = e.nativeEvent;
     if (halfOfHeight > layerY) {
@@ -113,6 +111,11 @@ const DietCard = ({
       dragCardData.setToIndex(index + 1);
       setShadowIndex(index + 1);
     }
+  };
+
+  const onDragEnd = () => {
+    dragCardData.dragEnd();
+    setIsSelected(false);
   };
 
   return (

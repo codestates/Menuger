@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
@@ -17,10 +18,11 @@ const SortMenu = styled.div`
   align-items: center;
   gap: 0.5em;
   color: #030303;
+  margin: 2rem 0 1rem;
+  padding: 0 1rem;
   &:hover {
     cursor: pointer;
   }
-  margin: 2rem 0 1rem;
 `;
 
 const SortOption = styled.div`
@@ -30,16 +32,21 @@ const SortOption = styled.div`
 const RecipePage = () => {
   const [cards, setCards] = useState([]);
   const [hasNext, setHasNext] = useState(true);
+  const location = useLocation();
   const fetchMoreRef = useRef(); // CardList 하단에 삽입된 태그에 대한 ref를 설정하기 위함
   const intersecting = useInfiniteScroll(fetchMoreRef);
 
   useEffect(() => {
+    const postId = location?.state?.postId;
+    if (postId) {
+      console.log(`${postId} 조회하기`);
+    }
+  }, []);
+
+  useEffect(() => {
     if (intersecting && hasNext) {
-      // 게시물 리스트의 최하단 까지 스크롤한 경우 && load할 수 있는 데이터가 있는 경우
       fetchCards(cards.length, 12).then(newCards => {
-        // 12개의 cards 를 추가적으로 fetch
         if (newCards.length === 0) {
-          // server로 부터 응답 결과 더 이상 load 할 데이터가 없다면
           setHasNext(false);
           return;
         }
@@ -47,7 +54,7 @@ const RecipePage = () => {
       });
     }
   }, [intersecting, hasNext]);
-  //style="pointer-events: none; display: block; width: 100%; height: 100%;"
+
   return (
     <Wrapper>
       <SortMenu>

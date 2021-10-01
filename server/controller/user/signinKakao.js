@@ -69,13 +69,15 @@ module.exports = async (req, res) => {
     res.cookie('image_url', image_url, { maxAge });
     res.cookie('kakaoAccessToken', data.access_token, {
       httpOnly: true,
-      // secure: true,
-      // sameSite: 'None',
+      secure: true,
+      sameSite: 'None',
+      domain: '.menuger.shop',
     });
     res.cookie('kakaoRefreshToken', data.refresh_token, {
       httpOnly: true,
-      // secure: true,
-      // sameSite: 'None',
+      secure: true,
+      sameSite: 'None',
+      domain: '.menuger.shop',
     });
     res.redirect(process.env.SITE_DOMAIN);
   } catch (err) {

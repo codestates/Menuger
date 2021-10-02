@@ -31,7 +31,6 @@ module.exports = async (req, res) => {
     });
 
     await post.save();
-
     return res
       .status(201)
       .send({ data: { postId: post._id }, message: '레시피 작성이 완료되었습니다.' });

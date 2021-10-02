@@ -10,7 +10,7 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String },
     nickname: { type: String, required: true, unique: true },
-    image_url: { type: String, default: 'null' },
+    image_url: { type: String },
     refreshToken: String,
     subscribes: Array,
   },

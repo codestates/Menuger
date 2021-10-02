@@ -7,8 +7,8 @@ module.exports = async (req, res) => {
     if (!hashtag && !user && !title) {
       const diets = await Diet.find({})
         .sort({ createdAt: sort })
-        .skip((page - 1) * 8)
-        .limit(8);
+        .skip((page - 1) * 12)
+        .limit(12);
       return res.status(200).send({ diets });
     }
     page = parseInt(page);
@@ -18,18 +18,18 @@ module.exports = async (req, res) => {
     if (title) {
       diets = await Diet.find({ title: new RegExp(title) })
         .sort({ createdAt: sort })
-        .skip((page - 1) * 8)
-        .limit(8);
+        .skip((page - 1) * 12)
+        .limit(12);
     } else if (hashtag) {
       diets = await Diet.find({ hashtags: hashtag })
         .sort({ createdAt: sort })
-        .skip((page - 1) * 8)
-        .limit(8);
+        .skip((page - 1) * 12)
+        .limit(12);
     } else {
       diets = await Diet.find({ 'user.nickname': user })
         .sort({ createdAt: sort })
-        .skip((page - 1) * 8)
-        .limit(8);
+        .skip((page - 1) * 12)
+        .limit(12);
     }
 
     return res.status(200).send({ diets });

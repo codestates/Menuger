@@ -60,6 +60,9 @@ module.exports = async (req, res) => {
           type: 'kakao',
           refreshToken: data.refresh_token,
         }).save();
+      } else {
+        user.refreshToken = data.refresh_token;
+        await user.save();
       }
     });
 

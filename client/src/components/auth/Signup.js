@@ -63,7 +63,7 @@ const LoginLink = styled.span`
   }
 `;
 
-const Signup = ({ handleMenuClick }) => {
+const Signup = ({ handleMenuClick, hideModal }) => {
   const [isValidPwd, setIsValidPwd] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -105,7 +105,8 @@ const Signup = ({ handleMenuClick }) => {
       });
 
       if (status === 201) {
-        addMessage({ message }, () => {
+        hideModal();
+        addMessage({ message, delay: 1000 }, () => {
           handleMenuClick('signin');
         });
       } else {

@@ -52,7 +52,10 @@ const RecipePage = () => {
         sort: sortOptionMapper[idx],
       },
     });
-    console.log(recipes);
+    if (page === 1 && recipes.length < 12) {
+      //return setHasNext(false);
+    }
+
     if (!recipes.length) {
       return setHasNext(false);
     }

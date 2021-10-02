@@ -106,8 +106,6 @@ const CardItem = ({
   bookmarksCount,
   hashtags,
 }) => {
-  console.log(user);
-
   return (
     <CardContainer>
       <Header>

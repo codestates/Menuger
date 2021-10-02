@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 
@@ -6,7 +6,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  border: solid 2px;
+  border: solid 2px #3c4043;
   height: 40px;
   &:focus-within {
     border: 2px solid #ffc436;
@@ -27,6 +27,7 @@ const Container = styled.div`
   select {
     background-color: white;
     padding-left: 1em;
+    color: #3c4043;
   }
   @media screen and (max-width: 768px) {
     display: none;

@@ -32,16 +32,17 @@ const CardList = forwardRef(({ cards, hasNext }, fetchMoreRef) => {
         <CardListContainer>
           {cards.map(card => (
             <CardItem
-              key={card.postId}
-              postId={card.postId}
-              postType={card.postType}
+              key={card._id}
+              postId={card._id}
+              postType="recipe"
               title={card.title}
-              subscribed={card.subscribed}
-              img={card.img}
-              imgFileName={card.imgFileName}
-              userInfo={card.userInfo}
-              postInfo={card.postInfo}
-              tagInfo={card.tagInfo}
+              thumbnail_url={card.thumbnail_url}
+              originalFileName={card.originalFileName}
+              user={card.user}
+              commentsCount={card.commentsCount}
+              likesCount={card.likesCount}
+              bookmarksCount={card.bookmarksCount}
+              hashtags={card.hashtags}
             />
           ))}
         </CardListContainer>

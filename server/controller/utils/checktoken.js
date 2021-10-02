@@ -55,16 +55,16 @@ module.exports = {
 
             res.cookie('kakaoAccessToken', access_token, {
               httpOnly: true,
-              secure: true,
-              sameSite: 'None',
+              // secure: true,
+              // sameSite: 'None',
             });
             req.cookies.kakaoAccessToken = access_token;
 
             if (refresh_token !== null) {
               res.cookie('kakaoRefreshToken', refresh_token, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'None',
+                // secure: true,
+                // sameSite: 'None',
               });
               req.cookies.kakaoRefreshToken = refresh_token;
               user.refreshToken = refresh_token;

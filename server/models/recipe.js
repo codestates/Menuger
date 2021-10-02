@@ -18,8 +18,8 @@ const recipeSchema = new Schema(
     likesCount: { type: Number, default: 0 },
     bookmarksCount: { type: Number, default: 0 },
     hashtags: { type: Array, ref: 'hashtag' },
-    thumbnail_url: { type: String, default: 'thumbnail' },
-    originalFileName: { type: String, default: 'fileName' },
+    thumbnail_url: { type: String },
+    originalFileName: { type: String },
   },
   { timestamps: true },
 );

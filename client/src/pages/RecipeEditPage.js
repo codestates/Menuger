@@ -26,9 +26,8 @@ const RecipeTitleInput = styled.input`
   font-size: 1.5rem;
   margin: 1rem 0 0;
   &:focus {
-    padding-top: 2px;
     outline: none;
-    border-bottom: 1px solid #cdc5bf;
+    border-bottom: 1px solid #dadde6;
   }
   @media screen and (max-width: ${REACT_APP_MOBILE_WIDTH}) {
     width: 100%;

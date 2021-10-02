@@ -46,6 +46,7 @@ const StandardButton = ({
   borderRadius,
   onClick,
   padding,
+  disabled = false,
 }) => {
   if (typeof onClick !== 'function') {
     onClick = () => {};
@@ -61,6 +62,7 @@ const StandardButton = ({
       borderRadius={borderRadius}
       onClick={onClick}
       padding={padding}
+      disabled={disabled}
     >
       {children}
     </StandardButtonStyle>

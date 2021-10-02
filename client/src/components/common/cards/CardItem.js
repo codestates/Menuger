@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import useSubscribe from '../../../hooks/useSubscribe';
+import defaultImage from '../../../utils/logoImage/logoImageYellow.png';
 
 const CardContainer = styled.li`
   display: flex;
@@ -21,8 +21,14 @@ const CardContainer = styled.li`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
   background-color: white;
+  margin-bottom: 0.5rem;
+  &:hover {
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
 `;
 
 const Title = styled.div`
@@ -30,7 +36,6 @@ const Title = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   align-self: center;
-  font-weight: bold;
 `;
 
 const Wrapper = styled.div`
@@ -48,6 +53,7 @@ const Figure = styled.figure`
   &:hover {
     transform: scale(1.2);
     transition: all 0.3s;
+    cursor: pointer;
   }
 `;
 
@@ -59,6 +65,9 @@ const Info = styled.div`
   flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
 `;
 
 const UserInfo = styled.div`
@@ -81,22 +90,24 @@ const CardItem = ({
   postType,
   title,
   subscribed = false,
-  img = 'default image', //TODO: Default Image 추가하기
+  img,
   imgFileName,
   userInfo,
   postInfo,
   tagInfo,
 }) => {
-  const SubscribeBtn = useSubscribe({ postId, postType, subscribed }, 12); // ({ postId, postType, subscribed }, fontSize)
-
   return (
     <CardContainer>
       <Header>
         <Title>{title}</Title>
-        <SubscribeBtn />
       </Header>
       <Wrapper>
-        <Figure style={{ backgroundImage: `url(${img})` }}>
+        <Figure
+          style={{
+            backgroundImage: `url(${img || defaultImage})`,
+            backgroundSize: `${!img && '50%'}`,
+          }}
+        >
           <Img src={img} alt={imgFileName} />
         </Figure>
       </Wrapper>

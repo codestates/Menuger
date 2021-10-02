@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import logoImageYello from '../../utils/logoImage/logoImageYello.png';
+import logoImageYellow from '../../utils/logoImage/logoImageYellow.png';
 import logoTextTwoLine from '../../utils/logoImage/logoTextTwoLine.png';
 
 const StyledLink = styled(NavLink)`
@@ -40,7 +40,7 @@ const LeftContainer = () => {
   return (
     <Container>
       <StyledLink exact to="/">
-        <img src={logoImageYello}></img>
+        <img src={logoImageYellow}></img>
         <img src={logoTextTwoLine}></img>
       </StyledLink>
       <StyledLink to="/RecipePage">레시피</StyledLink>

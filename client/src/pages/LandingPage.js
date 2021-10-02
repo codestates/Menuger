@@ -16,20 +16,23 @@ import Cooking from '../utils/landingPageImage/undraw_cooking_lyxy.svg';
 const CircleContainer = styled.div`
   z-index: 8;
   position: fixed;
-  right: 23px;
-  bottom: 300px;
-  * {
-    border: #fc9f77 solid 1px;
-    height: 20px;
-    width: 20px;
-    border-radius: 75px;
-    margin-bottom: 10px;
-    :hover {
-      cursor: pointer;
-    }
-  }
-  .active {
-    background-color: #fc9f77;
+  top: 50%;
+  right: 2rem;
+  margin-top: -56px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const Circle = styled.div`
+  border: #fc9f77 solid 1px;
+  height: 20px;
+  width: 20px;
+  border-radius: 75px;
+  background-color: ${({ active }) => active && '#fc9f77'};
+  transition: all 0.2s;
+  :hover {
+    cursor: pointer;
   }
 `;
 
@@ -150,7 +153,7 @@ const LandingPage = () => {
     return () => {
       document.body.style.overflow = 'visible';
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (!toastRef) {
@@ -175,17 +178,9 @@ const LandingPage = () => {
   return (
     <>
       <CircleContainer>
-        {arr.map(idx => {
-          return (
-            <div
-              key={idx}
-              className={`${idx === useScroll ? 'active' : ''}`}
-              onClick={() => {
-                page(idx);
-              }}
-            ></div>
-          );
-        })}
+        {arr.map(idx => (
+          <Circle key={idx} active={idx === useScroll} onClick={() => setUseScroll(idx)} />
+        ))}
       </CircleContainer>
       <ScrollToTop>
         <HiOutlineArrowCircleUp
@@ -198,7 +193,7 @@ const LandingPage = () => {
         <ReactPageScroller
           className="scroller"
           animationTimer={250}
-          pageOnChange={page}
+          pageOnChange={setUseScroll}
           customPageNumber={useScroll}
         >
           <Section1 className="full-page">

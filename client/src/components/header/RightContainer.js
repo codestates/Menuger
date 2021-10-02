@@ -88,6 +88,7 @@ const Container = styled.div`
   justify-content: center;
   & > div {
     cursor: pointer;
+    color: #3c4043;
     &:hover {
       color: #ffc436;
     }
@@ -224,7 +225,9 @@ const RightContainer = ({
   return (
     <>
       <ModalContainer>
-        {modalContent === 'signup' && <Signup handleMenuClick={handleMenuClick} />}
+        {modalContent === 'signup' && (
+          <Signup handleMenuClick={handleMenuClick} hideModal={hideModal} />
+        )}
         {modalContent === 'signin' && (
           <Signin handleMenuClick={handleMenuClick} hideModal={hideModal} />
         )}

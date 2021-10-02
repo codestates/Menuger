@@ -118,7 +118,7 @@ const Header = () => {
 
   const handleDropdown = () => {
     if (!userInfo.email) {
-      addMessage({ mode: 'info', message: '로그인을 먼저 진행해주세요' });
+      addMessage({ mode: 'info', message: '로그인을 먼저 진행해주세요', delay: 1000 });
       return;
     }
     setUseDropdown(!useDropdown);

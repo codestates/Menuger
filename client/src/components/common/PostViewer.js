@@ -70,7 +70,9 @@ const TempComponent = styled.div`
   }
 `;
 
-const PostViewer = ({ children, title = '제목 기본값' }) => {
+const PostViewer = ({ children, title = '제목 기본값', comments }) => {
+  //comments = 댓글 컴포넌트 props로 전달
+
   return (
     <PostViewerStyle>
       <ViewerHeader>

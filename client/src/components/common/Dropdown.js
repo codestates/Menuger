@@ -31,6 +31,7 @@ const DropdownMenu = styled.div`
   cursor: pointer;
   padding: 1rem 1.5rem;
   color: #3c4043;
+  text-align: center;
   &:hover {
     background-color: ${({ active }) => !active && '#f7f8f8'};
   }

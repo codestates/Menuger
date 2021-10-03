@@ -7,7 +7,7 @@ import logoTextTwoLine from '../../utils/logoImage/logoTextTwoLine.png';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
-  color: black;
+  color: #3c4043;
   &:hover {
     color: #ffc436;
     cursor: pointer;

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 import defaultImage from '../../../utils/logoImage/logoImageYellow.png';
+import UserInfo from './UserInfo';
+import HashtagInfo from './HashtagInfo';
 
 const CardContainer = styled.li`
   display: flex;
@@ -36,6 +38,16 @@ const Title = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   align-self: center;
+  font-size: 1rem;
+  @media (max-width: 1200px) {
+    font-size: 1rem;
+  }
+  @media (max-width: 900px) {
+    font-size: 1.2rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 4vw;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -50,6 +62,7 @@ const Figure = styled.figure`
   background-position: center;
   background-size: cover; // 가로, 세로 길이에 상관없이 컨테이너에 맞게
   transition: all 0.3s;
+  border-radius: 4px;
   &:hover {
     transform: scale(1.2);
     transition: all 0.3s;
@@ -70,31 +83,28 @@ const Info = styled.div`
   }
 `;
 
-const UserInfo = styled.div`
-  border: 1px solid #646060;
-  width: 40%;
-`;
-
-const PostInfo = styled.div`
-  border: 1px solid #646060;
+const UserTagInfoWrapper = styled.div`
   width: 60%;
 `;
 
-const TagInfo = styled.div`
-  border: 1px solid #646060;
-  flex-grow: 1;
+const PostInfo = styled.div`
+  width: 40%;
+  height: fit-content;
+  border: 1px solid green;
 `;
 
 const CardItem = ({
-  postId,
-  postType,
+  _id,
+  postType = 'recipe',
   title,
-  subscribed = false,
-  img,
-  imgFileName,
-  userInfo,
-  postInfo,
-  tagInfo,
+  subscribed,
+  thumbnail_url,
+  originalFileName,
+  user,
+  commentsCount,
+  likesCount,
+  bookmarksCount,
+  hashtags,
 }) => {
   return (
     <CardContainer>
@@ -104,17 +114,21 @@ const CardItem = ({
       <Wrapper>
         <Figure
           style={{
-            backgroundImage: `url(${img || defaultImage})`,
-            backgroundSize: `${!img && '50%'}`,
+            backgroundImage: `url(${thumbnail_url || defaultImage})`,
+            backgroundSize: `${!thumbnail_url && '50%'}`,
           }}
         >
-          <Img src={img} alt={imgFileName} />
+          <Img src={thumbnail_url} alt={originalFileName} />
         </Figure>
       </Wrapper>
       <Info>
-        <UserInfo userInfo={userInfo}>UserInfo Component</UserInfo>
-        <PostInfo postInfo={postInfo}>PostInfo Component</PostInfo>
-        <TagInfo tagInfo={tagInfo}>TagInfo Component</TagInfo>
+        <UserTagInfoWrapper>
+          <UserInfo image_url={user.image_url} nickname={user.nickname} />
+          <HashtagInfo hashtags={hashtags} />
+        </UserTagInfoWrapper>
+        <PostInfo comments={commentsCount} likes={likesCount} bookmarks={bookmarksCount}>
+          postinfo
+        </PostInfo>
       </Info>
     </CardContainer>
   );

@@ -12,7 +12,7 @@ const recipeSchema = new Schema(
       _id: { type: ObjectId, ref: 'user', required: true },
       email: { type: String, required: true },
       nickname: { type: String, required: true },
-      image_url: { type: String, required: true },
+      image_url: { type: String },
     },
     commentsCount: { type: Number, default: 0 },
     likesCount: { type: Number, default: 0 },

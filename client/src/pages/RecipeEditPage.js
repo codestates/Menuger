@@ -7,6 +7,7 @@ import RecipeEditor from '../components/recipe_edit/RecipeEditor';
 import useToast from '../hooks/toast/useToast';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashTagEditor from '../components/common/HashtagEditor';
+import extractThumbnailKey from '../utils/thumbnail';
 
 const { REACT_APP_MOBILE_WIDTH, REACT_APP_WEB_MAX_WIDTH } = process.env;
 
@@ -26,9 +27,8 @@ const RecipeTitleInput = styled.input`
   font-size: 1.5rem;
   margin: 1rem 0 0;
   &:focus {
-    padding-top: 2px;
     outline: none;
-    border-bottom: 1px solid #cdc5bf;
+    border-bottom: 1px solid #dadde6;
   }
   @media screen and (max-width: ${REACT_APP_MOBILE_WIDTH}) {
     width: 100%;
@@ -68,7 +68,15 @@ const RecipeEditPage = () => {
       addMessage({ mode: 'info', message: '본문을 입력해주세요', delay: 1000 });
       return;
     }
+
+    const thumbnailImage =
+      images?.filter(image => image.imageKey === extractThumbnailKey(recipeContent)) || [];
+
+    thumbnailImage.forEach(
+      image => (image.imageKey = `${process.env.REACT_APP_S3_URL}/raw/${image.imageKey}`),
+    );
     setDisabled(true);
+
     try {
       const {
         data: {
@@ -79,7 +87,7 @@ const RecipeEditPage = () => {
       } = await axios.post(
         `${process.env.REACT_APP_ENDPOINT_URL}/recipes`,
         {
-          images,
+          images: thumbnailImage,
           title,
           content: recipeContent,
           hashtags: tagList,

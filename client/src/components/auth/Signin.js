@@ -140,6 +140,7 @@ const Signin = ({ handleMenuClick, hideModal }) => {
         },
       );
       if (status === 200) {
+        hideModal();
         const userInfo = {
           email: user.email,
           image_url: user.image_url,
@@ -148,7 +149,6 @@ const Signin = ({ handleMenuClick, hideModal }) => {
           type: user.type,
         };
         addMessage({ message: '로그인 성공', delay: 500 }, () => {
-          hideModal();
           dispatch(setUserInfo(userInfo));
           history.push('/');
         });

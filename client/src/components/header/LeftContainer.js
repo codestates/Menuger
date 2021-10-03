@@ -43,7 +43,7 @@ const LeftContainer = () => {
         <img src={logoImageYellow} alt="로고 이미지"></img>
         <img src={logoTextTwoLine} alt="로고 텍스트"></img>
       </StyledLink>
-      <StyledLink to="/RecipePage">레시피</StyledLink>
+      <StyledLink to="/recipes">레시피</StyledLink>
       <StyledLink to="/DietPage">식단</StyledLink>
     </Container>
   );

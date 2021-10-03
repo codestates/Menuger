@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import logoImageYello from '../utils/logoImage/logoImageYello.png';
+import logoImageYellow from '../utils/logoImage/logoImageYellow.png';
 import logTextOneLine from '../utils/logoImage/logTextOneLine.png';
 
 const ImgContainer = styled.div`
@@ -80,7 +80,7 @@ const Footer = () => {
   return (
     <FooterCantainer>
       <ImgContainer>
-        <img src={logoImageYello}></img>
+        <img src={logoImageYellow}></img>
         <img src={logTextOneLine}></img>
       </ImgContainer>
       <AboutUs>

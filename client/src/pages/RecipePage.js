@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import CardList from '../components/common/cards/CardList';
-import fetchCards from '../components/recipe/dummy';
 import svgToComponent from '../utils/svg';
+import useDropdown from '../hooks/useDropdown';
+import { sortMenus, sortOptionMapper } from '../utils/sort';
 
 const Wrapper = styled.div`
   max-width: 1130px;
@@ -12,50 +15,80 @@ const Wrapper = styled.div`
 `;
 
 const SortMenu = styled.div`
+  position: relative;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  margin: 2rem 0 1rem;
+  @media (max-width: 768px) {
+    padding-right: 1rem;
+  }
+`;
+
+const SortIconAndText = styled.div`
+  display: flex;
   gap: 0.5em;
-  color: #030303;
+  color: #3c4043;
+  align-items: center;
   &:hover {
     cursor: pointer;
   }
-  margin: 2rem 0 1rem;
-`;
-
-const SortOption = styled.div`
-  font-size: 1.1rem;
 `;
 
 const RecipePage = () => {
   const [cards, setCards] = useState([]);
+  const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
+  const location = useLocation();
   const fetchMoreRef = useRef(); // CardList 하단에 삽입된 태그에 대한 ref를 설정하기 위함
   const intersecting = useInfiniteScroll(fetchMoreRef);
+  const { showDropdown, DropdownContainer, idx } = useDropdown(sortMenus);
+
+  const fetchRecipes = async () => {
+    const {
+      data: { recipes },
+    } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes`, {
+      params: {
+        page,
+        sort: sortOptionMapper[idx],
+      },
+    });
+    if (page === 1 && recipes.length < 12) {
+      //return setHasNext(false);
+    }
+
+    if (!recipes.length) {
+      return setHasNext(false);
+    }
+    setPage(page => page + 1);
+    setCards(prevRecipes => [...prevRecipes, ...recipes]);
+  };
+
+  useEffect(() => {
+    const postId = location?.state?.postId;
+    if (postId) {
+      console.log(`${postId} 조회하기`);
+    } else {
+      //fetchRecipes();
+    }
+  }, []);
 
   useEffect(() => {
     if (intersecting && hasNext) {
-      // 게시물 리스트의 최하단 까지 스크롤한 경우 && load할 수 있는 데이터가 있는 경우
-      fetchCards(cards.length, 12).then(newCards => {
-        // 12개의 cards 를 추가적으로 fetch
-        if (newCards.length === 0) {
-          // server로 부터 응답 결과 더 이상 load 할 데이터가 없다면
-          setHasNext(false);
-          return;
-        }
-        setCards(oldCards => [...oldCards, ...newCards]); // server 로 부터 응답받은 cards를 기존의 state에 추가
-      });
+      fetchRecipes();
     }
   }, [intersecting, hasNext]);
-  //style="pointer-events: none; display: block; width: 100%; height: 100%;"
+
   return (
     <Wrapper>
       <SortMenu>
-        {svgToComponent({
-          svgName: 'sortIcon',
-          props: { width: 25, height: 25, display: 'block' },
-        })}
-        <SortOption>정렬</SortOption>
+        <SortIconAndText onClick={showDropdown}>
+          {svgToComponent({
+            svgName: 'sortIcon',
+            props: { width: 25, height: 25, display: 'block' },
+          })}
+          {sortMenus[idx]}
+        </SortIconAndText>
+        <DropdownContainer />
       </SortMenu>
       <CardList cards={cards} ref={fetchMoreRef} hasNext={hasNext} />
     </Wrapper>

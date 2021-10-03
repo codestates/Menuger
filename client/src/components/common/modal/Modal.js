@@ -31,7 +31,7 @@ const ModalContainer = styled.div`
   border-radius: 10px;
   background: white;
   z-index: 10;
-  overflow-y: auto;
+  overflow-y: hidden;
   box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s linear;
   @media screen and (max-width: 768px) {
@@ -62,6 +62,7 @@ const CloseBtn = styled.div`
 
 const Content = styled.div`
   height: 100%;
+  overflow-y: auto;
 `;
 
 const Modal = ({ children, hideModal, style }) => {

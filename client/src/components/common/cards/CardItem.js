@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-import useSubscribe from '../../../hooks/useSubscribe';
 import BookmarkButton from '../buttons/BookmarkButton';
 import LikeButton from '../buttons/LikeButton';
 import CommentMark from '../buttons/CommentMark';
-import HashtagList from '../HashtagList';
-import defaultImage from '../../../svgs/defaultImage.svg';
+import defaultImage from '../../../utils/logoImage/logoImageYellow.png';
+import UserInfo from './UserInfo';
+import HashtagInfo from './HashtagInfo';
 
 const CardContainer = styled.li`
   display: flex;
@@ -26,8 +26,14 @@ const CardContainer = styled.li`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
   background-color: white;
+  margin-bottom: 0.5rem;
+  &:hover {
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
 `;
 
 const Title = styled.div`
@@ -35,7 +41,16 @@ const Title = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   align-self: center;
-  font-weight: bold;
+  font-size: 1rem;
+  @media (max-width: 1200px) {
+    font-size: 1rem;
+  }
+  @media (max-width: 900px) {
+    font-size: 1.2rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 4vw;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -50,6 +65,7 @@ const Figure = styled.figure`
   background-position: center;
   background-size: cover; // 가로, 세로 길이에 상관없이 컨테이너에 맞게
   transition: all 0.3s;
+  border-radius: 4px;
   &:hover {
     transform: scale(1.2);
     transition: all 0.3s;
@@ -63,7 +79,10 @@ const Img = styled.img`
 
 const Info = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
 `;
 
 const InfoWrapper = styled.div`
@@ -89,51 +108,49 @@ const PostInfo = styled.div`
 
 const TagInfo = styled.div`
   border: 1px solid #646060;
+
+const UserTagInfoWrapper = styled.div`
+  width: 60%;
 `;
 
 const CardItem = ({
-  postId,
-  postType,
+  _id,
+  postType = 'recipe',
   title,
-  subscribed = false,
-  img,
-  imgFileName,
-  userInfo,
-  postInfo,
-  tagInfo,
+  subscribed,
+  thumbnail_url,
+  originalFileName,
+  user,
+  commentsCount,
+  likesCount,
+  bookmarksCount,
+  hashtags,
 }) => {
-  const SubscribeBtn = useSubscribe({ postId, postType, subscribed }, 12); // ({ postId, postType, subscribed }, fontSize)
-
   return (
     <CardContainer>
       <Header>
         <Title>{title}</Title>
-        <SubscribeBtn />
       </Header>
       <Wrapper>
         <Figure
           style={{
-            backgroundImage: `url(${img || defaultImage})`,
-            backgroundSize: `${!img && '50%'}`,
+            backgroundImage: `url(${thumbnail_url || defaultImage})`,
+            backgroundSize: `${!thumbnail_url && '50%'}`,
           }}
         >
-          <Img src={img} alt={imgFileName} />
+          <Img src={thumbnail_url} alt={originalFileName} />
         </Figure>
       </Wrapper>
       <Info>
-        <InfoWrapper>
-          <InnerWrapper>
-            <UserInfo userInfo={userInfo}>UserInfo Component</UserInfo>{' '}
-            <TagInfo tagInfo={tagInfo}>
-              <HashtagList />
-            </TagInfo>
-          </InnerWrapper>
-          <PostInfo postInfo={postInfo}>
-            <BookmarkButton number={2} />
-            <LikeButton number={232} />
-            <CommentMark number={32} />
-          </PostInfo>
-        </InfoWrapper>
+        <UserTagInfoWrapper>
+          <UserInfo image_url={user.image_url} nickname={user.nickname} />
+          <HashtagInfo hashtags={hashtags} />
+        </UserTagInfoWrapper>
+        <PostInfo>
+           <BookmarkButton number={bookmarksCount} />
+           <LikeButton number={likesCount} />
+           <CommentMark number={commentsCount} />
+        </PostInfo>
       </Info>
     </CardContainer>
   );

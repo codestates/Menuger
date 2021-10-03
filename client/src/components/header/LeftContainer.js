@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import logoImageYello from '../../utils/logoImage/logoImageYello.png';
+import logoImageYellow from '../../utils/logoImage/logoImageYellow.png';
 import logoTextTwoLine from '../../utils/logoImage/logoTextTwoLine.png';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
-  color: black;
+  color: #3c4043;
   &:hover {
     color: #ffc436;
     cursor: pointer;

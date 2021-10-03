@@ -31,6 +31,9 @@ module.exports = {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
               },
             },
+            {
+              withCredentials: true,
+            },
           );
           if (expires_in <= 0) {
             const { access_token, refresh_token = null } = await axios.post(
@@ -45,20 +48,25 @@ module.exports = {
                   'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
                 },
               },
+              {
+                withCredentials: true,
+              },
             );
 
             res.cookie('kakaoAccessToken', access_token, {
               httpOnly: true,
-              secure: true,
-              sameSite: 'None',
+              // secure: true,
+              // sameSite: 'None',
+              // domain: '.menuger.shop',
             });
             req.cookies.kakaoAccessToken = access_token;
 
             if (refresh_token !== null) {
               res.cookie('kakaoRefreshToken', refresh_token, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'None',
+                // secure: true,
+                // sameSite: 'None',
+                // domain: '.menuger.shop',
               });
               req.cookies.kakaoRefreshToken = refresh_token;
               user.refreshToken = refresh_token;
@@ -94,8 +102,9 @@ module.exports = {
               const newAccessToken = createAccessToken(user._id.toHexString());
               res.cookie('accessToken', newAccessToken, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'None',
+                // secure: true,
+                // sameSite: 'None',
+                // domain: '.menuger.shop',
               });
               req.cookies.accessToken = newAccessToken;
               next();
@@ -115,8 +124,9 @@ module.exports = {
               const newRefreshToken = createRefreshToken({});
               res.cookie('refreshToken', newRefreshToken, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'None',
+                // secure: true,
+                // sameSite: 'None',
+                // domain: '.menuger.shop',
               });
               req.cookies.refreshToken = newRefreshToken;
 

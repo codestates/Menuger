@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { BiSearchAlt2 } from 'react-icons/bi';
@@ -14,6 +15,8 @@ import MyPage from '../../pages/MyPage';
 import LeftContainer from './LeftContainer';
 import SearchContainer from './SearchContainer';
 import RightContainer from './RightContainer';
+
+import useToast from '../../hooks/toast/useToast';
 
 const HamburgerContainer = styled.div`
   display: none;
@@ -60,6 +63,9 @@ const HeaderContainer = styled.header`
   height: 80px;
   border-bottom: 1px solid;
   border-color: rgba(160, 160, 160, 0.25);
+  /* background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: saturate(80%) blur(30px); */
+  background-color: white;
   display: flex;
   background-color: white;
   padding-left: 10rem;
@@ -108,7 +114,14 @@ const Header = () => {
   const [useHamburgerMenu, setUseHamburgerMenu] = useState(true);
   const [useSearch, setUseSearch] = useState(false);
 
+  const userInfo = useSelector(state => state.userReducer);
+  const addMessage = useToast();
+
   const handleDropdown = () => {
+    if (!userInfo.email) {
+      addMessage({ mode: 'info', message: '로그인을 먼저 진행해주세요', delay: 1000 });
+      return;
+    }
     setUseDropdown(!useDropdown);
   };
   const handleHamburgerMenu = () => {

@@ -35,29 +35,35 @@ module.exports = (req, res) => {
 
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
-          secure: true,
-          sameSite: 'None',
+          // secure: true,
+          // sameSite: 'None',
+          // domain: '.menuger.shop',
         });
         res.cookie('refreshToken', refreshToken, {
           httpOnly: true,
-          secure: true,
-          sameSite: 'None',
+          // secure: true,
+          // sameSite: 'None',
+          // domain: '.menuger.shop',
         });
 
         user.refreshToken = refreshToken;
         await user.save();
 
-        return res.status(200).send({
-          data: {
-            user: {
-              type: user.type,
-              image_url: user.image_url,
-              nickname: user.nickname,
-              email: user.email,
+        return res
+          .clearCookie('kakaoAccessToken')
+          .clearCookie('kakaoRefreshToken')
+          .status(200)
+          .send({
+            data: {
+              user: {
+                type: user.type,
+                image_url: user.image_url,
+                nickname: user.nickname,
+                email: user.email,
+              },
             },
-          },
-          message: '로그인에 성공하였습니다.',
-        });
+            message: '로그인에 성공하였습니다.',
+          });
       });
     });
   } catch (err) {

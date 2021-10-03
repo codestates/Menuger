@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import DragDataProvider from '../utils/drag';
+import axios from 'axios';
+import useToast from '../hooks/toast/useToast';
+import { useHistory } from 'react-router';
 
 //import components
 import DietColumnContainer from '../components/diet/DietColumnContainer';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashtagEditor from '../components/common/HashtagEditor';
-
-//temporary import
-import dummyData from '../components/diet/dummy_data';
 
 const DietEditPageStyle = styled.div`
   max-width: 1130px;
@@ -74,28 +74,119 @@ const DietEditPageStyle = styled.div`
 `;
 
 const DietEditPage = () => {
-  const [tagList, setTagList] = useState([]);
-  const [dietColumnList, setDietColumnList] = useState(dummyData);
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubTitle] = useState('');
+  const [dietColumnList, setDietColumnList] = useState([]);
+  const [content, setContent] = useState('');
+  const [hashTagList, setHashTagList] = useState([]);
+
+  const displayToast = useToast();
+  const history = useHistory();
 
   const updateTagList = tagList => {
-    setTagList(tagList);
+    setHashTagList(tagList);
   };
 
   const updateColumnList = columnList => {
     setDietColumnList([...columnList]);
   };
 
+  const verifyInput = () => {
+    if (title.trim().length <= 0) {
+      displayToast({
+        mode: 'error',
+        message: '제목을 입력해주세요.',
+      });
+      return false;
+    }
+
+    if (subtitle.trim().length <= 0) {
+      displayToast({
+        mode: 'error',
+        message: '식단 소개를 작성해주세요.',
+      });
+      return false;
+    }
+
+    if (dietColumnList.length <= 0) {
+      displayToast({
+        mode: 'error',
+        message: '작성된 식단이 없습니다.',
+      });
+      return false;
+    }
+
+    if (content.trim().length <= 0) {
+      displayToast({
+        mode: 'error',
+        message: '본문을 작성해주세요.',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const write = async () => {
+    if (verifyInput() === false) {
+      return;
+    }
+
+    const data = {
+      title,
+      subtitle,
+      dietColumnList,
+      content,
+      hashtags: hashTagList,
+    };
+
+    try {
+      const { data: body } = await axios.post(`${process.env.REACT_APP_ENDPOINT_URL}/diets`, data, {
+        withCredentials: true,
+      });
+      history.push(`/DietPage?post-id=${body.data.postId}`);
+      displayToast({
+        message: '식단 작성이 완료 되었습니다.',
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const onChangeTitle = e => setTitle(e.target.value);
+  const onChangeSubTitle = e => setSubTitle(e.target.value);
+  const onChangeContent = e => setContent(e.target.value);
+
   return (
     <DragDataProvider>
       <DietEditPageStyle>
-        <input id="input-title" type="text" placeholder="제목" />
-        <input id="input-description" type="text" placeholder="식단 소개" />
+        <input
+          id="input-title"
+          type="text"
+          placeholder="제목"
+          value={title}
+          onChange={onChangeTitle}
+        />
+        <input
+          id="input-description"
+          type="text"
+          placeholder="식단 소개"
+          value={subtitle}
+          onChange={onChangeSubTitle}
+        />
         <DietColumnContainer dietColumnList={dietColumnList} updateColumnList={updateColumnList} />
-        <textarea style={{ resize: 'none' }} cols="50" rows="10" placeholder="본문" />
-        <HashtagEditor tagList={tagList} updateTagList={updateTagList} />
+        <textarea
+          style={{ resize: 'none' }}
+          cols="50"
+          rows="10"
+          placeholder="본문"
+          value={content}
+          onChange={onChangeContent}
+        />
+        <HashtagEditor tagList={hashTagList} updateTagList={updateTagList} />
         <div className="button-box">
           <StandardButton backgroundColor="#fc9f77">임시저장</StandardButton>
-          <StandardButton>작성</StandardButton>
+          <StandardButton onClick={write}>작성</StandardButton>
         </div>
       </DietEditPageStyle>
     </DragDataProvider>

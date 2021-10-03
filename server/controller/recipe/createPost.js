@@ -21,16 +21,19 @@ module.exports = async (req, res) => {
     const user = await User.findById(ObjectId(payload));
     const { title, content, images = [], hashtags = [] } = req.body;
 
-    await new Recipe({
+    const post = new Recipe({
       title,
       content,
       user,
       hashtags,
       thumbnail_url: images.length ? images[0].imageKey : null,
       originalFileName: images.length ? images[0].originalname : null,
-    }).save();
+    });
 
-    return res.status(201).send({ message: '레시피 작성이 완료되었습니다.' });
+    await post.save();
+    return res
+      .status(201)
+      .send({ data: { postId: post._id }, message: '레시피 작성이 완료되었습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

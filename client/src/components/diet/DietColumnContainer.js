@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { allowDrop } from '../../utils/drag';
 import { useDragColumnData } from '../../utils/drag';
+import { lighten, darken } from 'polished';
+import { useState, useRef } from 'react';
 
 //import components
 import DietColumn from './diet_column/DietColumn';
@@ -15,6 +17,11 @@ const DietColumnContainerStyle = styled.div`
 
   > .column-list {
     display: flex;
+
+    > li {
+      display: flex;
+      height: fit-content;
+    }
     > li:not(:first-child) {
       margin-left: 10px;
     }
@@ -35,16 +42,39 @@ const AddColumnButton = styled.button`
   flex-shrink: 0;
 
   &:hover {
-    background-color: #d8d8d8;
+    background-color: ${lighten(0.01, '#f5f5f5')};
   }
 
   &:active {
-    background-color: #bfbebe;
+    background-color: ${darken(0.05, '#f5f5f5')};
+  }
+`;
+
+const Shadow = styled.div`
+  height: 100px;
+  width: 40px;
+  border-radius: 5px;
+  background-color: #dadde6;
+  margin-right: 10px;
+  animation-duration: 0.3s;
+  animation-name: column-shadow;
+
+  @keyframes column-shadow {
+    from {
+      width: 10px;
+    }
+
+    to {
+      width: 40px;
+    }
   }
 `;
 
 const DietColumnContainer = ({ dietColumnList, updateColumnList, readonly = false }) => {
   const dragColumnData = useDragColumnData();
+  const [columnShadowIndex, setColumnShadowIndex] = useState(-1);
+  const dragEnterAndLeaveCount = useRef(0);
+
   const addColumn = () => {
     const initColumn = { title: '식단 열', dietCardList: [] };
     const newColumnList = [...dietColumnList, initColumn];
@@ -74,6 +104,17 @@ const DietColumnContainer = ({ dietColumnList, updateColumnList, readonly = fals
     updateColumnList(newColumnList);
   };
 
+  const onDragEnter = () => {
+    dragEnterAndLeaveCount.current++;
+  };
+
+  const onDragLeave = () => {
+    dragEnterAndLeaveCount.current--;
+    if (dragEnterAndLeaveCount.current <= 0) {
+      setColumnShadowIndex(-1);
+    }
+  };
+
   const onDrop = () => {
     const { column, index: columnIndex } = dragColumnData;
     let { toIndex: columnToIndex } = dragColumnData;
@@ -87,25 +128,40 @@ const DietColumnContainer = ({ dietColumnList, updateColumnList, readonly = fals
     newColumnList.splice(columnIndex, 1);
     newColumnList.splice(columnToIndex, 0, column);
     updateColumnList(newColumnList);
+    setColumnShadowIndex(-1);
   };
 
   return (
-    <DietColumnContainerStyle onDragOver={allowDrop} onDrop={onDrop}>
+    <DietColumnContainerStyle
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
+      onDragOver={allowDrop}
+      onDrop={onDrop}
+    >
       <ul className="column-list">
         {dietColumnList.map((column, i) => {
           return (
             <li key={i}>
-              <DietColumn
-                index={i}
-                column={column}
-                updateColumn={updateColumn}
-                removeColumn={removeColumn}
-                moveCard={moveCard}
-                readonly={readonly}
-              />
+              <>
+                {columnShadowIndex === i && <Shadow />}
+                <DietColumn
+                  index={i}
+                  column={column}
+                  updateColumn={updateColumn}
+                  removeColumn={removeColumn}
+                  setColumnShadowIndex={setColumnShadowIndex}
+                  moveCard={moveCard}
+                  readonly={readonly}
+                />
+              </>
             </li>
           );
         })}
+        {columnShadowIndex >= dietColumnList.length && (
+          <li key={dietColumnList.length}>
+            <Shadow />
+          </li>
+        )}
       </ul>
       {!readonly && <AddColumnButton onClick={addColumn}>+</AddColumnButton>}
     </DietColumnContainerStyle>

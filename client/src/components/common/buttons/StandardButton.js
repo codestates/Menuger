@@ -9,7 +9,7 @@ const StandardButtonStyle = styled.button`
   font-size: ${props => props.fontSize || '1rem'};
   border: ${props => props.border || 'none'};
   border-radius: ${props => props.borderRadius || '5px'};
-  padding: 0 10px;
+  padding: ${props => props.padding || '0 10px'};
   cursor: pointer;
 
   &:hover {
@@ -18,6 +18,9 @@ const StandardButtonStyle = styled.button`
 
   &:active {
     background-color: ${props => darken(0.1, props.backgroundColor || '#ffc436')};
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -42,6 +45,8 @@ const StandardButton = ({
   border,
   borderRadius,
   onClick,
+  padding,
+  disabled = false,
 }) => {
   if (typeof onClick !== 'function') {
     onClick = () => {};
@@ -56,6 +61,8 @@ const StandardButton = ({
       border={border}
       borderRadius={borderRadius}
       onClick={onClick}
+      padding={padding}
+      disabled={disabled}
     >
       {children}
     </StandardButtonStyle>

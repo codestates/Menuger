@@ -8,8 +8,7 @@ const Wrapper = styled.div`
   gap: 0.5rem;
   flex-wrap: wrap;
   padding: 0.5rem 15%;
-  border-top: 1px solid #ccc;
-  border-color: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid #e4e4e4;
 `;
 
 const Hashtag = styled.div`

@@ -94,11 +94,10 @@ const PostInfo = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: center;
 `;
 
 const CardItem = ({
-  _id,
+  postId,
   postType = 'recipe',
   title,
   thumbnail_url,
@@ -109,11 +108,13 @@ const CardItem = ({
   bookmarksCount,
   hashtags,
   updatedAt,
+  handleCardClick,
 }) => {
   return (
     <CardContainer>
       <Wrapper>
         <Figure
+          onClick={() => handleCardClick(postId)}
           style={{
             backgroundImage: `url(${thumbnail_url || defaultImage})`,
             backgroundSize: `${!thumbnail_url && '50%'}`,
@@ -125,6 +126,7 @@ const CardItem = ({
       <Info>
         <UserTagInfoWrapper>
           <UserInfo
+            handleCardClick={() => handleCardClick(postId)}
             image_url={user.image_url}
             nickname={user.nickname}
             title={title}

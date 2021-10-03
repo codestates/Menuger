@@ -18,6 +18,7 @@ const Overlay = styled.div`
 const Wrapper = styled.div`
   position: absolute;
   top: 2rem;
+  right: -1px;
   z-index: 8;
   border: 1px solid #ccc;
   border-color: rgba(0, 0, 0, 0.2);
@@ -28,8 +29,9 @@ const Wrapper = styled.div`
 
 const DropdownMenu = styled.div`
   cursor: pointer;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   color: #3c4043;
+  text-align: center;
   &:hover {
     background-color: ${({ active }) => !active && '#f7f8f8'};
   }

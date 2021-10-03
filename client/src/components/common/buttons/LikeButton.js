@@ -1,7 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import { darken, lighten } from 'polished';
 
-import { AiFillLike } from 'react-icons/ai';
 import { AiOutlineLike } from 'react-icons/ai';
 
 const SpanStyle = styled.span``;
@@ -20,51 +19,49 @@ const LikeButtonStyle = styled.button`
   cursor: pointer;
 
   ${IconSytle} {
-    font-size: ${props => props.imageSize || '2em'};
-    color: ${({ active }) => (active ? darken(0.2, '#87e0f3') : '#424242')};
+    font-size: ${props => props.imageSize || '1.5em'};
+    color: #424242;
+    & > svg {
+      fill: ${({ active }) => active && '#ffcd36'};
+      &:hover {
+        fill: ${({ active }) => (active ? '#ffe69a' : '#b3b3b3')};
+      }
+    }
   }
 
   ${SpanStyle} {
-    color: rgba(66, 66, 66);
+    color: #606060;
     font-size: ${props => props.fontSize || '1em'};
+    margin-top: -0.5em;
   }
 
-  &:hover {
-    * {
-      color: ${props => lighten(0.1, props.backgroundColor || 'gray')};
-    }
-  }
-  @media (max-width: 768px) {
-    width: 15vw;
-    height: 4em;
-    padding-bottom: 0;
-    ${IconSytle} {
-      font-size: 3em;
-    }
-    ${SpanStyle} {
-      font-size: 1.5em;
-    }
-  }
-  @media (max-width: 900px) {
-    width: 2em;
-    height: 4em;
-    padding-bottom: 0;
-    ${IconSytle} {
-      font-size: 2.5em;
-    }
-    ${SpanStyle} {
-      font-size: 1.5em;
-    }
-  }
   @media (max-width: 1200px) {
-    width: 2em;
-    height: 3em;
     padding-bottom: 0;
     ${IconSytle} {
-      font-size: 2.2em;
+      font-size: 2.5vw;
     }
     ${SpanStyle} {
-      font-size: 1.3em;
+      font-size: 1.3vw;
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding-bottom: 0;
+    ${IconSytle} {
+      font-size: 4vw;
+    }
+    ${SpanStyle} {
+      font-size: 2vw;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-bottom: 0;
+    ${IconSytle} {
+      font-size: 6vw;
+    }
+    ${SpanStyle} {
+      font-size: 3vw;
     }
   }
 `;
@@ -81,6 +78,19 @@ const LikeButton = ({
   imageSize,
   active,
 }) => {
+  const [isActive, setIsActive] = useState(active);
+  const [count, setCount] = useState(number);
+
+  const handleClick = () => {
+    if (isActive) {
+      setCount(count - 1);
+    } else {
+      setCount(count + 1);
+    }
+    setIsActive(!isActive);
+    //onClick();
+  };
+
   return (
     <LikeButtonStyle
       width={width}
@@ -89,13 +99,15 @@ const LikeButton = ({
       backgroundColor={backgroundColor}
       fontSize={fontSize}
       borderRadius={borderRadius}
-      onClick={onClick}
-      number={number}
+      onClick={handleClick}
+      number={count}
       imageSize={imageSize}
-      active={active}
+      active={isActive}
     >
-      <IconSytle>{active ? <AiFillLike /> : <AiOutlineLike />}</IconSytle>
-      <SpanStyle>{number}</SpanStyle>
+      <IconSytle>
+        <AiOutlineLike />
+      </IconSytle>
+      <SpanStyle>{count}</SpanStyle>
     </LikeButtonStyle>
   );
 };

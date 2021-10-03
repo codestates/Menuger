@@ -85,29 +85,13 @@ const Info = styled.div`
   }
 `;
 
-const InfoWrapper = styled.div`
-  display: flex;
-`;
-
-const InnerWrapper = styled.div`
-  flex-grow: 1;
-`;
-
-const UserInfo = styled.div`
-  border: 1px solid #646060;
-`;
-
 const PostInfo = styled.div`
-  border: 1px solid #646060;
-  width: 30%;
+  width: 40%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
 `;
-
-const TagInfo = styled.div`
-  border: 1px solid #646060;
 
 const UserTagInfoWrapper = styled.div`
   width: 60%;
@@ -117,7 +101,6 @@ const CardItem = ({
   _id,
   postType = 'recipe',
   title,
-  subscribed,
   thumbnail_url,
   originalFileName,
   user,
@@ -147,9 +130,9 @@ const CardItem = ({
           <HashtagInfo hashtags={hashtags} />
         </UserTagInfoWrapper>
         <PostInfo>
-           <BookmarkButton number={bookmarksCount} />
-           <LikeButton number={likesCount} />
-           <CommentMark number={commentsCount} />
+          <BookmarkButton number={bookmarksCount} />
+          <LikeButton number={likesCount} />
+          <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>
     </CardContainer>

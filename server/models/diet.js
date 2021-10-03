@@ -28,6 +28,7 @@ dietSchema.index({ likesCount: -1, createdAt: -1 });
 dietSchema.index({ likesCount: 1, createdAt: -1 });
 dietSchema.index({ commentsCount: -1, createdAt: -1 });
 dietSchema.index({ commentsCount: 1, createdAt: -1 });
+dietSchema.index({ createdAt: -1 });
 
 const Diet = model('diet', dietSchema);
 

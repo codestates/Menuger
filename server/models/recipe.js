@@ -28,6 +28,7 @@ recipeSchema.index({ likesCount: -1, createdAt: -1 });
 recipeSchema.index({ likesCount: 1, createdAt: -1 });
 recipeSchema.index({ commentsCount: -1, createdAt: -1 });
 recipeSchema.index({ commentsCount: 1, createdAt: -1 });
+recipeSchema.index({ createdAt: -1 });
 
 const Recipe = model('recipe', recipeSchema);
 

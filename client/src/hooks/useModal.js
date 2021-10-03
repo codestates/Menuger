@@ -5,8 +5,18 @@ import Modal from '../components/common/modal/Modal';
 const useModal = style => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const showModal = () => setIsVisible(true);
-  const hideModal = () => setIsVisible(false);
+  const showModal = () => {
+    if (style.overflow === 'hidden') {
+      document.body.style.overflow = 'hidden';
+    }
+    setIsVisible(true);
+  };
+  const hideModal = () => {
+    if (style.overflow === 'hidden') {
+      document.body.style.overflow = 'visible';
+    }
+    setIsVisible(false);
+  };
 
   const ModalContainer = ({ children }) => (
     <>

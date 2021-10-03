@@ -24,6 +24,11 @@ const dietSchema = new Schema(
   { timestamps: true },
 );
 
+dietSchema.index({ likesCount: -1, createdAt: -1 });
+dietSchema.index({ likesCount: 1, createdAt: -1 });
+dietSchema.index({ commentsCount: -1, createdAt: -1 });
+dietSchema.index({ commentsCount: 1, createdAt: -1 });
+
 const Diet = model('diet', dietSchema);
 
 module.exports = { Diet };

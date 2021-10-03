@@ -24,6 +24,11 @@ const recipeSchema = new Schema(
   { timestamps: true },
 );
 
+recipeSchema.index({ likesCount: -1, createdAt: -1 });
+recipeSchema.index({ likesCount: 1, createdAt: -1 });
+recipeSchema.index({ commentsCount: -1, createdAt: -1 });
+recipeSchema.index({ commentsCount: 1, createdAt: -1 });
+
 const Recipe = model('recipe', recipeSchema);
 
 module.exports = { Recipe };

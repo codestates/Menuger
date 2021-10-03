@@ -47,15 +47,15 @@ const Title = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
-  font-size: 1.1rem;
+  font-size: 1rem;
   @media (max-width: 1200px) {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
   @media (max-width: 900px) {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   @media (max-width: 768px) {
-    font-size: 4vw;
+    font-size: 3.5vw;
   }
 `;
 
@@ -91,7 +91,7 @@ const UpdatedAt = styled.div`
   }
 `;
 
-const UserInfo = ({ image_url, nickname, title, updatedAt }) => {
+const UserInfo = ({ image_url, nickname, title, updatedAt, handleCardClick }) => {
   return (
     <Wrapper>
       {image_url && <ProfileImage src={image_url} alt={image_url} />}
@@ -99,9 +99,9 @@ const UserInfo = ({ image_url, nickname, title, updatedAt }) => {
         <Svg>{svgToComponent({ svgName: 'chef', props: { width: '100%', height: '100%' } })}</Svg>
       )}
       <InnerWrapper>
-        <Title>{title}</Title>
+        <Title onClick={handleCardClick}>{title}</Title>
         <Nickname>{nickname}</Nickname>
-        <UpdatedAt>{calcDateDiffToString(updatedAt)}</UpdatedAt>
+        <UpdatedAt onClick={handleCardClick}>{calcDateDiffToString(updatedAt)}</UpdatedAt>
       </InnerWrapper>
     </Wrapper>
   );

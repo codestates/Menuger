@@ -11,6 +11,7 @@ const Wrapper = styled.div`
 `;
 
 const CardListContainer = styled.ul`
+  padding: 1rem 1.5rem;
   @media screen and (min-width: 768px) {
     display: flex;
     flex-wrap: wrap;
@@ -39,7 +40,6 @@ const ScrollToTop = styled.div`
 
 const CardList = forwardRef(({ cards, hasNext }, fetchMoreRef) => {
   const arrowDownConfig = { svgName: 'arrowDown', props: { width: 200 } };
-  const arrowUpConfig = { svgName: 'arrowUp', props: { onClick: scrollToTop, cursor: 'pointer' } };
 
   return (
     <>
@@ -58,13 +58,13 @@ const CardList = forwardRef(({ cards, hasNext }, fetchMoreRef) => {
               likesCount={card.likesCount}
               bookmarksCount={card.bookmarksCount}
               hashtags={card.hashtags}
+              updatedAt={card.updatedAt}
             />
           ))}
         </CardListContainer>
       </Wrapper>
       <ScrollEnd ref={fetchMoreRef}>
         {hasNext && cards.length > 0 && svgToComponent(arrowDownConfig)}
-        {/*!hasNext && svgToComponent(arrowUpConfig)} */}
         <ScrollToTop onClick={scrollToTop}>
           <HiOutlineArrowCircleUp />
         </ScrollToTop>

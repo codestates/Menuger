@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import Dropdown from '../components/common/Dropdown';
 
-const useDropdown = menus => {
+const useDropdown = (menus, curMenuIdx, callback) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [idx, setIdx] = useState(0);
+  const [idx, setIdx] = useState(curMenuIdx);
 
   const showDropdown = () => setIsVisible(true);
   const hideDropdown = () => setIsVisible(false);
@@ -12,7 +12,13 @@ const useDropdown = menus => {
   const DropdownContainer = () => (
     <>
       {isVisible && (
-        <Dropdown menus={menus} hideDropdown={hideDropdown} idx={idx} setIdx={setIdx} />
+        <Dropdown
+          menus={menus}
+          hideDropdown={hideDropdown}
+          idx={idx}
+          setIdx={setIdx}
+          callback={callback}
+        />
       )}
     </>
   );

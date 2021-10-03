@@ -136,7 +136,6 @@ const LandingPage = () => {
   const { toastRef } = useSelector(state => state.toastReducer);
   const dispatch = useDispatch();
   const addMessage = useToast();
-  
   const arr = [0, 1, 2, 3];
   const page = e => {
     if (e >= 0 && e < 4) {

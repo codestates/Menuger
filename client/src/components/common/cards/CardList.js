@@ -27,7 +27,7 @@ const ScrollEnd = styled.div`
 
 const ScrollToTop = styled.div`
   position: fixed;
-  z-index: 200;
+  z-index: 7;
   right: 10px;
   bottom: 10px;
   font-size: 50px;
@@ -38,7 +38,7 @@ const ScrollToTop = styled.div`
   }
 `;
 
-const CardList = forwardRef(({ cards, hasNext }, fetchMoreRef) => {
+const CardList = forwardRef(({ cards, hasNext, handleCardClick }, fetchMoreRef) => {
   const arrowDownConfig = { svgName: 'arrowDown', props: { width: 200 } };
 
   return (
@@ -59,6 +59,7 @@ const CardList = forwardRef(({ cards, hasNext }, fetchMoreRef) => {
               bookmarksCount={card.bookmarksCount}
               hashtags={card.hashtags}
               updatedAt={card.updatedAt}
+              handleCardClick={handleCardClick}
             />
           ))}
         </CardListContainer>

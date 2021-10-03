@@ -38,7 +38,7 @@ const Circle = styled.div`
 
 const ScrollToTop = styled.div`
   position: fixed;
-  z-index: 200;
+  z-index: 7;
   right: 10px;
   bottom: 10px;
   font-size: 50px;

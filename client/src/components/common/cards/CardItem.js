@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 import useSubscribe from '../../../hooks/useSubscribe';
+import BookmarkButton from '../buttons/BookmarkButton';
+import LikeButton from '../buttons/LikeButton';
+import CommentMark from '../buttons/CommentMark';
+import HashtagList from '../HashtagList';
+import defaultImage from '../../../svgs/defaultImage.svg';
 
 const CardContainer = styled.li`
   display: flex;
@@ -48,6 +53,7 @@ const Figure = styled.figure`
   &:hover {
     transform: scale(1.2);
     transition: all 0.3s;
+    cursor: pointer;
   }
 `;
 
@@ -56,24 +62,33 @@ const Img = styled.img`
 `;
 
 const Info = styled.div`
-  flex: 1 1 auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+`;
+
+const InfoWrapper = styled.div`
+  display: flex;
+`;
+
+const InnerWrapper = styled.div`
+  flex-grow: 1;
 `;
 
 const UserInfo = styled.div`
   border: 1px solid #646060;
-  width: 40%;
 `;
 
 const PostInfo = styled.div`
   border: 1px solid #646060;
-  width: 60%;
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
 `;
 
 const TagInfo = styled.div`
   border: 1px solid #646060;
-  flex-grow: 1;
 `;
 
 const CardItem = ({
@@ -81,7 +96,7 @@ const CardItem = ({
   postType,
   title,
   subscribed = false,
-  img = 'default image', //TODO: Default Image 추가하기
+  img,
   imgFileName,
   userInfo,
   postInfo,
@@ -96,14 +111,29 @@ const CardItem = ({
         <SubscribeBtn />
       </Header>
       <Wrapper>
-        <Figure style={{ backgroundImage: `url(${img})` }}>
+        <Figure
+          style={{
+            backgroundImage: `url(${img || defaultImage})`,
+            backgroundSize: `${!img && '50%'}`,
+          }}
+        >
           <Img src={img} alt={imgFileName} />
         </Figure>
       </Wrapper>
       <Info>
-        <UserInfo userInfo={userInfo}>UserInfo Component</UserInfo>
-        <PostInfo postInfo={postInfo}>PostInfo Component</PostInfo>
-        <TagInfo tagInfo={tagInfo}>TagInfo Component</TagInfo>
+        <InfoWrapper>
+          <InnerWrapper>
+            <UserInfo userInfo={userInfo}>UserInfo Component</UserInfo>{' '}
+            <TagInfo tagInfo={tagInfo}>
+              <HashtagList />
+            </TagInfo>
+          </InnerWrapper>
+          <PostInfo postInfo={postInfo}>
+            <BookmarkButton number={2} />
+            <LikeButton number={232} />
+            <CommentMark number={32} />
+          </PostInfo>
+        </InfoWrapper>
       </Info>
     </CardContainer>
   );

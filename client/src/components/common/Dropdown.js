@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import useKeyPress from '../../hooks/useKeyPress';
+import { sortOptions } from '../../utils/sort';
 
 const OverlayStack = styled.div``;
 
@@ -43,12 +44,13 @@ const DropdownMenu = styled.div`
   }
 `;
 
-const Dropdown = ({ menus, hideDropdown, idx, setIdx }) => {
+const Dropdown = ({ menus, hideDropdown, idx, setIdx, callback }) => {
   useKeyPress('Escape', hideDropdown);
 
   const handleMenuClick = idx => {
     setIdx(idx);
     hideDropdown();
+    callback(sortOptions[idx]);
   };
 
   return (

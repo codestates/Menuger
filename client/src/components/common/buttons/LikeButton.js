@@ -4,30 +4,67 @@ import { darken, lighten } from 'polished';
 import { AiFillLike } from 'react-icons/ai';
 import { AiOutlineLike } from 'react-icons/ai';
 
+const SpanStyle = styled.span``;
+
+const IconSytle = styled.div``;
+
 const LikeButtonStyle = styled.button`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  width: ${props => props.width || '15px'};
-  height: ${props => props.height || '34px'};
+  width: ${props => props.width || '2em'};
+  height: ${props => props.height || '2em'};
   background-color: transparent;
   border: none;
   cursor: pointer;
 
-  > :nth-child(1) {
-    font-size: ${props => props.imageSize || '200%'};
+  ${IconSytle} {
+    font-size: ${props => props.imageSize || '2em'};
     color: ${({ active }) => (active ? darken(0.2, '#87e0f3') : '#424242')};
   }
 
-  > :nth-child(2) {
+  ${SpanStyle} {
     color: rgba(66, 66, 66);
-    font-size: ${props => props.fontSize || '0.5rem'};
+    font-size: ${props => props.fontSize || '1em'};
   }
 
   &:hover {
     * {
       color: ${props => lighten(0.1, props.backgroundColor || 'gray')};
+    }
+  }
+  @media (max-width: 768px) {
+    width: 15vw;
+    height: 4em;
+    padding-bottom: 0;
+    ${IconSytle} {
+      font-size: 3em;
+    }
+    ${SpanStyle} {
+      font-size: 1.5em;
+    }
+  }
+  @media (max-width: 900px) {
+    width: 2em;
+    height: 4em;
+    padding-bottom: 0;
+    ${IconSytle} {
+      font-size: 2.5em;
+    }
+    ${SpanStyle} {
+      font-size: 1.5em;
+    }
+  }
+  @media (max-width: 1200px) {
+    width: 2em;
+    height: 3em;
+    padding-bottom: 0;
+    ${IconSytle} {
+      font-size: 2.2em;
+    }
+    ${SpanStyle} {
+      font-size: 1.3em;
     }
   }
 `;
@@ -57,9 +94,8 @@ const LikeButton = ({
       imageSize={imageSize}
       active={active}
     >
-      {active ? <AiFillLike /> : <AiOutlineLike />}
-
-      <span>{number}</span>
+      <IconSytle>{active ? <AiFillLike /> : <AiOutlineLike />}</IconSytle>
+      <SpanStyle>{number}</SpanStyle>
     </LikeButtonStyle>
   );
 };

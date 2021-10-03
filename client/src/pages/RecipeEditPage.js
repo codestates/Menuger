@@ -99,18 +99,18 @@ const RecipeEditPage = () => {
       if (status === 201) {
         addMessage({ message, delay: 1000 }, () => {
           history.push({
-            pathname: '/RecipePage',
+            pathname: '/recipes',
             state: { postId },
           });
         });
       } else {
         addMessage({ mode: 'error', message: '레시피 등록 중 오류가 발생하였습니다.' }, () => {
-          history.push('/RecipePage');
+          history.push('/recipes');
         });
       }
     } catch (err) {
       addMessage({ mode: 'error', message: err.response.data.message }, () =>
-        history.push('/RecipePage'),
+        history.push('/recipes'),
       );
     }
   };

@@ -10,6 +10,8 @@ import svgToComponent from '../utils/svg';
 import useDropdown from '../hooks/useDropdown';
 import useQuery from '../hooks/useQuery';
 import { sortOptions, sortMenus, sortOptionMapper } from '../utils/sort';
+import useModal from '../hooks/useModal';
+import RecipePost from '../components/recipe/RecipePost';
 
 const Wrapper = styled.div`
   max-width: 1130px;
@@ -40,18 +42,24 @@ const RecipePage = () => {
   const [cards, setCards] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
+  const [recipeData, setRecipeData] = useState();
   const location = useLocation();
   const history = createBrowserHistory({ forceRefresh: true });
   const query = useQuery();
+  const { showModal, ModalContainer } = useModal({
+    width: 100,
+    height: 90,
+    padding: 2.5,
+    overflow: 'hidden',
+  });
 
   const fetchMoreRef = useRef();
   const intersecting = useInfiniteScroll(fetchMoreRef);
 
   const loadSortedRecipes = option => history.push(`recipes?sort=${option}`);
-  const sortOption = query.get('sort') || 'dd';
+  const sortOption = query.get('sort'); // || 'dd';
   const curMenu = sortOptions.indexOf(sortOption);
   const { showDropdown, DropdownContainer } = useDropdown(sortMenus, curMenu, loadSortedRecipes);
-  const postId = location?.state?.postId;
 
   const fetchRecipes = async () => {
     const {
@@ -60,6 +68,8 @@ const RecipePage = () => {
       params: {
         page,
         sort: sortOptionMapper[sortOption],
+        like: sortOption === 'p' ? -1 : null,
+        comment: sortOption === 'c' ? -1 : null,
       },
     });
 
@@ -68,9 +78,22 @@ const RecipePage = () => {
     }
     setPage(page => page + 1);
     setCards(prevRecipes => [...prevRecipes, ...recipes]);
+
+    const postId = location?.state?.postId;
+    if (postId) {
+      delete location.state.postId;
+      const {
+        data: { recipe },
+      } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes/${postId}`);
+      setRecipeData(recipe);
+      showModal();
+    }
   };
 
   useEffect(() => {
+    if (!sortOption) {
+      history.push('recipes?sort=dd');
+    }
     setCards([]);
   }, [sortOption]);
 
@@ -79,6 +102,14 @@ const RecipePage = () => {
       fetchRecipes();
     }
   }, [intersecting, hasNext]);
+
+  const handleCardClick = async postId => {
+    const {
+      data: { recipe },
+    } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes/${postId}`);
+    setRecipeData(recipe);
+    showModal();
+  };
 
   return (
     <Wrapper>
@@ -92,7 +123,15 @@ const RecipePage = () => {
         </SortIconAndText>
         <DropdownContainer />
       </SortMenu>
-      <CardList cards={cards} ref={fetchMoreRef} hasNext={hasNext} />
+      <CardList
+        cards={cards}
+        ref={fetchMoreRef}
+        hasNext={hasNext}
+        handleCardClick={handleCardClick}
+      />
+      <ModalContainer>
+        <RecipePost {...recipeData}></RecipePost>
+      </ModalContainer>
     </Wrapper>
   );
 };

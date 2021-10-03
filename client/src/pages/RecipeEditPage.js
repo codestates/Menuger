@@ -98,6 +98,7 @@ const RecipeEditPage = () => {
       );
       if (status === 201) {
         addMessage({ message, delay: 1000 }, () => {
+          // save postId to redux
           history.push({
             pathname: '/recipes',
             state: { postId },

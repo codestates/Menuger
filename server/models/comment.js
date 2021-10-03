@@ -11,7 +11,7 @@ const commentSchema = new Schema(
       _id: { type: ObjectId, ref: 'user', required: true },
       email: { type: String, required: true },
       nickname: { type: String, required: true },
-      image_url: { type: String, required: true },
+      image_url: { type: String },
     },
     post: { type: ObjectId, refPath: 'postType' },
     postType: { type: String, enum: ['recipe', 'diet'] },

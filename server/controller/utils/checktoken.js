@@ -57,6 +57,7 @@ module.exports = {
               httpOnly: true,
               // secure: true,
               // sameSite: 'None',
+              // domain: '.menuger.shop',
             });
             req.cookies.kakaoAccessToken = access_token;
 
@@ -65,6 +66,7 @@ module.exports = {
                 httpOnly: true,
                 // secure: true,
                 // sameSite: 'None',
+                // domain: '.menuger.shop',
               });
               req.cookies.kakaoRefreshToken = refresh_token;
               user.refreshToken = refresh_token;
@@ -100,8 +102,9 @@ module.exports = {
               const newAccessToken = createAccessToken(user._id.toHexString());
               res.cookie('accessToken', newAccessToken, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'None',
+                // secure: true,
+                // sameSite: 'None',
+                // domain: '.menuger.shop',
               });
               req.cookies.accessToken = newAccessToken;
               next();
@@ -121,8 +124,9 @@ module.exports = {
               const newRefreshToken = createRefreshToken({});
               res.cookie('refreshToken', newRefreshToken, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'None',
+                // secure: true,
+                // sameSite: 'None',
+                // domain: '.menuger.shop',
               });
               req.cookies.refreshToken = newRefreshToken;
 

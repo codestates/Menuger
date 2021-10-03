@@ -40,8 +40,8 @@ const LeftContainer = () => {
   return (
     <Container>
       <StyledLink exact to="/">
-        <img src={logoImageYellow}></img>
-        <img src={logoTextTwoLine}></img>
+        <img src={logoImageYellow} alt="로고 이미지"></img>
+        <img src={logoTextTwoLine} alt="로고 텍스트"></img>
       </StyledLink>
       <StyledLink to="/recipes">레시피</StyledLink>
       <StyledLink to="/DietPage">식단</StyledLink>

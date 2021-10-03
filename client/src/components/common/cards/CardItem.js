@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+import BookmarkButton from '../buttons/BookmarkButton';
+import LikeButton from '../buttons/LikeButton';
+import CommentMark from '../buttons/CommentMark';
 import defaultImage from '../../../utils/logoImage/logoImageYellow.png';
 import UserInfo from './UserInfo';
 import HashtagInfo from './HashtagInfo';
@@ -10,11 +13,9 @@ const CardContainer = styled.li`
   flex-direction: column;
   margin-bottom: 2rem;
   gap: 0.5rem;
-
   &:hover > div.shadow {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
-
   @media screen and (min-width: 769px) {
     padding: 0 1rem;
     width: 50%;
@@ -67,10 +68,6 @@ const UserTagInfoWrapper = styled.div`
   padding-bottom: 0.5rem;
 `;
 
-const PostInfo = styled.div`
-  width: 40%;
-`;
-
 const Border = styled.div`
   position: absolute;
   z-index: -1;
@@ -92,11 +89,18 @@ const Border = styled.div`
   }
 `;
 
+const PostInfo = styled.div`
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
 const CardItem = ({
   _id,
   postType = 'recipe',
   title,
-  subscribed,
   thumbnail_url,
   originalFileName,
   user,
@@ -127,8 +131,10 @@ const CardItem = ({
             updatedAt={updatedAt}
           />
         </UserTagInfoWrapper>
-        <PostInfo comments={commentsCount} likes={likesCount} bookmarks={bookmarksCount}>
-          postinfo
+        <PostInfo>
+          <BookmarkButton number={bookmarksCount} />
+          <LikeButton number={likesCount} />
+          <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>
       <HashtagInfo hashtags={hashtags} />

@@ -67,6 +67,7 @@ const HeaderContainer = styled.header`
   backdrop-filter: saturate(80%) blur(30px); */
   background-color: white;
   display: flex;
+  background-color: white;
   padding-left: 10rem;
   padding-right: 10rem;
   margin: 0 auto;

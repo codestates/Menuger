@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+import BookmarkButton from '../buttons/BookmarkButton';
+import LikeButton from '../buttons/LikeButton';
+import CommentMark from '../buttons/CommentMark';
 import defaultImage from '../../../utils/logoImage/logoImageYellow.png';
 import UserInfo from './UserInfo';
 import HashtagInfo from './HashtagInfo';
@@ -75,7 +78,6 @@ const Img = styled.img`
 `;
 
 const Info = styled.div`
-  flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
   @media (max-width: 768px) {
@@ -83,14 +85,32 @@ const Info = styled.div`
   }
 `;
 
-const UserTagInfoWrapper = styled.div`
-  width: 60%;
+const InfoWrapper = styled.div`
+  display: flex;
+`;
+
+const InnerWrapper = styled.div`
+  flex-grow: 1;
+`;
+
+const UserInfo = styled.div`
+  border: 1px solid #646060;
 `;
 
 const PostInfo = styled.div`
-  width: 40%;
-  height: fit-content;
-  border: 1px solid green;
+  border: 1px solid #646060;
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const TagInfo = styled.div`
+  border: 1px solid #646060;
+
+const UserTagInfoWrapper = styled.div`
+  width: 60%;
 `;
 
 const CardItem = ({
@@ -126,8 +146,10 @@ const CardItem = ({
           <UserInfo image_url={user.image_url} nickname={user.nickname} />
           <HashtagInfo hashtags={hashtags} />
         </UserTagInfoWrapper>
-        <PostInfo comments={commentsCount} likes={likesCount} bookmarks={bookmarksCount}>
-          postinfo
+        <PostInfo>
+           <BookmarkButton number={bookmarksCount} />
+           <LikeButton number={likesCount} />
+           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>
     </CardContainer>

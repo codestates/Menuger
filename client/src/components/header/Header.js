@@ -61,6 +61,7 @@ const HeaderContainer = styled.header`
   border-bottom: 1px solid;
   border-color: rgba(160, 160, 160, 0.25);
   display: flex;
+  background-color: white;
   padding-left: 10rem;
   padding-right: 10rem;
   margin: 0 auto;

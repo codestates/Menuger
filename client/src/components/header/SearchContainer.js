@@ -22,6 +22,7 @@ const Container = styled.div`
     padding-left: 5px;
     padding-right: 3px;
     width: 150px;
+    flex-grow: 1;
   }
   select {
     background-color: white;

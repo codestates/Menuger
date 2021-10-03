@@ -15,17 +15,6 @@ const StyledLink = styled(NavLink)`
   &.active {
     color: #ffc436;
   }
-  :hover {
-    animation: rotate 0.5s linear infinite alternate;
-    @keyframes rotate {
-      50% {
-        transform: translateY(4px) rotate(15deg);
-      }
-      100% {
-        transform: translateY(-4px) rotate(-10deg);
-      }
-    }
-  }
   > :nth-child(1) {
     height: 50px;
     padding: 0;
@@ -51,8 +40,8 @@ const LeftContainer = () => {
   return (
     <Container>
       <StyledLink exact to="/">
-        <img src={logoImageYello}></img>
-        <img src={logoTextTwoLine}></img>
+        <img src={logoImageYello} alt="로고 이미지"></img>
+        <img src={logoTextTwoLine} alt="로고 텍스트"></img>
       </StyledLink>
       <StyledLink to="/RecipePage">레시피</StyledLink>
       <StyledLink to="/DietPage">식단</StyledLink>

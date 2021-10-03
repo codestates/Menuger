@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { darken, lighten } from 'polished';
+import { lighten } from 'polished';
 
 import { AiOutlineComment } from 'react-icons/ai';
 
@@ -19,52 +19,46 @@ const CommentMarkStyle = styled.button`
   cursor: pointer;
 
   ${IconSytle} {
-    font-size: ${props => props.imageSize || '2em'};
-    color: ${({ active }) => (active ? darken(0.2, '#87e0f3') : '#424242')};
-  }
-
-  ${SpanStyle} {
-    color: rgba(66, 66, 66);
-    font-size: ${props => props.fontSize || '1em'};
-  }
-
-  &:hover {
-    * {
+    font-size: ${props => props.imageSize || '1.5em'};
+    color: #424242;
+    &:hover {
       color: ${props => lighten(0.1, props.backgroundColor || 'gray')};
     }
   }
 
-  @media (max-width: 768px) {
-    width: 15vw;
-    height: 4em;
-    padding-bottom: 0;
-    ${IconSytle} {
-      font-size: 3em;
-    }
-    ${SpanStyle} {
-      font-size: 1.5em;
-    }
+  ${SpanStyle} {
+    color: #606060;
+    font-size: ${props => props.fontSize || '1em'};
+    margin-top: -0.5em;
   }
-  @media (max-width: 900px) {
-    width: 2em;
-    height: 4em;
-    padding-bottom: 0;
-    ${IconSytle} {
-      font-size: 2.5em;
-    }
-    ${SpanStyle} {
-      font-size: 1.5em;
-    }
-  }
+
   @media (max-width: 1200px) {
-    width: 2em;
-    height: 3em;
     padding-bottom: 0;
     ${IconSytle} {
-      font-size: 2.2em;
+      font-size: 2.5vw;
     }
     ${SpanStyle} {
-      font-size: 1.3em;
+      font-size: 1.3vw;
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding-bottom: 0;
+    ${IconSytle} {
+      font-size: 4vw;
+    }
+    ${SpanStyle} {
+      font-size: 2vw;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-bottom: 0;
+    ${IconSytle} {
+      font-size: 6vw;
+    }
+    ${SpanStyle} {
+      font-size: 3vw;
     }
   }
 `;

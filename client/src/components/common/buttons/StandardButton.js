@@ -19,8 +19,9 @@ const StandardButtonStyle = styled.button`
   &:active {
     background-color: ${props => darken(0.1, props.backgroundColor || '#ffc436')};
   }
+
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: ${props => props.width || '100%'};
   }
 `;
 

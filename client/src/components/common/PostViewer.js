@@ -2,14 +2,11 @@ import styled from 'styled-components';
 
 //import components
 import StandardButton from '../common/buttons/StandardButton';
+import PostInfoViewer from './PostInfoViewer';
 
 //import temporary
 
-const PostViewerStyle = styled.div`
-  border: solid 1px #000;
-  border-radius: 5px;
-  padding: 20px;
-`;
+const PostViewerStyle = styled.div``;
 
 const ViewerHeader = styled.div`
   display: flex;
@@ -17,6 +14,7 @@ const ViewerHeader = styled.div`
   align-items: center;
 
   > h1 {
+    flex-grow: 1;
     font-size: 2rem;
   }
 `;
@@ -57,10 +55,6 @@ const TempComponent = styled.div`
   border-radius: 5px;
   padding: 10px;
 
-  &.info {
-    min-height: 200px;
-  }
-
   &.comments {
     min-height: 300px;
   }
@@ -70,19 +64,29 @@ const TempComponent = styled.div`
   }
 `;
 
-const PostViewer = ({ children, title = '제목 기본값', comments }) => {
+const PostViewer = ({
+  children,
+  title = '제목 기본값',
+  comments,
+  user,
+  bookmarksCount,
+  likesCount,
+  hashtags,
+}) => {
   //comments = 댓글 컴포넌트 props로 전달
-
   return (
     <PostViewerStyle>
       <ViewerHeader>
         <h1>{title}</h1>
-        <StandardButton>수정</StandardButton>
+        <StandardButton width="fit-content">수정</StandardButton>
       </ViewerHeader>
       <ViewerSection>
-        <div className="info">
-          <TempComponent className="info">정보 컴포넌트</TempComponent>
-        </div>
+        <PostInfoViewer
+          user={user}
+          bookmarksCount={bookmarksCount}
+          likesCount={likesCount}
+          hashtags={hashtags}
+        />
         <div className="main">{children || <TempComponent>Viewer</TempComponent>}</div>
         <div className="comments">
           <TempComponent className="comments">댓글 컴포넌트</TempComponent>

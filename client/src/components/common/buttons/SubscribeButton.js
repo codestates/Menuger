@@ -6,16 +6,17 @@ const SubBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: none;
-  width: 8em;
+  width: 5em;
   height: 2.1em;
-  color: ${({ subscribed }) => (subscribed ? '#646060' : 'white')};
-  background-color: ${({ subscribed }) => (subscribed ? '#ececec' : '#cc0000')};
+  color: ${({ subscribed }) => (subscribed ? '#ffc436' : '#424242')};
+  background-color: white;
+  border: 1px solid ${({ subscribed }) => (subscribed ? '#ffc436' : '#424242')};
   border-radius: 3px;
   font-size: ${({ fontSize }) => `${fontSize}px`};
   font-weight: bold;
   &:hover {
     cursor: pointer;
+    opacity: 0.7;
   }
   &:disabled {
     cursor: not-allowed;

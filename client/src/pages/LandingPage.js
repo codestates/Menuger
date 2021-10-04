@@ -136,7 +136,7 @@ const PageScrollerContainer = styled.div`
 
 const LandingPage = () => {
   const [useScroll, setUseScroll] = useState(0);
-  const { toastRef } = useSelector(state => state.toastReducer);
+  const { toastRef } = useSelector(state => state.toast);
   const dispatch = useDispatch();
   const addMessage = useToast();
 

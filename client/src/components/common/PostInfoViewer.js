@@ -5,7 +5,7 @@ import svgToComponent from '../../utils/svg';
 import LikeButton from '../common/buttons/LikeButton';
 import BookMarkButton from '../common/buttons/BookmarkButton';
 import HashtagInfo from './cards/HashtagInfo';
-import SubscribeButton from './buttons/SubscribeButton';
+import useSubscribe from '../../hooks/useSubscribe';
 
 const PostInfoViewerStyle = styled.div`
   min-height: 200px;
@@ -72,7 +72,8 @@ const SocialInfoContainer = styled.div`
   > .button-container {
     display: flex;
     justify-content: space-between;
-    > button {
+    align-items: center;
+    > button:not(:first-of-type) {
       width: 40px;
       height: 40px;
     }
@@ -84,6 +85,8 @@ const SocialInfoContainer = styled.div`
 `;
 
 const PostInfoViewer = ({ user = {}, bookmarksCount = 0, likesCount = 0, hashtags = [] }) => {
+  const SubscribeButton = useSubscribe({ postId: null, postType: null, subscribed: false });
+
   hashtags = ['temp1', 'temp2'];
   return (
     <PostInfoViewerStyle>

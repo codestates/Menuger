@@ -265,7 +265,7 @@ const RightContainer = ({
   handleDropdown,
   useHamburgerMenu,
 }) => {
-  const userInfo = useSelector(state => state.userReducer);
+  const userInfo = useSelector(state => state.user);
   const [modalContent, setModalContent] = useState('');
   const [userDropdown, setUserDropdown] = useState(false);
   const { showModal, hideModal, ModalContainer } = useModal({

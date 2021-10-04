@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setUserInfo } from '../../modules/user';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import useToast from '../../hooks/toast/useToast';
+import { setUserInfo } from '../../modules/user';
 import svgToComponent from '../../utils/svg';
 
 const Wrapper = styled.div`

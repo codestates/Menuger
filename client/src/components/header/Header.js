@@ -114,7 +114,7 @@ const Header = () => {
   const [useHamburgerMenu, setUseHamburgerMenu] = useState(true);
   const [useSearch, setUseSearch] = useState(false);
 
-  const userInfo = useSelector(state => state.userReducer);
+  const userInfo = useSelector(state => state.user);
   const addMessage = useToast();
 
   const handleDropdown = () => {

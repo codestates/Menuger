@@ -9,7 +9,6 @@ import { HiOutlineArrowCircleUp } from 'react-icons/hi';
 
 const Wrapper = styled.div`
   overflow-x: hidden;
-  //background-color: ${({ isDark }) => isDark && 'white'};
 `;
 
 const CardListContainer = styled.ul`

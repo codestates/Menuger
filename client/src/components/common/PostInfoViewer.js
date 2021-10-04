@@ -1,11 +1,8 @@
 import styled from 'styled-components';
 import svgToComponent from '../../utils/svg';
 
-//import components
-import LikeButton from '../common/buttons/LikeButton';
-import BookMarkButton from '../common/buttons/BookmarkButton';
 import HashtagInfo from './cards/HashtagInfo';
-import useSubscribe from '../../hooks/useSubscribe';
+import PostInfoButtons from './buttons/PostInfoButtons';
 
 const PostInfoViewerStyle = styled.div`
   min-height: 200px;
@@ -69,24 +66,12 @@ const SocialInfoContainer = styled.div`
     }
   }
 
-  > .button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    > button:not(:first-of-type) {
-      width: 40px;
-      height: 40px;
-    }
-  }
-
   @media screen and (max-width: 768px) {
     column-gap: 40px;
   }
 `;
 
 const PostInfoViewer = ({ user = {}, bookmarksCount = 0, likesCount = 0, hashtags = [] }) => {
-  const SubscribeButton = useSubscribe({ postId: null, postType: null, subscribed: false });
-
   hashtags = ['temp1', 'temp2'];
   return (
     <PostInfoViewerStyle>
@@ -101,21 +86,7 @@ const PostInfoViewer = ({ user = {}, bookmarksCount = 0, likesCount = 0, hashtag
           <div id="nickname">{user.nickname || 'default'}</div>
         </a>
         <div className="button-container">
-          <SubscribeButton />
-          <LikeButton
-            width="40px"
-            height="40px"
-            imageSize="2rem"
-            fontSize="1.1rem"
-            number={likesCount}
-          />
-          <BookMarkButton
-            width="40px"
-            height="40px"
-            imageSize="2rem"
-            fontSize="1.1rem"
-            number={bookmarksCount}
-          />
+          <PostInfoButtons />
         </div>
       </SocialInfoContainer>
       <HashtagInfo hashtags={hashtags} />

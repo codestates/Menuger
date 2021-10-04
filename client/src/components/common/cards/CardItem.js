@@ -149,9 +149,11 @@ const CardItem = ({
           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>
-      <HashtagInfoWrapper>
-        <HashtagInfo hashtags={hashtags} />
-      </HashtagInfoWrapper>
+      {!!hashtags.length && (
+        <HashtagInfoWrapper>
+          <HashtagInfo hashtags={hashtags} />
+        </HashtagInfoWrapper>
+      )}
       <Border className="shadow" />
     </CardContainer>
   );

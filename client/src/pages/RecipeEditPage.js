@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -8,6 +9,7 @@ import useToast from '../hooks/toast/useToast';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashTagEditor from '../components/common/HashtagEditor';
 import extractThumbnailKey from '../utils/thumbnail';
+import { setPostInfo } from '../modules/post';
 
 const { REACT_APP_MOBILE_WIDTH, REACT_APP_WEB_MAX_WIDTH } = process.env;
 
@@ -52,6 +54,7 @@ const RecipeEditPage = () => {
   const [disabled, setDisabled] = useState(false);
   const addMessage = useToast();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onClickSave = async () => {
     const title = titleRef.current.value;
@@ -63,6 +66,7 @@ const RecipeEditPage = () => {
       addMessage({ mode: 'info', message: '제목을 입력해주세요', delay: 1000 });
       return;
     }
+
     if (!recipeContent.trim().length) {
       editorInstance.mdEditor.el.childNodes[1].focus();
       addMessage({ mode: 'info', message: '본문을 입력해주세요', delay: 1000 });
@@ -97,11 +101,11 @@ const RecipeEditPage = () => {
         },
       );
       if (status === 201) {
+        dispatch(setPostInfo('recipes', postId));
         addMessage({ message, delay: 1000 }, () => {
-          // save postId to redux
           history.push({
             pathname: '/recipes',
-            state: { postId },
+            search: '?sort=dd',
           });
         });
       } else {

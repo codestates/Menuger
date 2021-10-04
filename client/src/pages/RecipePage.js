@@ -1,17 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import CardList from '../components/common/cards/CardList';
-import svgToComponent from '../utils/svg';
+import RecipePost from '../components/recipe/RecipePost';
+import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import useDropdown from '../hooks/useDropdown';
 import useQuery from '../hooks/useQuery';
-import { sortOptions, sortMenus, sortOptionMapper } from '../utils/sort';
 import useModal from '../hooks/useModal';
-import RecipePost from '../components/recipe/RecipePost';
+import svgToComponent from '../utils/svg';
+import { sortOptions, sortMenus, sortOptionMapper } from '../utils/sort';
+import { resetPostInfo } from '../modules/post';
 
 const Wrapper = styled.div`
   max-width: 1130px;
@@ -31,10 +32,13 @@ const SortMenu = styled.div`
 const SortIconAndText = styled.div`
   display: flex;
   gap: 0.5em;
-  color: #3c4043;
+  color: ${({ isDark }) => (isDark ? 'white' : '#3c4043')};
   align-items: center;
   &:hover {
     cursor: pointer;
+  }
+  & > svg {
+    fill: ${({ isDark }) => isDark && 'white'};
   }
 `;
 
@@ -43,8 +47,9 @@ const RecipePage = () => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
   const [recipeData, setRecipeData] = useState();
-  const location = useLocation();
-  const history = createBrowserHistory({ forceRefresh: true });
+  const { postType, postId } = useSelector(state => state.post);
+  const { isDarkMode } = useSelector(state => state.theme);
+  const dispatch = useDispatch();
   const query = useQuery();
   const { showModal, ModalContainer } = useModal({
     width: 100,
@@ -55,9 +60,16 @@ const RecipePage = () => {
 
   const fetchMoreRef = useRef();
   const intersecting = useInfiniteScroll(fetchMoreRef);
+  const historyRef = useRef();
+  const getHistory = useCallback(() => {
+    if (!historyRef.current) {
+      historyRef.current = createBrowserHistory({ forceRefresh: true });
+    }
+    return historyRef.current;
+  }, []);
 
-  const loadSortedRecipes = option => history.push(`recipes?sort=${option}`);
-  const sortOption = query.get('sort'); // || 'dd';
+  const loadSortedRecipes = option => getHistory().push(`recipes?sort=${option}`);
+  const sortOption = query.get('sort');
   const curMenu = sortOptions.indexOf(sortOption);
   const { showDropdown, DropdownContainer } = useDropdown(sortMenus, curMenu, loadSortedRecipes);
 
@@ -78,24 +90,28 @@ const RecipePage = () => {
     }
     setPage(page => page + 1);
     setCards(prevRecipes => [...prevRecipes, ...recipes]);
-
-    const postId = location?.state?.postId;
-    if (postId) {
-      delete location.state.postId;
-      const {
-        data: { recipe },
-      } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes/${postId}`);
-      setRecipeData(recipe);
-      showModal();
+    if (postType === 'recipes' && postId) {
+      try {
+        const {
+          data: { recipe },
+        } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}`);
+        setRecipeData(recipe);
+        showModal();
+      } catch (err) {
+        console.log(err);
+        getHistory.push('recipes?sort=dd');
+      } finally {
+        dispatch(resetPostInfo());
+      }
     }
   };
 
   useEffect(() => {
     if (!sortOption) {
-      history.push('recipes?sort=dd');
+      getHistory.push('recipes?sort=dd');
     }
     setCards([]);
-  }, [sortOption]);
+  }, [sortOption, getHistory]);
 
   useEffect(() => {
     if (intersecting && hasNext) {
@@ -112,9 +128,9 @@ const RecipePage = () => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper isDark={isDarkMode}>
       <SortMenu>
-        <SortIconAndText onClick={showDropdown}>
+        <SortIconAndText onClick={showDropdown} isDark={isDarkMode}>
           {svgToComponent({
             svgName: 'sortIcon',
             props: { width: 25, height: 25, display: 'block' },

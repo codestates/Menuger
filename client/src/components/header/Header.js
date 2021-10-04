@@ -63,8 +63,6 @@ const HeaderContainer = styled.header`
   height: 80px;
   border-bottom: 1px solid;
   border-color: rgba(160, 160, 160, 0.25);
-  /* background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: saturate(80%) blur(30px); */
   background-color: white;
   display: flex;
   background-color: white;
@@ -167,6 +165,7 @@ const Header = () => {
       <Switch>
         <Route exact path="/" component={LandingPage}></Route>
         <Route path="/recipes" component={RecipePage}></Route>
+        <Route path="/recipes?sort=dd" component={RecipePage}></Route>
         <Route path="/RecipeEditPage" component={RecipeEditPage}></Route>
         <Route path="/DietPage" component={DietPage}></Route>
         <Route path="/DietEditPage" component={DietEditPage}></Route>

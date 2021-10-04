@@ -63,9 +63,19 @@ const Info = styled.div`
   padding: 0 3%;
 `;
 
-const UserTagInfoWrapper = styled.div`
+const UserInfoWrapper = styled.div`
   width: 60%;
   padding-bottom: 0.5rem;
+`;
+
+const HashtagInfoWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: auto;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 15%;
+  border-top: 1px solid #e4e4e4;
 `;
 
 const Border = styled.div`
@@ -124,7 +134,7 @@ const CardItem = ({
         </Figure>
       </Wrapper>
       <Info>
-        <UserTagInfoWrapper>
+        <UserInfoWrapper>
           <UserInfo
             handleCardClick={() => handleCardClick(postId)}
             image_url={user.image_url}
@@ -132,14 +142,16 @@ const CardItem = ({
             title={title}
             updatedAt={updatedAt}
           />
-        </UserTagInfoWrapper>
+        </UserInfoWrapper>
         <PostInfo>
           <BookmarkButton number={bookmarksCount} />
           <LikeButton number={likesCount} />
           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>
-      <HashtagInfo hashtags={hashtags} />
+      <HashtagInfoWrapper>
+        <HashtagInfo hashtags={hashtags} />
+      </HashtagInfoWrapper>
       <Border className="shadow" />
     </CardContainer>
   );

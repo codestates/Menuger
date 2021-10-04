@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
@@ -86,10 +87,10 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  & > div {
+  span {
     cursor: pointer;
     color: #3c4043;
-    &:hover {
+    :hover {
       color: #ffc436;
     }
   }
@@ -130,7 +131,7 @@ const Container = styled.div`
   ${({ signedIn }) =>
     signedIn &&
     css`
-      svg {
+      > svg {
         margin-right: -2rem;
         cursor: pointer;
       }
@@ -169,7 +170,7 @@ const DropdownContainer = styled.div`
   display: flex;
   position: absolute;
   top: 90%;
-  right: 9%;
+  right: 16%;
   flex-direction: column;
   background-color: white;
   * {
@@ -202,6 +203,61 @@ const DropdownContainer = styled.div`
   }
 `;
 
+const UserDropdown = styled.section`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 5px;
+  top: 110%;
+  right: 10%;
+  align-items: center;
+  width: 80px;
+  background-color: white;
+  & > span {
+    :hover {
+      color: #ffc436;
+    }
+    cursor: pointer;
+  }
+
+  ${props =>
+    !props.active &&
+    css`
+      display: none;
+    `}
+
+  * {
+    display: flex;
+    width: 50px;
+    text-align: center;
+    justify-content: center;
+    z-index: 5;
+  }
+
+  :after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+  }
+  :before {
+    z-index: 2;
+    content: '';
+    position: absolute;
+    bottom: 99.5%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+  }
+`;
+
 const RightContainer = ({
   handleHamburgerMenu,
   useDropdown,
@@ -211,6 +267,7 @@ const RightContainer = ({
 }) => {
   const userInfo = useSelector(state => state.userReducer);
   const [modalContent, setModalContent] = useState('');
+  const [userDropdown, setUserDropdown] = useState(false);
   const { showModal, hideModal, ModalContainer } = useModal({
     width: 30,
     height: 70,
@@ -233,11 +290,28 @@ const RightContainer = ({
         )}
       </ModalContainer>
       <Container active={useHamburgerMenu} signedIn={!!userInfo.email}>
-        {userInfo.email && <div>{userInfo.nickname}</div>}
+        {userInfo.email && (
+          <>
+            <div
+              className="menu"
+              onClick={() => {
+                setUserDropdown(!userDropdown);
+              }}
+            >
+              <span style={{ position: 'relative' }}>
+                {userInfo.nickname}
+                <UserDropdown active={userDropdown}>
+                  <StyledLink to="/mypage">마이페이지</StyledLink>
+                  <span>로그아웃</span>
+                </UserDropdown>
+              </span>
+            </div>
+          </>
+        )}
         {!userInfo.email && (
           <>
-            <div onClick={() => handleMenuClick('signin')}>로그인</div>
-            <div onClick={() => handleMenuClick('signup')}>회원가입</div>
+            <span onClick={() => handleMenuClick('signin')}>로그인</span>
+            <span onClick={() => handleMenuClick('signup')}>회원가입</span>
           </>
         )}
         <WriteByMobile ref={popRef}>

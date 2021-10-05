@@ -44,7 +44,7 @@ const Container = styled.div`
   }
 `;
 
-const SearchContainer = ({ useSearch }) => {
+const SearchContainer = ({ useSearch, searchInputRef }) => {
   const [selected, setSelected] = useState('레시피');
   const [search, setSearch] = useState('');
 
@@ -70,7 +70,7 @@ const SearchContainer = ({ useSearch }) => {
   };
 
   return (
-    <Container useSearch={useSearch} onKeyPress={onClickEvent}>
+    <Container useSearch={useSearch} onKeyPress={onClickEvent} ref={searchInputRef}>
       <select onChange={handleSelect}>
         <option value="레시피">레시피</option>
         <option value="식단">식단</option>

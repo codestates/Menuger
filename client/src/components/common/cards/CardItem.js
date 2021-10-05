@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import BookmarkButton from '../buttons/BookmarkButton';
@@ -12,7 +13,14 @@ const CardContainer = styled.li`
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
-  gap: 0.5rem;
+  //gap: 0.5rem;
+  transition: 0.3s;
+  background-color: ${({ isDark }) => isDark && 'white'};
+
+  &:hover {
+    transform: translateY(-0.7rem);
+    transition: 0.3s;
+  }
   &:hover > div.shadow {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
@@ -33,6 +41,9 @@ const Wrapper = styled.div`
   overflow: hidden;
   border-top-right-radius: 7px;
   border-top-left-radius: 7px;
+  &:nth-child(1) {
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Figure = styled.figure`
@@ -61,11 +72,25 @@ const Info = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0 3%;
+  background-color: ${({ isDark }) => isDark && 'white'};
 `;
 
-const UserTagInfoWrapper = styled.div`
+const UserInfoWrapper = styled.div`
   width: 60%;
   padding-bottom: 0.5rem;
+`;
+
+const HashtagInfoWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: auto;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 15%;
+  border-top: 1px solid #e4e4e4;
+  background-color: ${({ isDark }) => isDark && 'white'};
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 `;
 
 const Border = styled.div`
@@ -80,12 +105,10 @@ const Border = styled.div`
   border-top-left-radius: 7px;
   border-radius: 7px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: ${({ isDark }) => !isDark && 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)'};
+  background-color: ${({ isDark }) => isDark && 'white'};
   @media (max-width: 768px) {
     margin: 0;
-  }
-  &:hover {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
 `;
 
@@ -98,7 +121,7 @@ const PostInfo = styled.div`
 
 const CardItem = ({
   postId,
-  postType = 'recipe',
+  postType,
   title,
   thumbnail_url,
   originalFileName,
@@ -110,6 +133,8 @@ const CardItem = ({
   updatedAt,
   handleCardClick,
 }) => {
+  const { isDarkMode } = useSelector(state => state.theme);
+
   return (
     <CardContainer>
       <Wrapper>
@@ -123,8 +148,8 @@ const CardItem = ({
           <Img src={thumbnail_url} alt={originalFileName} />
         </Figure>
       </Wrapper>
-      <Info>
-        <UserTagInfoWrapper>
+      <Info isDark={isDarkMode}>
+        <UserInfoWrapper isDark={isDarkMode}>
           <UserInfo
             handleCardClick={() => handleCardClick(postId)}
             image_url={user.image_url}
@@ -132,15 +157,19 @@ const CardItem = ({
             title={title}
             updatedAt={updatedAt}
           />
-        </UserTagInfoWrapper>
-        <PostInfo>
+        </UserInfoWrapper>
+        <PostInfo isDark={isDarkMode}>
           <BookmarkButton number={bookmarksCount} />
           <LikeButton number={likesCount} />
           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>
-      <HashtagInfo hashtags={hashtags} />
-      <Border className="shadow" />
+      {!!hashtags.length && (
+        <HashtagInfoWrapper isDark={isDarkMode}>
+          <HashtagInfo hashtags={hashtags} />
+        </HashtagInfoWrapper>
+      )}
+      <Border className="shadow" isDark={isDarkMode} />
     </CardContainer>
   );
 };

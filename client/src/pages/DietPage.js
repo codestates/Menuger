@@ -4,10 +4,6 @@ import { useState } from 'react';
 
 //import components
 import DietPost from '../components/diet/DietPost';
-import RecipePost from '../components/recipe/RecipePost';
-
-//import temporary
-import dummydata from '../components/diet/dummy_data';
 
 const DietPage = () => {
   const { isVisible, showModal, hideModal, ModalContainer } = useModal({});
@@ -26,6 +22,8 @@ const DietPage = () => {
       }
     } catch (e) {
       console.error(e);
+      console.log('catch함');
+      showModal();
     }
   };
   return (
@@ -45,13 +43,7 @@ const DietPage = () => {
         임시 버튼 id='61569c1cddedfe0b6ac1f825'
       </button>
       <ModalContainer>
-        <RecipePost />
-        {/* <DietPost
-          title={dietPostInfo.diet.title}
-          subtitle={dietPostInfo.diet.subtitle}
-          dietColumnList={dietPostInfo.diet.dietColumnList}
-          content={dietPostInfo.diet.content}
-        /> */}
+        <DietPost post={dietPostInfo.diet} comments={dietPostInfo.comments} />
       </ModalContainer>
       식단페이지
     </div>

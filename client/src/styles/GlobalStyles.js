@@ -13,16 +13,17 @@ const GlobalStyle = createGlobalStyle`
     }
 
     *::-webkit-scrollbar-track {
-        background: #f1f1f1; 
+        background: #e4e4e4;
+        border-radius: 5px; 
     }
 
     *::-webkit-scrollbar-thumb {
-        background: #888;
+        background: #9f9f9f;
         border-radius: 5px;
     }
 
     *::-webkit-scrollbar-thumb:hover {
-        background: #555; 
+        background: #888888;
     }
 `;
 

@@ -37,6 +37,7 @@ const ModalContainer = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     min-width: 100%;
+    padding: 3rem 0;
   }
   @keyframes slideIn {
     0% {

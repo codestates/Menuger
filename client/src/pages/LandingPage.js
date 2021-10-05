@@ -136,7 +136,7 @@ const PageScrollerContainer = styled.div`
 
 const LandingPage = () => {
   const [useScroll, setUseScroll] = useState(0);
-  const { toastRef } = useSelector(state => state.toastReducer);
+  const { toastRef } = useSelector(state => state.toast);
   const dispatch = useDispatch();
   const addMessage = useToast();
 
@@ -182,13 +182,15 @@ const LandingPage = () => {
           <Circle key={idx} active={idx === useScroll} onClick={() => setUseScroll(idx)} />
         ))}
       </CircleContainer>
-      <ScrollToTop>
-        <HiOutlineArrowCircleUp
-          onClick={() => {
-            page(0);
-          }}
-        />
-      </ScrollToTop>
+      {useScroll > 0 && (
+        <ScrollToTop>
+          <HiOutlineArrowCircleUp
+            onClick={() => {
+              page(0);
+            }}
+          />
+        </ScrollToTop>
+      )}
       <PageScrollerContainer>
         <ReactPageScroller
           className="scroller"

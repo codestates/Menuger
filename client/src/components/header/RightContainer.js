@@ -3,12 +3,13 @@ import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+
 
 import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
 import Signin from '../auth/Signin';
 import svgToComponent from '../../utils/svg';
+import useDarkToggle from '../../hooks/useDarkToggle';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -266,9 +267,10 @@ const RightContainer = ({
   handleDropdown,
   useHamburgerMenu,
 }) => {
-  const userInfo = useSelector(state => state.userReducer);
+  const userInfo = useSelector(state => state.user);
   const [modalContent, setModalContent] = useState('');
   const [userDropdown, setUserDropdown] = useState(false);
+  const DarkModeToggler = useDarkToggle();
   const { showModal, hideModal, ModalContainer } = useModal({
     width: 30,
     height: 70,
@@ -350,6 +352,7 @@ const RightContainer = ({
           </button>
         </WriteContainer>
       </Container>
+      <DarkModeToggler />
     </>
   );
 };

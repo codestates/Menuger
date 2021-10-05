@@ -26,9 +26,26 @@ const DietPostStyle = styled.div`
   }
 `;
 
-const DietPost = ({ title, dietColumnList, subtitle, content, comments }) => {
+const DietPost = ({ post, comments }) => {
+  const {
+    title,
+    subtitle,
+    dietColumnList = [],
+    content,
+    user,
+    bookmarksCount,
+    likesCount,
+    hashtags,
+  } = post;
   return (
-    <PostViewer title={title} comments={comments}>
+    <PostViewer
+      title={title}
+      comments={comments}
+      user={user}
+      bookmarksCount={bookmarksCount}
+      likesCount={likesCount}
+      hashtags={hashtags}
+    >
       <DietPostStyle>
         <DietColumnContainer dietColumnList={dietColumnList} readonly />
         <textarea value={subtitle} readOnly></textarea>

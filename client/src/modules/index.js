@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
 
-//import module
-import ex_counter from './ex_counter';
 import dietColumnContainer from './dietColumnContainer';
-import toastReducer from './toast';
-import userReducer from './user';
+import toast from './toast';
+import user from './user';
+import post from './post';
+import theme from './theme';
 
 const rootReducer = combineReducers({
-  //module 등록
-  ex_counter,
   dietColumnContainer,
-  toastReducer,
-  userReducer,
+  toast,
+  user,
+  post,
+  theme,
 });
 
 export default rootReducer;

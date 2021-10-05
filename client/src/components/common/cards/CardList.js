@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import CardItem from './CardItem';
 import svgToComponent from '../../../utils/svg';
@@ -22,7 +23,7 @@ const CardListContainer = styled.ul`
 const ScrollEnd = styled.div`
   display: flex;
   justify-content: center;
-  height: 70px;
+  height: 0px;
 `;
 
 const ScrollToTop = styled.div`
@@ -38,12 +39,20 @@ const ScrollToTop = styled.div`
   }
 `;
 
+const EmptyDiv = styled.div`
+  height: 70px;
+`;
+
 const CardList = forwardRef(({ cards, hasNext, handleCardClick }, fetchMoreRef) => {
-  const arrowDownConfig = { svgName: 'arrowDown', props: { width: 200 } };
+  const { isDarkMode } = useSelector(state => state.theme);
+  const arrowDownConfig = {
+    svgName: 'arrowDown',
+    props: { width: 200, fill: isDarkMode ? 'white' : 'black' },
+  };
 
   return (
     <>
-      <Wrapper>
+      <Wrapper isDark={isDarkMode}>
         <CardListContainer>
           {cards.map(card => (
             <CardItem
@@ -64,12 +73,15 @@ const CardList = forwardRef(({ cards, hasNext, handleCardClick }, fetchMoreRef) 
           ))}
         </CardListContainer>
       </Wrapper>
-      <ScrollEnd ref={fetchMoreRef}>
-        {hasNext && cards.length > 0 && svgToComponent(arrowDownConfig)}
-        <ScrollToTop onClick={scrollToTop}>
-          <HiOutlineArrowCircleUp />
-        </ScrollToTop>
-      </ScrollEnd>
+      {hasNext && (
+        <ScrollEnd ref={fetchMoreRef}>
+          {cards.length > 0 && svgToComponent(arrowDownConfig)}
+        </ScrollEnd>
+      )}
+      {!hasNext && <EmptyDiv />}
+      <ScrollToTop onClick={scrollToTop}>
+        <HiOutlineArrowCircleUp />
+      </ScrollToTop>
     </>
   );
 });

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
@@ -280,6 +281,16 @@ const RightContainer = ({
     showModal();
   };
 
+  const signOut = async () => {
+    try {
+      await axios
+        .post(`${process.env.REACT_APP_ENDPOINT_URL}/users/signout`, {}, { withCredentials: true })
+        .then(window.location.replace('/'));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <ModalContainer>
@@ -303,7 +314,7 @@ const RightContainer = ({
                 {userInfo.nickname}
                 <UserDropdown active={userDropdown}>
                   <StyledLink to="/mypage">마이페이지</StyledLink>
-                  <span>로그아웃</span>
+                  <span onClick={signOut}>로그아웃</span>
                 </UserDropdown>
               </span>
             </div>

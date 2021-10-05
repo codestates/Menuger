@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -56,11 +56,15 @@ const SearchContainer = ({ useSearch }) => {
     setSearch(e.target.value);
   };
 
+  const typeMapper = { 레시피: '/recipes', 식단: '/diets' };
+  const history = useHistory();
+
   const onClickEvent = async e => {
     if (e.key === 'Enter') {
-      await axios.post(`http://localhost:80/search`, {
-        postType: selected,
-        input: search,
+      history.push({
+        pathname: typeMapper[selected],
+        search: '?sort=dd',
+        state: { input: search },
       });
     }
   };

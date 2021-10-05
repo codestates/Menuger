@@ -17,12 +17,14 @@ const DietColumnHeaderStyle = styled.div`
   }
 
   > .input-title {
+    width: auto;
     outline: none;
     border: none;
     border-bottom: solid 1px #000;
     background-color: rgba(0, 0, 0, 0);
     font-size: 1rem;
     padding: 0;
+    flex-grow: 1;
   }
 `;
 
@@ -59,6 +61,7 @@ const DietColumnHeader = ({ title, index, removeColumn, changeTitle, readonly = 
       {!readonly && isEditMode ? (
         <>
           <input
+            size="1"
             className="input-title"
             value={inputTitle}
             onChange={e => setInputTitle(e.target.value)}

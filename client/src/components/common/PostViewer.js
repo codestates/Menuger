@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 //import components
 import StandardButton from '../common/buttons/StandardButton';
@@ -6,16 +7,29 @@ import PostInfoViewer from './PostInfoViewer';
 
 //import temporary
 
-const PostViewerStyle = styled.div``;
+const PostViewerStyle = styled.div`
+  padding-right: 10px;
+
+  @media screen and (max-width: 768px) {
+    padding-right: 0;
+  }
+`;
 
 const ViewerHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 
   > h1 {
     flex-grow: 1;
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    > h1 {
+      text-indent: 0.5rem;
+    }
   }
 `;
 
@@ -25,7 +39,7 @@ const ViewerSection = styled.section`
   grid-template:
     'main info' auto
     'main comments' 1fr
-    / 7fr 3fr;
+    / 1fr 300px;
   gap: 10px 10px;
 
   > .main {
@@ -44,7 +58,8 @@ const ViewerSection = styled.section`
     grid-template:
       'info'
       'main'
-      'comments';
+      'comments'
+      / 100%;
   }
 `;
 
@@ -74,11 +89,12 @@ const PostViewer = ({
   hashtags,
 }) => {
   //comments = 댓글 컴포넌트 props로 전달
+  const isAuthority = useSelector(state => state.user.email) === user.email;
   return (
     <PostViewerStyle>
       <ViewerHeader>
         <h1>{title}</h1>
-        <StandardButton width="fit-content">수정</StandardButton>
+        {isAuthority && <StandardButton width="fit-content">수정</StandardButton>}
       </ViewerHeader>
       <ViewerSection>
         <PostInfoViewer

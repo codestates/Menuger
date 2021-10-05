@@ -46,7 +46,7 @@ const RecipePage = () => {
   const [cards, setCards] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
-  const [recipeData, setRecipeData] = useState();
+  const [recipeData, setRecipeData] = useState({});
   const { postType, postId } = useSelector(state => state.post);
   const { isDarkMode } = useSelector(state => state.theme);
   const dispatch = useDispatch();
@@ -146,7 +146,7 @@ const RecipePage = () => {
         handleCardClick={handleCardClick}
       />
       <ModalContainer>
-        <RecipePost {...recipeData}></RecipePost>
+        <RecipePost post={recipeData}></RecipePost>
       </ModalContainer>
     </Wrapper>
   );

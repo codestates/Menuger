@@ -5,7 +5,6 @@ import HashtagInfo from './cards/HashtagInfo';
 import PostInfoButtons from './buttons/PostInfoButtons';
 
 const PostInfoViewerStyle = styled.div`
-  min-height: 200px;
   border-radius: 5px;
   border: solid 1px #dadde6;
   padding: 20px;
@@ -27,9 +26,27 @@ const Svg = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border: solid 2px #00000000;
 
   &:hover {
-    border: solid 2px#ffc436;
+    border-color: #ffc436;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+  }
+`;
+
+const Image = styled.img`
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: solid 2px #00000000;
+
+  &:hover {
+    border-color: #ffc436;
   }
 
   @media screen and (max-width: 768px) {
@@ -51,45 +68,62 @@ const SocialInfoContainer = styled.div`
     grid-row: span 2;
   }
 
-  > .profile {
-    width: 100px;
+  > #nickname {
+    display: block;
+    width: 100%;
     text-decoration: none;
+    text-indent: 4px;
+    color: #000;
     display: flex;
-
-    > #nickname {
-      text-indent: 4px;
-      margin-top: 10px;
-      color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    align-items: center;
   }
 
   @media screen and (max-width: 768px) {
-    column-gap: 40px;
+    > #nickname {
+      padding-left: 8%;
+    }
+  }
+`;
+
+const HashTagsContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+
+  > div {
+    margin: 2px;
   }
 `;
 
 const PostInfoViewer = ({ user = {}, bookmarksCount = 0, likesCount = 0, hashtags = [] }) => {
-  hashtags = ['temp1', 'temp2'];
+  const hashtagStyle = {
+    fs: '0.8rem',
+    fs1200: '0.8rem',
+    fs900: '0.8rem',
+    fs768: '1rem',
+  };
   return (
     <PostInfoViewerStyle>
       <SocialInfoContainer>
         <div className="profile-image">
-          <Svg>
-            {svgToComponent({ svgName: 'chef', props: { width: '1.3rem', height: '1.3rem' } })}
-          </Svg>
+          {user.image_url && user.image_url !== 'null' ? (
+            <Image src={user.image_url} />
+          ) : (
+            <Svg>
+              {svgToComponent({ svgName: 'chef', props: { width: '1.3rem', height: '1.3rem' } })}
+            </Svg>
+          )}
         </div>
-
-        <a className="profile" href="#">
-          <div id="nickname">{user.nickname || 'default'}</div>
+        <a id="nickname" href="#">
+          {user.nickname || 'default'}
         </a>
         <div className="button-container">
-          <PostInfoButtons />
+          <PostInfoButtons likesCount={likesCount} bookmarksCount={bookmarksCount} />
         </div>
       </SocialInfoContainer>
-      <HashtagInfo hashtags={hashtags} />
+      <HashTagsContainer>
+        <HashtagInfo hashtags={hashtags} style={hashtagStyle} />
+      </HashTagsContainer>
     </PostInfoViewerStyle>
   );
 };

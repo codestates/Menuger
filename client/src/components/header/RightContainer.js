@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-
 import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
 import Signin from '../auth/Signin';

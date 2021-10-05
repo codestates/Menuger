@@ -313,7 +313,7 @@ const RightContainer = ({
               <span style={{ position: 'relative' }}>
                 {userInfo.nickname}
                 <UserDropdown active={userDropdown}>
-                  <StyledLink to="/mypage">마이페이지</StyledLink>
+                  <StyledLink to="/mypage/recipes">마이페이지</StyledLink>
                   <span onClick={signOut}>로그아웃</span>
                 </UserDropdown>
               </span>

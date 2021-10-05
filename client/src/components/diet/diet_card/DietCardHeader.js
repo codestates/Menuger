@@ -20,7 +20,6 @@ const DietCardHeaderStyle = styled.div`
   }
 
   > .input-title {
-    width: 0;
     padding: 0;
     border: none;
     border-bottom: solid 1px #000;
@@ -57,6 +56,7 @@ const DietCardHeader = ({
       {!readonly && editable ? (
         <>
           <input
+            size="1"
             className="input-title"
             value={inputTitle}
             onChange={e => setInputTitle(e.target.value)}

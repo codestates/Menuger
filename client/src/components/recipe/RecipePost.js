@@ -5,9 +5,17 @@ import RecipeViewer from './RecipeViewer';
 
 const RecipePostStyle = styled.div``;
 
-const RecipePost = ({ title, content, comments }) => {
+const RecipePost = ({ post, comments }) => {
+  const { title, content, user, bookmarksCount, likesCount, hashtags } = post;
   return (
-    <PostViewer title={title} comments={comments}>
+    <PostViewer
+      title={title}
+      comments={comments}
+      user={user}
+      bookmarksCount={bookmarksCount}
+      likesCount={likesCount}
+      hashtags={hashtags}
+    >
       <RecipePostStyle>
         <RecipeViewer content={content}></RecipeViewer>
       </RecipePostStyle>

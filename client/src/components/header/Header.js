@@ -140,7 +140,7 @@ const Header = () => {
     return () => {
       document.removeEventListener('click', onClickOutside);
     };
-  });
+  }, []);
 
   return (
     <BrowserRouter>

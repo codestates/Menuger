@@ -27,7 +27,7 @@ const DietItemList = ({ dietItemList, removeItem, editable = false, readonly = f
         : dietItemList.map(item => {
             return (
               <li key={item.name}>
-                <DietItem item={item} />
+                <DietItem item={item} readonly />
               </li>
             );
           })}

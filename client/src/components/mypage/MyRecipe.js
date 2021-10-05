@@ -101,7 +101,7 @@ const MyRecipe = () => {
         showModal();
       } catch (err) {
         console.log(err);
-        getHistory.push('recipes?sort=dd');
+        getHistory().push('recipes?sort=dd');
       } finally {
         dispatch(resetPostInfo());
       }

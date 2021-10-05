@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserInfo } from '../../modules/user';
+import { useHistory } from 'react-router';
+
 import axios from 'axios';
 
 import useModal from '../../hooks/useModal';
@@ -33,6 +36,8 @@ const WriteByMobile = styled.div`
     justify-content: center;
   }
 `;
+
+const UserMenuContainer = styled.div``;
 
 const WriteContainer = styled.div`
   position: relative;
@@ -153,7 +158,7 @@ const Container = styled.div`
       display: block;
       padding-top: 0px;
     }
-    ${WriteContainer} {
+    ${WriteContainer}, ${UserMenuContainer} {
       display: none;
     }
   }
@@ -259,16 +264,23 @@ const UserDropdown = styled.section`
   }
 `;
 
+const SignoutButton = styled.span``;
+
 const RightContainer = ({
   handleHamburgerMenu,
   useDropdown,
   popRef,
+  userRef,
   handleDropdown,
   useHamburgerMenu,
+  setUserDropdown,
+  userDropdown,
+  hamburgerMenuRef,
 }) => {
   const userInfo = useSelector(state => state.user);
   const [modalContent, setModalContent] = useState('');
-  const [userDropdown, setUserDropdown] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const DarkModeToggler = useDarkToggle();
   const { showModal, hideModal, ModalContainer } = useModal({
     width: 30,
@@ -281,11 +293,20 @@ const RightContainer = ({
     showModal();
   };
 
+  const user = {
+    email: '',
+    image_url: '',
+    nickname: '',
+    subscribes: [],
+    type: 'user',
+  };
+
   const signOut = async () => {
     try {
       await axios
         .post(`${process.env.REACT_APP_ENDPOINT_URL}/users/signout`, {}, { withCredentials: true })
-        .then(window.location.replace('/'));
+        .then(dispatch(setUserInfo(user)))
+        .then(history.push('/'));
     } catch (err) {
       console.log(err);
     }
@@ -301,24 +322,22 @@ const RightContainer = ({
           <Signin handleMenuClick={handleMenuClick} hideModal={hideModal} />
         )}
       </ModalContainer>
-      <Container active={useHamburgerMenu} signedIn={!!userInfo.email}>
+      <Container active={useHamburgerMenu} signedIn={!!userInfo.email} ref={hamburgerMenuRef}>
         {userInfo.email && (
-          <>
-            <div
-              className="menu"
-              onClick={() => {
-                setUserDropdown(!userDropdown);
-              }}
-            >
-              <span style={{ position: 'relative' }}>
-                {userInfo.nickname}
-                <UserDropdown active={userDropdown}>
-                  <StyledLink to="/mypage/recipes">마이페이지</StyledLink>
-                  <span onClick={signOut}>로그아웃</span>
-                </UserDropdown>
-              </span>
-            </div>
-          </>
+          <UserMenuContainer
+            onClick={() => {
+              setUserDropdown(!userDropdown);
+            }}
+            ref={userRef}
+          >
+            <span style={{ position: 'relative' }}>
+              {userInfo.nickname}
+              <UserDropdown active={userDropdown}>
+                <StyledLink to="/mypage/recipes">마이페이지</StyledLink>
+                <SignoutButton onClick={signOut}>로그아웃</SignoutButton>
+              </UserDropdown>
+            </span>
+          </UserMenuContainer>
         )}
         {!userInfo.email && (
           <>
@@ -327,12 +346,14 @@ const RightContainer = ({
           </>
         )}
         <WriteByMobile ref={popRef}>
+          {userInfo.email && <StyledLink to="/mypage/recipes">{userInfo.nickname}</StyledLink>}
           <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
-            레시피
+            레시피 작성
           </StyledLink>
           <StyledLink to="/DietEditPage" onClick={handleHamburgerMenu}>
-            식단
+            식단 작성
           </StyledLink>
+          {userInfo.email && <SignoutButton onClick={signOut}>로그아웃</SignoutButton>}
         </WriteByMobile>
         <WriteContainer ref={popRef}>
           <button onClick={handleDropdown}>

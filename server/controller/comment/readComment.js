@@ -1,4 +1,6 @@
 const { Comment } = require('../../models/comment');
+const { Recipe } = require('../../models/recipe');
+const { Diet } = require('../../models/diet');
 const {
   isValidObjectId,
   Types: { ObjectId },
@@ -20,7 +22,13 @@ module.exports = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip((page - 1) * 6)
       .limit(6);
-    return res.status(200).send({ comments });
+    if (postType === 'recipes') {
+      const { commentsCount } = await Recipe.findOne({ _id: ObjectId(postId) });
+      return res.status(200).send({ data: { commentsCount }, comments });
+    } else {
+      const { commentsCount } = await Diet.findOne({ _id: ObjectId(postId) });
+      return res.status(200).send({ data: { commentsCount }, comments });
+    }
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

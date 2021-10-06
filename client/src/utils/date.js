@@ -6,7 +6,7 @@ const calcDateDiffToString = updatedAt => {
   const min = 1000 * 60;
   const diffInMin = parseInt(diffInTime / min);
   if (diffInMin < 60) {
-    return `${diffInMin} ${diffInMin === 1 ? 'minute' : 'minutes'} ago`;
+    return `${diffInMin} ${diffInMin <= 1 ? 'minute' : 'minutes'} ago`;
   }
 
   const hour = min * 60;

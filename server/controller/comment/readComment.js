@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     }
 
     const comments = await Comment.find({ post: ObjectId(postId) })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .skip((page - 1) * 6)
       .limit(6);
     return res.status(200).send({ comments });

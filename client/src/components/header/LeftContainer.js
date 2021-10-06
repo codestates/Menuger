@@ -44,7 +44,7 @@ const LeftContainer = () => {
         <img src={logoTextTwoLine} alt="로고 텍스트"></img>
       </StyledLink>
       <StyledLink to="/recipes?sort=dd">레시피</StyledLink>
-      <StyledLink to="/DietPage">식단</StyledLink>
+      <StyledLink to="/diets?sort=dd">식단</StyledLink>
     </Container>
   );
 };

@@ -1,22 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
+import { setInteraction } from '../../../modules/interaction';
 import BookmarkButton from '../buttons/BookmarkButton';
 import LikeButton from '../buttons/LikeButton';
 import CommentMark from '../buttons/CommentMark';
-import defaultImage from '../../../utils/logoImage/logoImageYellow.png';
+import chef from '../../../utils/logoImage/logoImageYellow.png';
+import pan from '../../../utils/logoImage/pan.png';
 import UserInfo from './UserInfo';
 import HashtagInfo from './HashtagInfo';
+import axios from 'axios';
 
 const CardContainer = styled.li`
   position: relative;
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
-  //gap: 0.5rem;
   transition: 0.3s;
-  background-color: ${({ isDark }) => isDark && 'white'};
-
   &:hover {
     transform: translateY(-0.7rem);
     transition: 0.3s;
@@ -52,7 +52,7 @@ const Figure = styled.figure`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-color: #ebebeb;
+  background-color: ${({ isDark }) => (isDark ? '#78797b' : '#ebebeb')};
   transition: all 0.3s;
   border-radius: 7px;
   border-bottom-left-radius: 0;
@@ -73,6 +73,8 @@ const Info = styled.div`
   flex-wrap: wrap;
   padding: 0 3%;
   background-color: ${({ isDark }) => isDark && 'white'};
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
 `;
 
 const UserInfoWrapper = styled.div`
@@ -82,15 +84,29 @@ const UserInfoWrapper = styled.div`
 
 const HashtagInfoWrapper = styled.div`
   width: 100%;
-  display: flex;
   margin-top: auto;
-  gap: 0.5rem;
-  flex-wrap: wrap;
   padding: 0.5rem 15%;
   border-top: 1px solid #e4e4e4;
   background-color: ${({ isDark }) => isDark && 'white'};
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+
+  @media (min-width: 769px) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    max-height: 3.3em;
+  }
+
+  @media (min-width: 900px) {
+    max-height: 3em;
+  }
+
+  @media (min-width: 1200px) {
+    max-height: 3em;
+  }
 `;
 
 const Border = styled.div`
@@ -131,17 +147,108 @@ const CardItem = ({
   bookmarksCount,
   hashtags,
   updatedAt,
+  isBookmarked,
+  isLiked,
   handleCardClick,
 }) => {
   const { isDarkMode } = useSelector(state => state.theme);
+  const dispatch = useDispatch();
+
+  const handleBookmarkClick = async active => {
+    try {
+      if (active) {
+        await axios.delete(
+          `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
+          {
+            withCredentials: true,
+          },
+        );
+      } else {
+        await axios.post(
+          `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
+          null,
+          {
+            withCredentials: true,
+          },
+        );
+      }
+
+      Promise.all([
+        axios.get(
+          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/recipes`,
+          {
+            withCredentials: true,
+          },
+        ),
+        axios.get(
+          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/diets`,
+          {
+            withCredentials: true,
+          },
+        ),
+      ]).then(responses => {
+        dispatch(
+          setInteraction({
+            recipes: responses[0].data,
+            diets: responses[1].data,
+          }),
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleLikeButtonClick = async active => {
+    try {
+      if (active) {
+        await axios.delete(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`, {
+          withCredentials: true,
+        });
+      } else {
+        await axios.post(
+          `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`,
+          null,
+          {
+            withCredentials: true,
+          },
+        );
+      }
+
+      Promise.all([
+        axios.get(
+          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/recipes`,
+          {
+            withCredentials: true,
+          },
+        ),
+        axios.get(
+          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/diets`,
+          {
+            withCredentials: true,
+          },
+        ),
+      ]).then(responses => {
+        dispatch(
+          setInteraction({
+            recipes: responses[0].data,
+            diets: responses[1].data,
+          }),
+        );
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <CardContainer>
       <Wrapper>
         <Figure
+          isDark={isDarkMode}
           onClick={() => handleCardClick(postId)}
           style={{
-            backgroundImage: `url(${thumbnail_url || defaultImage})`,
+            backgroundImage: `url(${thumbnail_url || (postType === 'recipes' ? pan : chef)})`,
             backgroundSize: `${!thumbnail_url && '50%'}`,
           }}
         >
@@ -151,6 +258,7 @@ const CardItem = ({
       <Info isDark={isDarkMode}>
         <UserInfoWrapper isDark={isDarkMode}>
           <UserInfo
+            postType={postType}
             handleCardClick={() => handleCardClick(postId)}
             image_url={user.image_url}
             nickname={user.nickname}
@@ -159,14 +267,18 @@ const CardItem = ({
           />
         </UserInfoWrapper>
         <PostInfo isDark={isDarkMode}>
-          <BookmarkButton number={bookmarksCount} />
-          <LikeButton number={likesCount} />
+          <BookmarkButton
+            active={isBookmarked}
+            onClick={handleBookmarkClick}
+            number={bookmarksCount}
+          />
+          <LikeButton active={isLiked} onClick={handleLikeButtonClick} number={likesCount} />
           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>
       {!!hashtags.length && (
         <HashtagInfoWrapper isDark={isDarkMode}>
-          <HashtagInfo hashtags={hashtags} />
+          <HashtagInfo postType={postType} hashtags={hashtags} />
         </HashtagInfoWrapper>
       )}
       <Border className="shadow" isDark={isDarkMode} />

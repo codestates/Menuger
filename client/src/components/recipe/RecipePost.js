@@ -17,7 +17,7 @@ const RecipePost = ({ post, comments }) => {
       hashtags={hashtags}
     >
       <RecipePostStyle>
-        <RecipeViewer content={content}></RecipeViewer>
+        <RecipeViewer content={post.content} />
       </RecipePostStyle>
     </PostViewer>
   );

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import axios from 'axios';
+import { createBrowserHistory } from 'history';
 
 const Container = styled.div`
   display: flex;
@@ -45,22 +45,36 @@ const Container = styled.div`
 `;
 
 const SearchContainer = ({ useSearch }) => {
-  const [selected, setSelected] = useState('레시피');
+  const [selected, setSelected] = useState('/recipes');
   const [search, setSearch] = useState('');
+  const history = createBrowserHistory({ forceRefresh: true });
 
-  const handleSelect = e => {
-    setSelected(e.target.value);
+  useEffect(() => {
+    const searched = localStorage.getItem('searched');
+    if (searched?.trim()?.length) {
+      setSearch(searched);
+      localStorage.removeItem('searched');
+    }
+  }, []);
+
+  const handleSelect = ({ target }) => {
+    setSelected(target.value);
   };
 
-  const handleSearch = e => {
-    setSearch(e.target.value);
+  const handleSearch = ({ target }) => {
+    setSearch(target.value);
   };
 
-  const onClickEvent = async e => {
-    if (e.key === 'Enter') {
-      await axios.post(`http://localhost:80/search`, {
-        postType: selected,
-        input: search,
+  const onClickEvent = async ({ key }) => {
+    if (key === 'Enter') {
+      if (!search.trim().length) {
+        return;
+      }
+      localStorage.setItem('searched', search);
+      history.push({
+        pathname: selected,
+        search: '?sort=dd',
+        state: { input: search },
       });
     }
   };
@@ -68,10 +82,10 @@ const SearchContainer = ({ useSearch }) => {
   return (
     <Container useSearch={useSearch} onKeyPress={onClickEvent}>
       <select onChange={handleSelect}>
-        <option value="레시피">레시피</option>
-        <option value="식단">식단</option>
+        <option value="/recipes">레시피</option>
+        <option value="/diets">식단</option>
       </select>
-      <input type="text" onChange={handleSearch}></input>
+      <input type="text" onChange={handleSearch} value={search} />
     </Container>
   );
 };

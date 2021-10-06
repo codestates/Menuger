@@ -166,7 +166,7 @@ const Header = () => {
         <Route exact path="/" component={LandingPage}></Route>
         <Route path="/recipes" component={RecipePage}></Route>
         <Route path="/RecipeEditPage" component={RecipeEditPage}></Route>
-        <Route path="/DietPage" component={DietPage}></Route>
+        <Route path="/diets" component={DietPage}></Route>
         <Route path="/DietEditPage" component={DietEditPage}></Route>
         <Route path="/MyPage" component={MyPage}></Route>
       </Switch>

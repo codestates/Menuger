@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { createBrowserHistory } from 'history';
 
 import svgToComponent from '../../../utils/svg';
 import calcDateDiffToString from '../../../utils/date';
@@ -91,16 +92,29 @@ const UpdatedAt = styled.div`
   }
 `;
 
-const UserInfo = ({ image_url, nickname, title, updatedAt, handleCardClick }) => {
+const UserInfo = ({ postType, image_url, nickname, title, updatedAt, handleCardClick }) => {
+  const history = createBrowserHistory({ forceRefresh: true });
+
+  const handleUserClick = () => {
+    localStorage.setItem('searched', `@${nickname}`);
+    history.push({
+      pathname: `/${postType}`,
+      search: '?sort=dd',
+      state: { input: `@${nickname}` },
+    });
+  };
+
   return (
     <Wrapper>
-      {image_url && <ProfileImage src={image_url} alt={image_url} />}
+      {image_url && <ProfileImage onClick={handleUserClick} src={image_url} alt={image_url} />}
       {!image_url && (
-        <Svg>{svgToComponent({ svgName: 'chef', props: { width: '100%', height: '100%' } })}</Svg>
+        <Svg onClick={() => handleUserClick()}>
+          {svgToComponent({ svgName: 'chef', props: { width: '100%', height: '100%' } })}
+        </Svg>
       )}
       <InnerWrapper>
         <Title onClick={handleCardClick}>{title}</Title>
-        <Nickname>{nickname}</Nickname>
+        <Nickname onClick={() => handleUserClick(nickname)}>{nickname}</Nickname>
         <UpdatedAt onClick={handleCardClick}>{calcDateDiffToString(updatedAt)}</UpdatedAt>
       </InnerWrapper>
     </Wrapper>

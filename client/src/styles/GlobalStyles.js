@@ -8,6 +8,12 @@ const GlobalStyle = createGlobalStyle`
     html {
         font-family: 'Noto Sans','Noto Sans KR', sans-serif;
     }
+
+    textarea {
+        font-family: inherit;
+        font-size: inherit;
+    }
+    
     * {
         box-sizing: border-box;
         

@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import svgToComponent from '../../utils/svg';
+import calcDateDiffToString from '../../utils/date';
 
+//import components
 import HashtagInfo from './cards/HashtagInfo';
 import PostInfoButtons from './buttons/PostInfoButtons';
+import ProfileImage from './ProfileImage';
 
 const PostInfoViewerStyle = styled.div`
   border-radius: 5px;
@@ -17,51 +19,13 @@ const PostInfoViewerStyle = styled.div`
   }
 `;
 
-const Svg = styled.div`
-  width: 75px;
-  height: 75px;
-  border-radius: 50px;
-  background-color: #dadde6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border: solid 2px #00000000;
-
-  &:hover {
-    border-color: #ffc436;
-  }
-
-  @media screen and (max-width: 768px) {
-    width: 100px;
-    height: 100px;
-  }
-`;
-
-const Image = styled.img`
-  width: 75px;
-  height: 75px;
-  border-radius: 50px;
-  cursor: pointer;
-  border: solid 2px #00000000;
-
-  &:hover {
-    border-color: #ffc436;
-  }
-
-  @media screen and (max-width: 768px) {
-    width: 100px;
-    height: 100px;
-  }
-`;
-
 const SocialInfoContainer = styled.div`
   display: grid;
   grid-template: 1fr 1fr / fit-content(100%) 1fr;
   column-gap: 20px;
   row-gap: 10px;
 
-  > .profile-image {
+  > .profile-image-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -95,7 +59,29 @@ const HashTagsContainer = styled.div`
   }
 `;
 
-const PostInfoViewer = ({ user = {}, bookmarksCount = 0, likesCount = 0, hashtags = [] }) => {
+const OtherArea = styled.section`
+  color: #8e8e8e;
+  margin-top: 10px;
+  font-size: 0.8rem;
+
+  > span {
+    &.time {
+      margin-right: 0.4rem;
+    }
+
+    &.comments-count {
+    }
+  }
+`;
+
+const PostInfoViewer = ({
+  user = {},
+  bookmarksCount = 0,
+  likesCount = 0,
+  commentsCount = 0,
+  hashtags = [],
+  createdAt,
+}) => {
   const hashtagStyle = {
     fs: '0.8rem',
     fs1200: '0.8rem',
@@ -105,14 +91,8 @@ const PostInfoViewer = ({ user = {}, bookmarksCount = 0, likesCount = 0, hashtag
   return (
     <PostInfoViewerStyle>
       <SocialInfoContainer>
-        <div className="profile-image">
-          {user.image_url && user.image_url !== 'null' ? (
-            <Image src={user.image_url} />
-          ) : (
-            <Svg>
-              {svgToComponent({ svgName: 'chef', props: { width: '1.3rem', height: '1.3rem' } })}
-            </Svg>
-          )}
+        <div className="profile-image-container">
+          <ProfileImage src={user.image_url} mobileSize="100px" />
         </div>
         <a id="nickname" href="#">
           {user.nickname || 'default'}
@@ -124,6 +104,10 @@ const PostInfoViewer = ({ user = {}, bookmarksCount = 0, likesCount = 0, hashtag
       <HashTagsContainer>
         <HashtagInfo hashtags={hashtags} style={hashtagStyle} />
       </HashTagsContainer>
+      <OtherArea className="other-area">
+        <span className="time">{calcDateDiffToString(createdAt)}</span>
+        <span className="comments-count">{commentsCount}개의 댓글</span>
+      </OtherArea>
     </PostInfoViewerStyle>
   );
 };

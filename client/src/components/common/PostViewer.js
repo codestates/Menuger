@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 //import components
 import StandardButton from '../common/buttons/StandardButton';
 import PostInfoViewer from './PostInfoViewer';
+import CommentBox from './comment/CommentBox';
 
 //import temporary
 
@@ -52,6 +54,10 @@ const ViewerSection = styled.section`
 
   > .comments {
     grid-area: comments;
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: fit-content;
   }
 
   @media (max-width: 768px) {
@@ -82,13 +88,15 @@ const TempComponent = styled.div`
 const PostViewer = ({
   children,
   title = '제목 기본값',
-  comments,
   user,
   bookmarksCount,
   likesCount,
   hashtags,
+  postId,
+  postType,
+  createdAt,
 }) => {
-  //comments = 댓글 컴포넌트 props로 전달
+  const [commentsCount, setCommentsCount] = useState(0);
   const isAuthority = useSelector(state => state.user.email) === user.email;
   return (
     <PostViewerStyle>
@@ -97,15 +105,19 @@ const PostViewer = ({
         {isAuthority && <StandardButton width="fit-content">수정</StandardButton>}
       </ViewerHeader>
       <ViewerSection>
-        <PostInfoViewer
-          user={user}
-          bookmarksCount={bookmarksCount}
-          likesCount={likesCount}
-          hashtags={hashtags}
-        />
+        <div className="info">
+          <PostInfoViewer
+            user={user}
+            bookmarksCount={bookmarksCount}
+            likesCount={likesCount}
+            hashtags={hashtags}
+            createdAt={createdAt}
+            commentsCount={commentsCount}
+          />
+        </div>
         <div className="main">{children || <TempComponent>Viewer</TempComponent>}</div>
         <div className="comments">
-          <TempComponent className="comments">댓글 컴포넌트</TempComponent>
+          <CommentBox postId={postId} postType={postType} setCommentsCount={setCommentsCount} />
         </div>
       </ViewerSection>
     </PostViewerStyle>

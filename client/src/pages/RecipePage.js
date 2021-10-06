@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import { setInteraction } from '../modules/interaction';
 import CardList from '../components/common/cards/CardList';
 import RecipePost from '../components/recipe/RecipePost';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
@@ -44,7 +45,9 @@ const SortIconAndText = styled.div`
 `;
 
 const RecipePage = () => {
+  const userInfo = useSelector(state => state.user);
   const { isDarkMode } = useSelector(state => state.theme);
+
   const [cards, setCards] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
@@ -56,6 +59,7 @@ const RecipePage = () => {
   const modalConfig = { width: 100, height: 90, padding: 2.5, overflow: 'hidden' };
   const { showModal, ModalContainer } = useModal(modalConfig);
 
+  const dispatch = useDispatch();
   const query = useQuery();
   const history = useHistory();
   const refreshedHistory = createBrowserHistory({ forceRefresh: true });
@@ -163,6 +167,30 @@ const RecipePage = () => {
   };
 
   useEffect(() => {
+    Promise.all([
+      axios.get(
+        `${process.env.REACT_APP_ENDPOINT_URL}/users/${userInfo.nickname}/interaction/recipes`,
+        {
+          withCredentials: true,
+        },
+      ),
+      axios.get(
+        `${process.env.REACT_APP_ENDPOINT_URL}/users/${userInfo.nickname}/interaction/diets`,
+        {
+          withCredentials: true,
+        },
+      ),
+    ]).then(responses => {
+      dispatch(
+        setInteraction({
+          recipes: responses[0].data,
+          diets: responses[1].data,
+        }),
+      );
+    });
+  }, []);
+
+  useEffect(() => {
     if (!sortOption) {
       history.push({
         pathname: '/recipes',
@@ -191,7 +219,7 @@ const RecipePage = () => {
         <DropdownContainer />
       </SortMenu>
       <CardList
-        postType="recipe"
+        postType="recipes"
         isDoneSearching={isDoneFetching}
         cards={cards}
         ref={fetchMoreRef}

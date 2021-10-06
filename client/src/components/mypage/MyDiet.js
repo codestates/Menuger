@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import { setInteraction } from '../../modules/interaction';
 import CardList from '../../components/common/cards/CardList';
-import RecipePost from '../../components/recipe/RecipePost';
+import DietPost from '../../components/diet/DietPost';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import useDropdown from '../../hooks/useDropdown';
 import useQuery from '../../hooks/useQuery';
@@ -43,14 +43,14 @@ const SortIconAndText = styled.div`
   }
 `;
 
-const RecipePage = () => {
+const DietPage = () => {
   const userInfo = useSelector(state => state.user);
   const { isDarkMode } = useSelector(state => state.theme);
 
   const [cards, setCards] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
-  const [recipePostInfo, setRecipePostInfo] = useState({ recipe: {}, comments: [] });
+  const [dietPostInfo, setDietPostInfo] = useState({ diet: {}, comments: [] });
   const [isDoneFetching, setIsDoneFetching] = useState(false);
 
   const fetchMoreRef = useRef();
@@ -68,32 +68,32 @@ const RecipePage = () => {
   const { input, postId } = location?.state || {};
   const sortOption = query.get('sort');
   const curMenu = sortOptions.indexOf(sortOption);
-  const loadSortedRecipes = option => {
+  const loadSortedDiets = option => {
     if (input?.trim().length) {
       localStorage.setItem('searched', input);
     }
     refreshedHistory.push({
-      pathname: '/recipes',
+      pathname: '/mypage/diets',
       search: `?sort=${option}`,
       state: { input },
     });
   };
-  const { showDropdown, DropdownContainer } = useDropdown(sortMenus, curMenu, loadSortedRecipes);
+  const { showDropdown, DropdownContainer } = useDropdown(sortMenus, curMenu, loadSortedDiets);
 
   const handleCardClick = async postId => {
     try {
       const [
         {
-          data: { recipe },
+          data: { diet },
         },
         {
           data: { comments },
         },
       ] = await Promise.all([
-        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes/${postId}`),
-        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes/${postId}/comments`),
+        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/diets/${postId}`),
+        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/diets/${postId}/comments`),
       ]);
-      setRecipePostInfo({ recipe, comments });
+      setDietPostInfo({ diet, comments });
       showModal();
     } catch (err) {
       console.log(err);
@@ -101,14 +101,14 @@ const RecipePage = () => {
     }
   };
 
-  const fetchRecipes = async () => {
+  const fetchDiets = async () => {
     setIsDoneFetching(false);
-    let fetchedRecipes;
+    let fetchedDiets;
     // 헤더를 통해 접근
     try {
       const {
-        data: { recipes },
-      } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes`, {
+        data: { diets },
+      } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/diets`, {
         params: {
           page,
           sort: sortOptionMapper[sortOption],
@@ -117,19 +117,19 @@ const RecipePage = () => {
           user: userInfo.nickname,
         },
       });
-      fetchedRecipes = recipes;
+      fetchedDiets = diets;
     } catch (err) {
       console.log(err);
       gotoMain();
     }
 
-    if (!fetchedRecipes.length) {
+    if (!fetchedDiets.length) {
       setHasNext(false);
       setIsDoneFetching(true);
       return;
     }
     setPage(page => page + 1);
-    setCards(prevRecipes => [...prevRecipes, ...fetchedRecipes]);
+    setCards(prevDiets => [...prevDiets, ...fetchedDiets]);
 
     if (postId) {
       try {
@@ -173,7 +173,7 @@ const RecipePage = () => {
   useEffect(() => {
     if (!sortOption) {
       history.push({
-        pathname: '/mypage/recipes',
+        pathname: '/mypage/diets',
         search: '?sort=dd',
       });
       return;
@@ -182,7 +182,7 @@ const RecipePage = () => {
 
   useEffect(() => {
     if (intersecting && hasNext) {
-      fetchRecipes();
+      fetchDiets();
     }
   }, [intersecting, hasNext]);
 
@@ -199,17 +199,17 @@ const RecipePage = () => {
         <DropdownContainer />
       </SortMenu>
       <CardList
-        postType="recipes"
+        postType="diets"
         isDoneSearching={isDoneFetching}
         cards={cards}
         ref={fetchMoreRef}
         handleCardClick={handleCardClick}
       />
       <ModalContainer>
-        <RecipePost post={recipePostInfo.recipe} comments={recipePostInfo.comments}></RecipePost>
+        <DietPost post={dietPostInfo.diet} comments={dietPostInfo.comments}></DietPost>
       </ModalContainer>
     </Wrapper>
   );
 };
 
-export default RecipePage;
+export default DietPage;

@@ -182,11 +182,9 @@ module.exports = {
         const { subscribes } = user;
 
         const [likes, bookmarks] = await Promise.all([
-          Like.find({ user: user._id }),
-          Bookmark.find({ user: user._id }),
+          Like.find({ user: user._id, postType }),
+          Bookmark.find({ user: user._id, postType }),
         ]);
-
-        console.log(likes, bookmarks);
 
         const likeIds = await Promise.all(
           likes.map(async like => {

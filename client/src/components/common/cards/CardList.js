@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import CardItem from './CardItem';
+import NoResult from '../NoResult';
 import scrollToTop from '../../../utils/scroll';
 import { HiOutlineArrowCircleUp } from 'react-icons/hi';
 
@@ -17,11 +18,6 @@ const CardListContainer = styled.ul`
     flex-wrap: wrap;
     margin: 0 -1rem;
   }
-`;
-
-const NoResult = styled.img`
-  border: 2px solid green;
-  width: 200px;
 `;
 
 const ScrollEnd = styled.div`
@@ -81,13 +77,7 @@ const CardList = forwardRef(
               />
             ))}
           </CardListContainer>
-          {isDoneSearching && cards.length === 0 && (
-            <NoResult
-              src={
-                'https://user-images.githubusercontent.com/38288479/136053240-19cc2f92-47d9-4bbb-801c-19fbe51c5859.png'
-              }
-            />
-          )}
+          {isDoneSearching && cards.length === 0 && <NoResult />}
         </Wrapper>
         <ScrollEnd ref={fetchMoreRef} />
         <ScrollToTop onClick={scrollToTop}>

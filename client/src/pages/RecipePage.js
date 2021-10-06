@@ -211,16 +211,18 @@ const RecipePage = () => {
 
   return (
     <Wrapper isDark={isDarkMode}>
-      <SortMenu>
-        <SortIconAndText onClick={showDropdown} isDark={isDarkMode}>
-          {svgToComponent({
-            svgName: 'sortIcon',
-            props: { width: 25, height: 25, display: 'block' },
-          })}
-          {sortMenus[curMenu]}
-        </SortIconAndText>
-        <DropdownContainer />
-      </SortMenu>
+      {!(isDoneFetching && cards.length === 0) && (
+        <SortMenu>
+          <SortIconAndText onClick={showDropdown} isDark={isDarkMode}>
+            {svgToComponent({
+              svgName: 'sortIcon',
+              props: { width: 25, height: 25, display: 'block' },
+            })}
+            {sortMenus[curMenu]}
+          </SortIconAndText>
+          <DropdownContainer />
+        </SortMenu>
+      )}
       <CardList
         postType="recipes"
         isDoneSearching={isDoneFetching}

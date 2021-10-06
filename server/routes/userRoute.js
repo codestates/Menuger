@@ -13,6 +13,8 @@ userRouter.delete('/', checkToken, userController.deleteAccount);
 
 userRouter.get('/:nickname', userController.info.get);
 
+userRouter.get('/:nickname/interaction/:postType', userController.info.interaction);
+
 userRouter.patch('/', checkToken, userController.info.patch);
 
 userRouter.post('/subscribe/:nickname', checkToken, userController.subscribe);

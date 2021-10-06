@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -146,23 +147,30 @@ const CardItem = ({
   likesCount,
   bookmarksCount,
   hashtags,
-  updatedAt,
+  createdAt,
   isBookmarked,
   isLiked,
   handleCardClick,
 }) => {
   const { isDarkMode } = useSelector(state => state.theme);
+  const { nickname } = useSelector(state => state.user);
+  const [bookmarksNum, setBookmarksNum] = useState(bookmarksCount);
+  const [likesNum, setLikesNum] = useState(likesCount);
   const dispatch = useDispatch();
 
-  const handleBookmarkClick = async active => {
+  const handleBookmarkClick = async () => {
+    if (!nickname) {
+      return;
+    }
     try {
-      if (active) {
+      if (isBookmarked) {
         await axios.delete(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
           {
             withCredentials: true,
           },
         );
+        setBookmarksNum(bookmarksNum - 1);
       } else {
         await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
@@ -171,21 +179,16 @@ const CardItem = ({
             withCredentials: true,
           },
         );
+        setBookmarksNum(bookmarksNum + 1);
       }
 
       Promise.all([
-        axios.get(
-          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/recipes`,
-          {
-            withCredentials: true,
-          },
-        ),
-        axios.get(
-          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/diets`,
-          {
-            withCredentials: true,
-          },
-        ),
+        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/users/${nickname}/interaction/recipes`, {
+          withCredentials: true,
+        }),
+        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/users/${nickname}/interaction/diets`, {
+          withCredentials: true,
+        }),
       ]).then(responses => {
         dispatch(
           setInteraction({
@@ -199,12 +202,16 @@ const CardItem = ({
     }
   };
 
-  const handleLikeButtonClick = async active => {
+  const handleLikeButtonClick = async () => {
+    if (!nickname) {
+      return;
+    }
     try {
-      if (active) {
+      if (isLiked) {
         await axios.delete(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`, {
           withCredentials: true,
         });
+        setLikesNum(likesNum - 1);
       } else {
         await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`,
@@ -213,21 +220,16 @@ const CardItem = ({
             withCredentials: true,
           },
         );
+        setLikesNum(likesNum + 1);
       }
 
       Promise.all([
-        axios.get(
-          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/recipes`,
-          {
-            withCredentials: true,
-          },
-        ),
-        axios.get(
-          `${process.env.REACT_APP_ENDPOINT_URL}/users/${user.nickname}/interaction/diets`,
-          {
-            withCredentials: true,
-          },
-        ),
+        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/users/${nickname}/interaction/recipes`, {
+          withCredentials: true,
+        }),
+        axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/users/${nickname}/interaction/diets`, {
+          withCredentials: true,
+        }),
       ]).then(responses => {
         dispatch(
           setInteraction({
@@ -263,16 +265,16 @@ const CardItem = ({
             image_url={user.image_url}
             nickname={user.nickname}
             title={title}
-            updatedAt={updatedAt}
+            createdAt={createdAt}
           />
         </UserInfoWrapper>
         <PostInfo isDark={isDarkMode}>
           <BookmarkButton
             active={isBookmarked}
             onClick={handleBookmarkClick}
-            number={bookmarksCount}
+            number={bookmarksNum}
           />
-          <LikeButton active={isLiked} onClick={handleLikeButtonClick} number={likesCount} />
+          <LikeButton active={isLiked} onClick={handleLikeButtonClick} number={likesNum} />
           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>

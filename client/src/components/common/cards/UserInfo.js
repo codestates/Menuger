@@ -78,7 +78,7 @@ const Nickname = styled.div`
   }
 `;
 
-const UpdatedAt = styled.div`
+const CreatedAt = styled.div`
   font-size: 0.8rem;
   color: #606060;
   @media (max-width: 1200px) {
@@ -92,7 +92,7 @@ const UpdatedAt = styled.div`
   }
 `;
 
-const UserInfo = ({ postType, image_url, nickname, title, updatedAt, handleCardClick }) => {
+const UserInfo = ({ postType, image_url, nickname, title, createdAt, handleCardClick }) => {
   const history = createBrowserHistory({ forceRefresh: true });
 
   const handleUserClick = () => {
@@ -115,7 +115,7 @@ const UserInfo = ({ postType, image_url, nickname, title, updatedAt, handleCardC
       <InnerWrapper>
         <Title onClick={handleCardClick}>{title}</Title>
         <Nickname onClick={() => handleUserClick(nickname)}>{nickname}</Nickname>
-        <UpdatedAt onClick={handleCardClick}>{calcDateDiffToString(updatedAt)}</UpdatedAt>
+        <CreatedAt onClick={handleCardClick}>{calcDateDiffToString(createdAt)}</CreatedAt>
       </InnerWrapper>
     </Wrapper>
   );

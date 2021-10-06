@@ -78,19 +78,6 @@ const BookmarkButton = ({
   imageSize,
   active,
 }) => {
-  const [isActive, setIsActive] = useState(active);
-  const [count, setCount] = useState(number);
-
-  const handleClick = () => {
-    if (isActive) {
-      setCount(count - 1);
-    } else {
-      setCount(count + 1);
-    }
-    onClick(isActive);
-    setIsActive(!isActive);
-  };
-
   return (
     <BookmarkButtonStyle
       width={width}
@@ -99,15 +86,15 @@ const BookmarkButton = ({
       backgroundColor={backgroundColor}
       fontSize={fontSize}
       borderRadius={borderRadius}
-      onClick={handleClick}
-      number={count}
+      onClick={onClick}
+      number={number}
       imageSize={imageSize}
-      active={isActive}
+      active={active}
     >
       <IconSytle>
         <BsBookmark />
       </IconSytle>
-      <SpanStyle>{count}</SpanStyle>
+      <SpanStyle>{number}</SpanStyle>
     </BookmarkButtonStyle>
   );
 };

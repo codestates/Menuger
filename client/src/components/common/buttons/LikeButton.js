@@ -78,19 +78,6 @@ const LikeButton = ({
   imageSize,
   active,
 }) => {
-  const [isActive, setIsActive] = useState(active);
-  const [count, setCount] = useState(number);
-
-  const handleClick = () => {
-    if (isActive) {
-      setCount(count - 1);
-    } else {
-      setCount(count + 1);
-    }
-    onClick(isActive);
-    setIsActive(!isActive);
-  };
-
   return (
     <LikeButtonStyle
       width={width}
@@ -99,15 +86,15 @@ const LikeButton = ({
       backgroundColor={backgroundColor}
       fontSize={fontSize}
       borderRadius={borderRadius}
-      onClick={handleClick}
-      number={count}
+      onClick={onClick}
+      number={number}
       imageSize={imageSize}
-      active={isActive}
+      active={active}
     >
       <IconSytle>
         <AiOutlineLike />
       </IconSytle>
-      <SpanStyle>{count}</SpanStyle>
+      <SpanStyle>{number}</SpanStyle>
     </LikeButtonStyle>
   );
 };

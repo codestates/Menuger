@@ -1,5 +1,5 @@
-const calcDateDiffToString = updatedAt => {
-  const updatedDate = new Date(updatedAt);
+const calcDateDiffToString = createdAt => {
+  const updatedDate = new Date(createdAt);
   const curDate = new Date();
   const diffInTime = curDate.getTime() - updatedDate.getTime();
 

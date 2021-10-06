@@ -167,6 +167,9 @@ const DietPage = () => {
   };
 
   useEffect(() => {
+    if (!userInfo?.nickname) {
+      return;
+    }
     Promise.all([
       axios.get(
         `${process.env.REACT_APP_ENDPOINT_URL}/users/${userInfo.nickname}/interaction/recipes`,

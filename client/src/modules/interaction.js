@@ -23,6 +23,7 @@ const interactionReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_INTERACTION:
       return {
+        ...state,
         recipes: {
           likeIds: [...action.payload.recipes.likeIds],
           bookmarkIds: [...action.payload.recipes.bookmarkIds],

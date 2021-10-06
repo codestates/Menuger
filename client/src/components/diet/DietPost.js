@@ -14,19 +14,19 @@ const DietPostStyle = styled.div`
     border-radius: 5px;
     outline: none;
     cursor: default;
-    margin-top: 20px;
+    margin-top: 10px;
 
     &:first-of-type {
       min-height: 60px;
     }
 
     &:last-of-type {
-      min-height: 300px;
+      min-height: 3000px;
     }
   }
 `;
 
-const DietPost = ({ post, comments }) => {
+const DietPost = ({ post }) => {
   const {
     title,
     subtitle,
@@ -35,16 +35,22 @@ const DietPost = ({ post, comments }) => {
     user,
     bookmarksCount,
     likesCount,
+    commentsCount,
     hashtags,
+    _id: postId,
+    createdAt,
   } = post;
   return (
     <PostViewer
       title={title}
-      comments={comments}
       user={user}
       bookmarksCount={bookmarksCount}
       likesCount={likesCount}
+      commentsCount={commentsCount}
       hashtags={hashtags}
+      postId={postId}
+      postType="diets"
+      createdAt={createdAt}
     >
       <DietPostStyle>
         <DietColumnContainer dietColumnList={dietColumnList} readonly />

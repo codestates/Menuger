@@ -34,11 +34,17 @@ const ModalContainer = styled.div`
   overflow-y: hidden;
   box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s linear;
+
   @media screen and (max-width: 768px) {
     width: 100%;
+    height: ${({ height }) => (height ? `${height}%` : '90%')};
     min-width: 100%;
-    padding: 3rem 0;
+    padding: 3rem 0.5rem 0.5rem;
+    > ::-webkit-scrollbar {
+      display: none;
+    }
   }
+
   @keyframes slideIn {
     0% {
       bottom: -50%;

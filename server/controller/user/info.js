@@ -162,4 +162,38 @@ module.exports = {
       return res.status(500).send({ message: err.message });
     }
   },
+  interaction: async (req, res) => {
+    try {
+      let { nickname, postType } = req.params;
+      postType = postType.slice(0, -1);
+      if (!nickname) {
+        return res.status(400).send({ message: '닉네임을 입력받지 않았습니다.' });
+      }
+
+      User.findOne({ nickname }, async (err, user) => {
+        if (err) {
+          return res.status(400).send(err);
+        }
+
+        if (!user) {
+          return res.status(400).send({ message: '존재하지 않는 유저입니다.' });
+        }
+
+        const { subscribes } = user;
+
+        const [likes, bookmarks] = await Promise.all([
+          Like.find({ user: user._id, postType }),
+          Bookmark.find({ user: user._id, postType }),
+        ]);
+
+        const likeIds = await Promise.all(likes.map(async like => like.post));
+
+        const bookmarkIds = await Promise.all(bookmarks.map(async bookmark => bookmark.post));
+
+        return res.status(200).send({ likeIds, bookmarkIds, subscribes });
+      });
+    } catch (err) {
+      return res.status(500).send({ message: err.message });
+    }
+  },
 };

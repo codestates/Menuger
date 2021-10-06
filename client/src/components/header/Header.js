@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { BiSearchAlt2 } from 'react-icons/bi';
 
@@ -38,22 +38,6 @@ const SearchIconContainer = styled.div`
   }
 `;
 
-const WriteByMobile = styled.div`
-  padding: 0px;
-  display: none;
-  * {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.2rem;
-  }
-`;
-
-const WriteContainer = styled.div`
-  position: relative;
-`;
-
 const HeaderContainer = styled.header`
   position: sticky;
   z-index: 9;
@@ -77,29 +61,8 @@ const HeaderContainer = styled.header`
   }
   @media screen and (max-width: 768px) {
     padding: 0rem;
-    ${RightContainer} {
-      ${props =>
-        props.active &&
-        css`
-          display: none;
-        `}
-      background-color: #dde0ea;
-      flex-direction: column;
-      position: absolute;
-      top: 80px;
-      right: 0px;
-      ${WriteByMobile} {
-        display: block;
-      }
-      ${WriteContainer} {
-        display: none;
-      }
-    }
     ${HamburgerContainer} {
       display: block;
-    }
-    ${SearchContainer} {
-      display: none;
     }
     ${SearchIconContainer} {
       display: block;
@@ -111,6 +74,7 @@ const Header = () => {
   const [useDropdown, setUseDropdown] = useState(false);
   const [useHamburgerMenu, setUseHamburgerMenu] = useState(true);
   const [useSearch, setUseSearch] = useState(false);
+  const [userDropdown, setUserDropdown] = useState(false);
 
   const userInfo = useSelector(state => state.user);
   const addMessage = useToast();
@@ -129,10 +93,27 @@ const Header = () => {
     setUseSearch(!useSearch);
   };
 
-  const popRef = useRef(null);
+  const writeRef = useRef(null);
+  const userRef = useRef(null);
+  const hamburgerMenuRef = useRef(null);
+  const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
   const onClickOutside = useCallback(({ target }) => {
-    if (popRef.current && !popRef.current.contains(target)) {
+    if (writeRef.current && !writeRef.current.contains(target)) {
       setUseDropdown(false);
+    }
+    if (userRef.current && !userRef.current.contains(target)) {
+      setUserDropdown(false);
+    }
+    if (hamburgerMenuRef.current && !hamburgerMenuRef.current.contains(target)) {
+      setUseHamburgerMenu(true);
+    }
+    if (
+      searchRef.current &&
+      !searchRef.current.contains(target) &&
+      !searchInputRef.current.contains(target)
+    ) {
+      setUseSearch(false);
     }
   }, []);
   useEffect(() => {
@@ -140,24 +121,28 @@ const Header = () => {
     return () => {
       document.removeEventListener('click', onClickOutside);
     };
-  });
+  }, []);
 
   return (
     <BrowserRouter>
       <HeaderContainer active={useHamburgerMenu}>
         <LeftContainer />
-        <SearchContainer useSearch={useSearch} />
+        <SearchContainer useSearch={useSearch} searchInputRef={searchInputRef} />
         <RightContainer
           handleHamburgerMenu={handleHamburgerMenu}
           useDropdown={useDropdown}
-          popRef={popRef}
+          popRef={writeRef}
+          userRef={userRef}
           handleDropdown={handleDropdown}
           useHamburgerMenu={useHamburgerMenu}
+          setUserDropdown={setUserDropdown}
+          userDropdown={userDropdown}
+          hamburgerMenuRef={hamburgerMenuRef}
         />
-        <HamburgerContainer>
+        <HamburgerContainer ref={hamburgerMenuRef}>
           <GiHamburgerMenu onClick={handleHamburgerMenu} />
         </HamburgerContainer>
-        <SearchIconContainer>
+        <SearchIconContainer ref={searchRef}>
           <BiSearchAlt2 onClick={handleSearch} />
         </SearchIconContainer>
       </HeaderContainer>
@@ -168,7 +153,15 @@ const Header = () => {
         <Route path="/RecipeEditPage" component={RecipeEditPage}></Route>
         <Route path="/diets" component={DietPage}></Route>
         <Route path="/DietEditPage" component={DietEditPage}></Route>
-        <Route path="/MyPage" component={MyPage}></Route>
+        <Route path="/mypage/recipes">
+          <MyPage page="0" />
+        </Route>
+        <Route path="/mypage/diets">
+          <MyPage page="1" />
+        </Route>
+        <Route path="/mypage/delete">
+          <MyPage page="4" />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

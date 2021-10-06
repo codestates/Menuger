@@ -53,7 +53,7 @@ const RecipePage = () => {
   const [hasNext, setHasNext] = useState(true);
   const [recipePostInfo, setRecipePostInfo] = useState({ recipe: {}, comments: [] });
   const [isDoneFetching, setIsDoneFetching] = useState(false);
-
+ 
   const fetchMoreRef = useRef();
   const intersecting = useInfiniteScroll(fetchMoreRef);
   const modalConfig = { width: 100, height: 90, padding: 2.5, overflow: 'hidden' };

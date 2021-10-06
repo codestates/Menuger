@@ -15,13 +15,13 @@ const ItemAddorStyle = styled.form`
       outline: none;
       text-indent: 2px;
       border-radius: 5px;
-      width: 70%;
       box-shadow: 0 1px rgba(0, 0, 0, 0.3);
+      flex-grow: 1;
     }
 
     button[type='submit'] {
       cursor: pointer;
-      width: 30%;
+      width: 45px;
       margin-left: 5px;
       border: none;
       border-radius: 5px;
@@ -52,7 +52,12 @@ const ItemAddor = ({ addItem }) => {
   return (
     <ItemAddorStyle onSubmit={onSubmit}>
       <div className="input-item-box">
-        <input type="text" value={inputItem} onChange={e => setInputItem(e.target.value)} />
+        <input
+          size="1"
+          type="text"
+          value={inputItem}
+          onChange={e => setInputItem(e.target.value)}
+        />
         <button type="submit">추가</button>
       </div>
     </ItemAddorStyle>

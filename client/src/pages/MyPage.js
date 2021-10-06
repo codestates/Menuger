@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+
+import MyRecipe from '../components/mypage/MyRecipe';
+import DeleteMyAccount from '../components/mypage/DeleteMyAccount';
 
 const TabContainer = styled.div`
   display: flex;
-  width: 15em;
+  position: sticky !important;
+  width: 230px;
+  height: 100vh;
   align-items: center;
   flex-direction: column;
   text-align: center;
@@ -20,6 +26,9 @@ const TabContainer = styled.div`
     }
   }
   ul {
+    @media (max-width: 768px) {
+      font-size: 0.7rem;
+    }
     display: flex;
     flex-direction: column;
     align-content: space-around;
@@ -27,7 +36,7 @@ const TabContainer = styled.div`
       color: #fc9f77;
     }
     * {
-      padding-top: 4em;
+      margin-top: 4em;
       :hover {
         color: #fc9f77;
         cursor: pointer;
@@ -37,7 +46,8 @@ const TabContainer = styled.div`
 `;
 
 const ContentsContainer = styled.div`
-  flex: 4 0 auto;
+  flex-grow: 1;
+  overflow-y: scroll !important;
 `;
 const MyPageContainer = styled.div`
   display: flex;
@@ -49,17 +59,24 @@ const MyPageContainer = styled.div`
   height: 90vh;
 `;
 
-const MyPage = () => {
+const MyPage = page => {
   const [tab, setTab] = useState(0);
-  const tabCotents = ['모두 보기', '내 레시피', '내 식단', '로그아웃', '회원 탈퇴'];
-  const componentList = {
-    0: <div>모두 보기</div>,
-    1: '내 레시피',
-  };
+  const tabCotents = ['내 레시피', '내 식단', '저장된 레시피', '저장된 식단', '회원 탈퇴'];
+  const pageName = ['/mypage/recipes', '/mypage/diets', '', '', '/mypage/delete'];
 
   const onClick = idx => {
     setTab(idx);
   };
+
+  const history = useHistory();
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  }, []);
 
   return (
     <MyPageContainer>
@@ -74,6 +91,7 @@ const MyPage = () => {
                 key={idx}
                 onClick={() => {
                   onClick(idx);
+                  history.push(pageName[idx]);
                 }}
                 className={tab === idx && 'active'}
               >
@@ -83,7 +101,13 @@ const MyPage = () => {
           })}
         </ul>
       </TabContainer>
-      <ContentsContainer>{componentList[tab]}</ContentsContainer>
+      <ContentsContainer>
+        {tab === 0 && <MyRecipe />}
+        {tab === 1 && <div>식단</div>}
+        {tab === 2 && <div>식단</div>}
+        {tab === 3 && <div>식단</div>}
+        {tab === 4 && <DeleteMyAccount />}
+      </ContentsContainer>
     </MyPageContainer>
   );
 };

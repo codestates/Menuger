@@ -49,6 +49,9 @@ module.exports = async (req, res) => {
         comment.save(),
         Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: 1 } }),
       ]);
+
+      const { commentsCount } = await Recipe.findOne({ _id: ObjectId(postId) });
+      return res.status(201).send({ data: { commentsCount }, message: '댓글이 작성되었습니다.' });
     } else {
       const [user, diet] = await Promise.all([
         User.findById(ObjectId(payload)),
@@ -64,8 +67,10 @@ module.exports = async (req, res) => {
         comment.save(),
         Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: 1 } }),
       ]);
+
+      const { commentsCount } = await Diet.findOne({ _id: ObjectId(postId) });
+      return res.status(201).send({ data: { commentsCount }, message: '댓글이 작성되었습니다.' });
     }
-    return res.status(201).send({ message: '댓글이 작성되었습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

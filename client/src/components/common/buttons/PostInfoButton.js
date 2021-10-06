@@ -3,6 +3,10 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   width: 100%;
   height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   &:hover {
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   }
@@ -16,9 +20,6 @@ const Wrapper = styled.div`
 
 const Counter = styled.div`
   text-align: center;
-  @media (max-width: 768px) {
-    font-size: 5vw;
-  }
 `;
 
 const PostInfoButton = ({ children, onClick, active, disabled, count, num }) => {

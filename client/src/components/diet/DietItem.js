@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { lighten, darken } from 'polished';
 
 const DietItemStyle = styled.div`
   width: fit-content;
@@ -10,7 +11,6 @@ const DietItemStyle = styled.div`
     padding: 3px 5px;
     border-radius: 3px;
     background-color: rgba(0, 0, 0, 0);
-    color: #000;
     border: none;
     &.main-btn {
       cursor: pointer;
@@ -35,7 +35,24 @@ const DietItemStyle = styled.div`
   }
 `;
 
-const DietItem = ({ item, removeItem, editable = false }) => {
+const MainButton = styled.button`
+  padding: 3px 5px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  cursor: inherit;
+
+  ${props =>
+    props.hoverable &&
+    css`
+      cursor: pointer;
+      &:hover {
+        color: #fc9f77;
+      }
+    `}
+`;
+
+const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
   const onRemove = () => {
     removeItem(item.name);
   };
@@ -44,7 +61,7 @@ const DietItem = ({ item, removeItem, editable = false }) => {
 
   return (
     <DietItemStyle onClick={editable ? null : onClick}>
-      <button className={editable ? '' : 'main-btn'}>{item.name}</button>
+      <MainButton hoverable={readonly}>{item.name}</MainButton>
       {editable ? (
         <button className="remove-btn" onClick={onRemove}>
           x

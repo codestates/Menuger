@@ -8,6 +8,7 @@ const HashtagEditorStyle = styled.div`
   border-radius: 5px;
   padding: 5px 10px;
   cursor: text;
+  overflow-x: hidden;
 
   > ul {
     display: flex;

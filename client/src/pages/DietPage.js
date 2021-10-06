@@ -16,14 +16,11 @@ const DietPage = () => {
         `${process.env.REACT_APP_ENDPOINT_URL}/diets/${id}/comments`,
       );
       if (postRes.status === 200) {
-        console.log(postRes.data.diet);
         setDietPostInfo({ diet: postRes.data.diet, comments: commentsRes.data.comments });
         showModal();
       }
     } catch (e) {
       console.error(e);
-      console.log('catch함');
-      showModal();
     }
   };
   return (

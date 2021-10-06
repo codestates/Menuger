@@ -6,7 +6,17 @@ import RecipeViewer from './RecipeViewer';
 const RecipePostStyle = styled.div``;
 
 const RecipePost = ({ post, comments }) => {
-  const { title, content, user, bookmarksCount, likesCount, hashtags } = post;
+  const {
+    title,
+    content,
+    user,
+    bookmarksCount,
+    likesCount,
+    commentsCount,
+    hashtags,
+    _id: postId,
+    createdAt,
+  } = post;
   return (
     <PostViewer
       title={title}
@@ -14,7 +24,11 @@ const RecipePost = ({ post, comments }) => {
       user={user}
       bookmarksCount={bookmarksCount}
       likesCount={likesCount}
+      commentsCount={commentsCount}
       hashtags={hashtags}
+      postId={postId}
+      postType="recipes"
+      createdAt={createdAt}
     >
       <RecipePostStyle>
         <RecipeViewer content={content}></RecipeViewer>

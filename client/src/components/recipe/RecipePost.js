@@ -5,11 +5,11 @@ import RecipeViewer from './RecipeViewer';
 
 const RecipePostStyle = styled.div``;
 
-const RecipePost = ({ title, content, comments }) => {
+const RecipePost = ({ post, comments }) => {
   return (
-    <PostViewer title={title} comments={comments}>
+    <PostViewer comments={comments}>
       <RecipePostStyle>
-        <RecipeViewer content={content}></RecipeViewer>
+        <RecipeViewer content={post.content} />
       </RecipePostStyle>
     </PostViewer>
   );

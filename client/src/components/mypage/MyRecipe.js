@@ -12,7 +12,7 @@ import useQuery from '../../hooks/useQuery';
 import useModal from '../../hooks/useModal';
 import svgToComponent from '../../utils/svg';
 import { sortOptions, sortMenus, sortOptionMapper } from '../../utils/sort';
-import { resetPostInfo } from '../../modules/post';
+//import { resetPostInfo } from '../../modules/post';
 
 const Wrapper = styled.div`
   max-width: 900px;
@@ -51,7 +51,7 @@ const MyRecipe = () => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
   const [recipeData, setRecipeData] = useState();
-  const { postType, postId } = useSelector(state => state.post);
+  //const { postType, postId } = useSelector(state => state.post);
   const { nickname } = useSelector(state => state.user);
   const { isDarkMode } = useSelector(state => state.theme);
   const dispatch = useDispatch();
@@ -95,20 +95,20 @@ const MyRecipe = () => {
     }
     setPage(page => page + 1);
     setCards(prevRecipes => [...prevRecipes, ...recipes]);
-    if (postType === 'recipes' && postId) {
-      try {
-        const {
-          data: { recipe },
-        } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}`);
-        setRecipeData(recipe);
-        showModal();
-      } catch (err) {
-        console.log(err);
-        getHistory().push('recipes?sort=dd');
-      } finally {
-        dispatch(resetPostInfo());
-      }
-    }
+    // if (postType === 'recipes' && postId) {
+    //   try {
+    //     const {
+    //       data: { recipe },
+    //     } = await axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}`);
+    //     setRecipeData(recipe);
+    //     showModal();
+    //   } catch (err) {
+    //     console.log(err);
+    //     getHistory().push('recipes?sort=dd');
+    //   } finally {
+    //     dispatch(resetPostInfo());
+    //   }
+    // }
   };
 
   useEffect(() => {

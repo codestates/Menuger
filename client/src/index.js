@@ -20,6 +20,7 @@ store.subscribe(() => {
   saveState({
     user: store.getState().user,
     theme: store.getState().theme,
+    interaction: store.getState().interaction,
   });
   setBodyTheme(store.getState().theme.isDarkMode);
 });

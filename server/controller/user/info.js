@@ -186,21 +186,9 @@ module.exports = {
           Bookmark.find({ user: user._id, postType }),
         ]);
 
-        const likeIds = await Promise.all(
-          likes.map(async like => {
-            if (like.postType === postType) {
-              return like.post;
-            }
-          }),
-        );
+        const likeIds = await Promise.all(likes.map(async like => like.post));
 
-        const bookmarkIds = await Promise.all(
-          bookmarks.map(async bookmark => {
-            if (bookmark.postType === postType) {
-              return bookmark.post;
-            }
-          }),
-        );
+        const bookmarkIds = await Promise.all(bookmarks.map(async bookmark => bookmark.post));
 
         return res.status(200).send({ likeIds, bookmarkIds, subscribes });
       });

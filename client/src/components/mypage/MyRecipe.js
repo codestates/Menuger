@@ -73,7 +73,7 @@ const RecipePage = () => {
       localStorage.setItem('searched', input);
     }
     refreshedHistory.push({
-      pathname: '/recipes',
+      pathname: '/mypage/recipes',
       search: `?sort=${option}`,
       state: { input },
     });

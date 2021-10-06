@@ -160,7 +160,7 @@ const Header = () => {
           <MyPage page="1" />
         </Route>
         <Route path="/mypage/delete">
-          <MyPage page="4" />
+          <MyPage page="2" />
         </Route>
       </Switch>
     </BrowserRouter>

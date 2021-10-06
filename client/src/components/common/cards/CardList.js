@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import CardItem from './CardItem';
-import svgToComponent from '../../../utils/svg';
 import scrollToTop from '../../../utils/scroll';
 import { HiOutlineArrowCircleUp } from 'react-icons/hi';
 
@@ -20,10 +19,15 @@ const CardListContainer = styled.ul`
   }
 `;
 
+const NoResult = styled.img`
+  border: 2px solid green;
+  width: 200px;
+`;
+
 const ScrollEnd = styled.div`
   display: flex;
   justify-content: center;
-  height: 0px;
+  height: 1px;
 `;
 
 const ScrollToTop = styled.div`
@@ -39,51 +43,59 @@ const ScrollToTop = styled.div`
   }
 `;
 
-const EmptyDiv = styled.div`
-  height: 70px;
-`;
+const CardList = forwardRef(
+  ({ postType, isDoneSearching, cards, handleCardClick }, fetchMoreRef) => {
+    const { isDarkMode } = useSelector(state => state.theme);
+    const interaction = useSelector(state => state.interaction[postType]);
 
-const CardList = forwardRef(({ cards, hasNext, handleCardClick }, fetchMoreRef) => {
-  const { isDarkMode } = useSelector(state => state.theme);
-  const arrowDownConfig = {
-    svgName: 'arrowDown',
-    props: { width: 200, fill: isDarkMode ? 'white' : 'black' },
-  };
+    const isClicked = (type, postId) => {
+      if (type === 'bookmark') {
+        return interaction.bookmarkIds.includes(postId);
+      }
+      if (type === 'like') {
+        return interaction.likeIds.includes(postId);
+      }
+    };
 
-  return (
-    <>
-      <Wrapper isDark={isDarkMode}>
-        <CardListContainer>
-          {cards.map(card => (
-            <CardItem
-              key={card._id}
-              postId={card._id}
-              postType="recipe"
-              title={card.title}
-              thumbnail_url={card.thumbnail_url}
-              originalFileName={card.originalFileName}
-              user={card.user}
-              commentsCount={card.commentsCount}
-              likesCount={card.likesCount}
-              bookmarksCount={card.bookmarksCount}
-              hashtags={card.hashtags}
-              updatedAt={card.updatedAt}
-              handleCardClick={handleCardClick}
+    return (
+      <>
+        <Wrapper isDark={isDarkMode}>
+          <CardListContainer>
+            {cards.map(card => (
+              <CardItem
+                key={card._id}
+                postId={card._id}
+                postType={postType}
+                title={card.title}
+                thumbnail_url={card.thumbnail_url}
+                originalFileName={card.originalFileName}
+                user={card.user}
+                commentsCount={card.commentsCount}
+                likesCount={card.likesCount}
+                bookmarksCount={card.bookmarksCount}
+                hashtags={card.hashtags}
+                updatedAt={card.updatedAt}
+                handleCardClick={handleCardClick}
+                isBookmarked={isClicked('bookmark', card._id)}
+                isLiked={isClicked('like', card._id)}
+              />
+            ))}
+          </CardListContainer>
+          {isDoneSearching && cards.length === 0 && (
+            <NoResult
+              src={
+                'https://user-images.githubusercontent.com/38288479/136053240-19cc2f92-47d9-4bbb-801c-19fbe51c5859.png'
+              }
             />
-          ))}
-        </CardListContainer>
-      </Wrapper>
-      {hasNext && (
-        <ScrollEnd ref={fetchMoreRef}>
-          {cards.length > 0 && svgToComponent(arrowDownConfig)}
-        </ScrollEnd>
-      )}
-      {!hasNext && <EmptyDiv />}
-      <ScrollToTop onClick={scrollToTop}>
-        <HiOutlineArrowCircleUp />
-      </ScrollToTop>
-    </>
-  );
-});
+          )}
+        </Wrapper>
+        <ScrollEnd ref={fetchMoreRef} />
+        <ScrollToTop onClick={scrollToTop}>
+          <HiOutlineArrowCircleUp />
+        </ScrollToTop>
+      </>
+    );
+  },
+);
 
 export default CardList;

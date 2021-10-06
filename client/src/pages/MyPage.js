@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import MyRecipe from '../components/mypage/MyRecipe';
+import DeleteMyAccount from '../components/mypage/DeleteMyAccount';
 
 const TabContainer = styled.div`
   display: flex;
@@ -25,6 +26,9 @@ const TabContainer = styled.div`
     }
   }
   ul {
+    @media (max-width: 768px) {
+      font-size: 0.7rem;
+    }
     display: flex;
     flex-direction: column;
     align-content: space-around;
@@ -57,8 +61,8 @@ const MyPageContainer = styled.div`
 
 const MyPage = page => {
   const [tab, setTab] = useState(0);
-  const tabCotents = ['내 레시피', '내 식단', '저장됨', '회원 탈퇴'];
-  const pageName = ['/mypage/recipes', '/mypage/diets'];
+  const tabCotents = ['내 레시피', '내 식단', '저장된 레시피', '저장된 식단', '회원 탈퇴'];
+  const pageName = ['/mypage/recipes', '/mypage/diets', '', '', '/mypage/delete'];
 
   const onClick = idx => {
     setTab(idx);
@@ -100,6 +104,9 @@ const MyPage = page => {
       <ContentsContainer>
         {tab === 0 && <MyRecipe />}
         {tab === 1 && <div>식단</div>}
+        {tab === 2 && <div>식단</div>}
+        {tab === 3 && <div>식단</div>}
+        {tab === 4 && <DeleteMyAccount />}
       </ContentsContainer>
     </MyPageContainer>
   );

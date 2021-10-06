@@ -19,8 +19,8 @@ const store = createStore(
 store.subscribe(() => {
   saveState({
     user: store.getState().user,
-    post: store.getState().post,
     theme: store.getState().theme,
+    interaction: store.getState().interaction,
   });
   setBodyTheme(store.getState().theme.isDarkMode);
 });

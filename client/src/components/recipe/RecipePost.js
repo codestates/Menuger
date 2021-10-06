@@ -31,7 +31,7 @@ const RecipePost = ({ post, comments }) => {
       createdAt={createdAt}
     >
       <RecipePostStyle>
-        <RecipeViewer content={content}></RecipeViewer>
+        <RecipeViewer content={post.content} />
       </RecipePostStyle>
     </PostViewer>
   );

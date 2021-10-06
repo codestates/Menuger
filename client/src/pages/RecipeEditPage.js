@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -9,13 +8,10 @@ import useToast from '../hooks/toast/useToast';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashTagEditor from '../components/common/HashtagEditor';
 import extractThumbnailKey from '../utils/thumbnail';
-import { setPostInfo } from '../modules/post';
-
-const { REACT_APP_MOBILE_WIDTH, REACT_APP_WEB_MAX_WIDTH } = process.env;
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  max-width: ${REACT_APP_WEB_MAX_WIDTH};
+  max-width: ${process.env.REACT_APP_WEB_MAX_WIDTH};
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -32,7 +28,7 @@ const RecipeTitleInput = styled.input`
     outline: none;
     border-bottom: 1px solid #dadde6;
   }
-  @media screen and (max-width: ${REACT_APP_MOBILE_WIDTH}) {
+  @media screen and (max-width: ${process.env.REACT_APP_MOBILE_WIDTH}) {
     width: 100%;
   }
 `;
@@ -54,7 +50,6 @@ const RecipeEditPage = () => {
   const [disabled, setDisabled] = useState(false);
   const addMessage = useToast();
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const onClickSave = async () => {
     const title = titleRef.current.value;
@@ -101,11 +96,11 @@ const RecipeEditPage = () => {
         },
       );
       if (status === 201) {
-        dispatch(setPostInfo('recipes', postId));
         addMessage({ message, delay: 1000 }, () => {
           history.push({
             pathname: '/recipes',
             search: '?sort=dd',
+            state: { postId },
           });
         });
       } else {

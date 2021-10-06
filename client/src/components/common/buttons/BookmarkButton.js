@@ -87,8 +87,8 @@ const BookmarkButton = ({
     } else {
       setCount(count + 1);
     }
+    onClick(isActive);
     setIsActive(!isActive);
-    //onClick();
   };
 
   return (

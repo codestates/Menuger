@@ -141,12 +141,20 @@ const DietEditPage = () => {
     };
 
     try {
-      const { data: body } = await axios.post(`${process.env.REACT_APP_ENDPOINT_URL}/diets`, data, {
+      const {
+        data: {
+          message,
+          data: { postId },
+        },
+      } = await axios.post(`${process.env.REACT_APP_ENDPOINT_URL}/diets`, data, {
         withCredentials: true,
       });
-      history.push(`/DietPage?post-id=${body.data.postId}`);
-      displayToast({
-        message: '식단 작성이 완료 되었습니다.',
+      displayToast({ message, delay: 1000 }, () => {
+        history.push({
+          pathname: '/diets',
+          search: '?sort=dd',
+          state: { postId },
+        });
       });
     } catch (e) {
       console.error(e);

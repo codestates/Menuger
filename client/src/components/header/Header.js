@@ -153,11 +153,14 @@ const Header = () => {
         <Route path="/RecipeEditPage" component={RecipeEditPage}></Route>
         <Route path="/DietPage" component={DietPage}></Route>
         <Route path="/DietEditPage" component={DietEditPage}></Route>
-        <Route path="/MyPage/recipes">
+        <Route path="/mypage/recipes">
           <MyPage page="0" />
         </Route>
-        <Route path="/MyPage/diets">
+        <Route path="/mypage/diets">
           <MyPage page="1" />
+        </Route>
+        <Route path="/mypage/delete">
+          <MyPage page="4" />
         </Route>
       </Switch>
     </BrowserRouter>

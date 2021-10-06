@@ -17,6 +17,10 @@ import { resetPostInfo } from '../../modules/post';
 const Wrapper = styled.div`
   max-width: 900px;
   margin: 0 auto;
+
+  .sc-bZSRNg {
+    display: none;
+  }
 `;
 
 const SortMenu = styled.div`
@@ -86,7 +90,6 @@ const MyRecipe = () => {
         user: nickname,
       },
     });
-
     if (!recipes.length) {
       return setHasNext(false);
     }

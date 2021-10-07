@@ -1,5 +1,5 @@
+import { createBrowserHistory } from 'history';
 import styled, { css } from 'styled-components';
-import { lighten, darken } from 'polished';
 
 const DietItemStyle = styled.div`
   width: fit-content;
@@ -53,6 +53,18 @@ const MainButton = styled.button`
 `;
 
 const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
+  const history = createBrowserHistory({ forceRefresh: true });
+
+  const handleItemClick = () => {
+    localStorage.setItem('option', '/recipes');
+    localStorage.setItem('searched', `#${item.name}`);
+    history.push({
+      pathname: '/recipes',
+      search: '?sort=dd',
+      state: { input: `#${item.name}` },
+    });
+  };
+
   const onRemove = () => {
     removeItem(item.name);
   };
@@ -61,7 +73,9 @@ const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
 
   return (
     <DietItemStyle onClick={editable ? null : onClick}>
-      <MainButton hoverable={readonly}>{item.name}</MainButton>
+      <MainButton onClick={handleItemClick} hoverable={readonly}>
+        {item.name}
+      </MainButton>
       {editable ? (
         <button className="remove-btn" onClick={onRemove}>
           x

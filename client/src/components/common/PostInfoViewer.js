@@ -40,6 +40,10 @@ const SocialInfoContainer = styled.div`
     color: #000;
     display: flex;
     align-items: center;
+    & > span:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -75,6 +79,8 @@ const OtherArea = styled.section`
 `;
 
 const PostInfoViewer = ({
+  postType,
+  postId,
   user = {},
   bookmarksCount = 0,
   likesCount = 0,
@@ -94,15 +100,22 @@ const PostInfoViewer = ({
         <div className="profile-image-container">
           <ProfileImage src={user.image_url} mobileSize="100px" />
         </div>
-        <a id="nickname" href="#">
-          {user.nickname || 'default'}
-        </a>
+        <div id="nickname" href="#">
+          <span> {user.nickname || 'default'}</span>
+        </div>
         <div className="button-container">
-          <PostInfoButtons likesCount={likesCount} bookmarksCount={bookmarksCount} />
+          <PostInfoButtons
+            postId={postId}
+            postType={postType}
+            likesCount={likesCount}
+            bookmarksCount={bookmarksCount}
+            author={user.nickname}
+            authorId={user._id}
+          />
         </div>
       </SocialInfoContainer>
       <HashTagsContainer>
-        <HashtagInfo hashtags={hashtags} style={hashtagStyle} />
+        <HashtagInfo postType={postType} hashtags={hashtags} style={hashtagStyle} />
       </HashTagsContainer>
       <OtherArea className="other-area">
         <span className="time">{calcDateDiffToString(createdAt)}</span>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { createBrowserHistory } from 'history';
 
@@ -48,14 +49,36 @@ const SearchContainer = ({ useSearch, searchInputRef }) => {
   const [selected, setSelected] = useState('/recipes');
   const [search, setSearch] = useState('');
   const history = createBrowserHistory({ forceRefresh: true });
+  const { pathname } = useLocation();
+  const MAIN_PAGE = '/';
+  const DIET_PAGE = '/diets';
+  const RECIPE_PAGE = '/recipes';
 
   useEffect(() => {
+    if (pathname === MAIN_PAGE) {
+      setSelected('/recipes');
+      setSearch('');
+      localStorage.removeItem('option');
+      localStorage.removeItem('searched');
+      return;
+    }
+    if (pathname.startsWith(RECIPE_PAGE)) {
+      setSelected(RECIPE_PAGE);
+    }
+
+    if (pathname.startsWith(DIET_PAGE)) {
+      setSelected(DIET_PAGE);
+    }
+
     const searched = localStorage.getItem('searched');
     if (searched?.trim()?.length) {
+      const option = localStorage.getItem('option');
+      setSelected(option);
       setSearch(searched);
+      localStorage.removeItem('option');
       localStorage.removeItem('searched');
     }
-  }, []);
+  }, [pathname]);
 
   const handleSelect = ({ target }) => {
     setSelected(target.value);
@@ -70,6 +93,7 @@ const SearchContainer = ({ useSearch, searchInputRef }) => {
       if (!search.trim().length) {
         return;
       }
+      localStorage.setItem('option', selected);
       localStorage.setItem('searched', search);
       history.push({
         pathname: selected,
@@ -81,7 +105,7 @@ const SearchContainer = ({ useSearch, searchInputRef }) => {
 
   return (
     <Container useSearch={useSearch} onKeyPress={onClickEvent} ref={searchInputRef}>
-      <select onChange={handleSelect}>
+      <select onChange={handleSelect} value={selected}>
         <option value="/recipes">레시피</option>
         <option value="/diets">식단</option>
       </select>

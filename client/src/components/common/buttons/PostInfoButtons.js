@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import usePostInfoButton from '../../../hooks/usePostInfoButton';
@@ -11,16 +12,53 @@ const Wrapper = styled.div`
   gap: 10%;
 `;
 
-const PostInfoButtons = ({ postId, postType, active, bookmarksCount = 0, likesCount = 0 }) => {
-  const SubBtn = usePostInfoButton({ postId, postType, active });
-  const BookmarkBtn = usePostInfoButton({ postId, postType, active, count: bookmarksCount });
-  const LikeBtn = usePostInfoButton({ postId, postType, active, count: likesCount });
+const PostInfoButtons = ({ postId, postType, bookmarksCount, likesCount, author, authorId }) => {
+  const interaction = useSelector(state => state.interaction);
+  const { nickname } = useSelector(state => state.user);
+
+  const isActive = type => {
+    switch (type) {
+      case 'subscribe':
+        return interaction[postType].subscribes.includes(authorId);
+      case 'bookmark':
+        return interaction[postType].bookmarkIds.includes(postId);
+      case 'like':
+        return interaction[postType].likeIds.includes(postId);
+      default:
+        return false;
+    }
+  };
+
+  const SubBtn = usePostInfoButton({
+    postId,
+    postType,
+    active: isActive('subscribe'),
+    buttonType: 'subscribe',
+    nickname,
+    author,
+  });
+  const BookmarkBtn = usePostInfoButton({
+    postId,
+    postType,
+    active: isActive('bookmark'),
+    count: bookmarksCount,
+    buttonType: 'bookmark',
+    nickname,
+    author,
+  });
+  const LikeBtn = usePostInfoButton({
+    postId,
+    postType,
+    active: isActive('like'),
+    count: likesCount,
+    buttonType: 'like',
+    nickname,
+    author,
+  });
   const buttonSize = '25px';
   return (
     <Wrapper>
-      <SubBtn>
-        <BsBell size={buttonSize} />
-      </SubBtn>
+      <SubBtn>{!(author === nickname) && <BsBell size={buttonSize} />}</SubBtn>
       <BookmarkBtn>
         <BsBookmark size={buttonSize} />
       </BookmarkBtn>

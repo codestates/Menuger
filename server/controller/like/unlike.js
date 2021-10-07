@@ -36,18 +36,24 @@ module.exports = async (req, res) => {
       if (!like) {
         return res.status(400).send({ message: '잘못된 좋아요 취소 요청입니다.' });
       } else {
+        let updatedPost;
         if (postType === 'recipes') {
           await Promise.all([
             Like.deleteOne({ user: ObjectId(payload), post: ObjectId(postId) }),
             Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { likesCount: -1 } }),
           ]);
+          updatedPost = await Recipe.findOne({ _id: ObjectId(postId) });
         } else {
           await Promise.all([
             Like.deleteOne({ user: ObjectId(payload), post: ObjectId(postId) }),
             Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { likesCount: -1 } }),
           ]);
+          updatedPost = await Diet.findOne({ _id: ObjectId(postId) });
         }
-        return res.status(200).send({ message: '해당 게시물의 좋아요를 취소하였습니다.' });
+        return res.status(200).send({
+          likesCount: updatedPost.likesCount,
+          message: '해당 게시물의 좋아요를 취소하였습니다.',
+        });
       }
     });
   } catch (err) {

@@ -9,7 +9,7 @@ import DeleteMyAccount from '../components/mypage/DeleteMyAccount';
 const TabContainer = styled.div`
   display: flex;
   position: sticky !important;
-  width: 230px;
+  width: 20%;
   height: 100vh;
   align-items: center;
   flex-direction: column;
@@ -48,6 +48,7 @@ const TabContainer = styled.div`
 
 const ContentsContainer = styled.div`
   flex-grow: 1;
+  width: 80%;
   overflow-y: scroll !important;
 `;
 const MyPageContainer = styled.div`
@@ -62,7 +63,7 @@ const MyPageContainer = styled.div`
 
 const MyPage = page => {
   const tabCotents = ['내 레시피', '내 식단', '회원 탈퇴'];
-  const pageName = ['/mypage/recipes', '/mypage/diets', '/mypage/delete'];
+  const pageName = ['/mypage/recipes?sort=dd', '/mypage/diets?sort=dd', '/mypage/delete'];
 
   const history = useHistory();
 

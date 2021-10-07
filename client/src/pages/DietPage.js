@@ -71,6 +71,7 @@ const DietPage = () => {
   const curMenu = sortOptions.indexOf(sortOption);
   const loadSortedDiets = option => {
     if (input?.trim().length) {
+      localStorage.setItem('option', '/diets');
       localStorage.setItem('searched', input);
     }
     refreshedHistory.push({
@@ -211,16 +212,18 @@ const DietPage = () => {
 
   return (
     <Wrapper isDark={isDarkMode}>
-      <SortMenu>
-        <SortIconAndText onClick={showDropdown} isDark={isDarkMode}>
-          {svgToComponent({
-            svgName: 'sortIcon',
-            props: { width: 25, height: 25, display: 'block' },
-          })}
-          {sortMenus[curMenu]}
-        </SortIconAndText>
-        <DropdownContainer />
-      </SortMenu>
+      {!(isDoneFetching && cards.length === 0) && (
+        <SortMenu>
+          <SortIconAndText onClick={showDropdown} isDark={isDarkMode}>
+            {svgToComponent({
+              svgName: 'sortIcon',
+              props: { width: 25, height: 25, display: 'block' },
+            })}
+            {sortMenus[curMenu]}
+          </SortIconAndText>
+          <DropdownContainer />
+        </SortMenu>
+      )}
       <CardList
         postType="diets"
         isDoneSearching={isDoneFetching}

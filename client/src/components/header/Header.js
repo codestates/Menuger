@@ -44,14 +44,11 @@ const HeaderContainer = styled.header`
   left: 0;
   top: 0;
   width: 100%;
+  max-width: 1130px;
   height: 80px;
-  border-bottom: 1px solid;
-  border-color: rgba(160, 160, 160, 0.25);
   background-color: white;
   display: flex;
   background-color: white;
-  padding-left: 10rem;
-  padding-right: 10rem;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
@@ -68,6 +65,11 @@ const HeaderContainer = styled.header`
       display: block;
     }
   }
+`;
+
+const Wrapper = styled.div`
+  border-bottom: 1px solid;
+  border-color: rgba(160, 160, 160, 0.25);
 `;
 
 const Header = () => {
@@ -125,43 +127,39 @@ const Header = () => {
 
   return (
     <BrowserRouter>
-      <HeaderContainer active={useHamburgerMenu}>
-        <LeftContainer />
-        <SearchContainer useSearch={useSearch} searchInputRef={searchInputRef} />
-        <RightContainer
-          handleHamburgerMenu={handleHamburgerMenu}
-          useDropdown={useDropdown}
-          popRef={writeRef}
-          userRef={userRef}
-          handleDropdown={handleDropdown}
-          useHamburgerMenu={useHamburgerMenu}
-          setUserDropdown={setUserDropdown}
-          userDropdown={userDropdown}
-          hamburgerMenuRef={hamburgerMenuRef}
-        />
-        <HamburgerContainer ref={hamburgerMenuRef}>
-          <GiHamburgerMenu onClick={handleHamburgerMenu} />
-        </HamburgerContainer>
-        <SearchIconContainer ref={searchRef}>
-          <BiSearchAlt2 onClick={handleSearch} />
-        </SearchIconContainer>
-      </HeaderContainer>
+      <Wrapper>
+        <HeaderContainer active={useHamburgerMenu}>
+          <LeftContainer />
+          <SearchContainer useSearch={useSearch} searchInputRef={searchInputRef} />
+          <RightContainer
+            handleHamburgerMenu={handleHamburgerMenu}
+            useDropdown={useDropdown}
+            popRef={writeRef}
+            userRef={userRef}
+            handleDropdown={handleDropdown}
+            useHamburgerMenu={useHamburgerMenu}
+            setUserDropdown={setUserDropdown}
+            userDropdown={userDropdown}
+            hamburgerMenuRef={hamburgerMenuRef}
+          />
+          <HamburgerContainer ref={hamburgerMenuRef}>
+            <GiHamburgerMenu onClick={handleHamburgerMenu} />
+          </HamburgerContainer>
+          <SearchIconContainer ref={searchRef}>
+            <BiSearchAlt2 onClick={handleSearch} />
+          </SearchIconContainer>
+        </HeaderContainer>
+      </Wrapper>
 
       <Switch>
         <Route exact path="/" component={LandingPage}></Route>
         <Route path="/recipes" component={RecipePage}></Route>
-        <Route path="/RecipeEditPage" component={RecipeEditPage}></Route>
+        <Route path="/edit-recipe" component={RecipeEditPage}></Route>
         <Route path="/diets" component={DietPage}></Route>
-        <Route path="/DietEditPage" component={DietEditPage}></Route>
-        <Route path="/mypage/recipes">
-          <MyPage page="0" />
-        </Route>
-        <Route path="/mypage/diets">
-          <MyPage page="1" />
-        </Route>
-        <Route path="/mypage/delete">
-          <MyPage page="2" />
-        </Route>
+        <Route path="/edit-diet" component={DietEditPage}></Route>
+        <Route path="/mypage/recipes" render={props => <MyPage {...props} page="0" />} />
+        <Route path="/mypage/diets" render={props => <MyPage {...props} page="1" />} />
+        <Route path="/mypage/delete" render={props => <MyPage {...props} page="2" />} />
       </Switch>
     </BrowserRouter>
   );

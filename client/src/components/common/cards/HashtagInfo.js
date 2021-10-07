@@ -28,6 +28,7 @@ const HashtagInfo = ({ postType, hashtags, style = {} }) => {
   const history = createBrowserHistory({ forceRefresh: true });
 
   const handleHashtagClick = hashtag => {
+    localStorage.setItem('option', `/${postType}`);
     localStorage.setItem('searched', `#${hashtag}`);
     history.push({
       pathname: `/${postType}`,

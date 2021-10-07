@@ -33,6 +33,7 @@ const Container = styled.div`
   justify-content: flex-start;
   * {
     padding: 1rem;
+    flex: 1 0 auto;
   }
 `;
 

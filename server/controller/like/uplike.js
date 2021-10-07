@@ -36,6 +36,7 @@ module.exports = async (req, res) => {
       if (alreadyLike) {
         return res.status(400).send({ message: '해당 게시물에 이미 좋아요를 눌렀습니다.' });
       } else {
+        let updatedPost;
         if (postType === 'recipes') {
           const recipe = await Recipe.findOne({ _id: ObjectId(postId) });
           if (!recipe) {
@@ -48,6 +49,7 @@ module.exports = async (req, res) => {
             like.save(),
             Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { likesCount: 1 } }),
           ]);
+          updatedPost = await Recipe.findOne({ _id: ObjectId(postId) });
         } else {
           const diet = await Diet.findOne({ _id: ObjectId(postId) });
           if (!diet) {
@@ -60,8 +62,13 @@ module.exports = async (req, res) => {
             like.save(),
             Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { likesCount: 1 } }),
           ]);
+          updatedPost = await Diet.findOne({ _id: ObjectId(postId) });
         }
-        return res.status(201).send({ message: '해당 게시물에 좋아요를 클릭하였습니다.' });
+
+        return res.status(201).send({
+          likesCount: updatedPost.likesCount,
+          message: '해당 게시물에 좋아요를 클릭하였습니다.',
+        });
       }
     });
   } catch (err) {

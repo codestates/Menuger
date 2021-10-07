@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   &:hover {
-    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+    cursor: pointer;
   }
   & > svg {
     fill: ${({ active }) => active && '#ffcd36'};
@@ -20,13 +20,14 @@ const Wrapper = styled.div`
 
 const Counter = styled.div`
   text-align: center;
+  color: #606060;
 `;
 
-const PostInfoButton = ({ children, onClick, active, disabled, count, num }) => {
+const PostInfoButton = ({ children, onClick, active, count = -1 }) => {
   return (
-    <Wrapper onClick={onClick} active={active} disabled={disabled}>
+    <Wrapper onClick={onClick} active={active}>
       {children}
-      {count >= 0 && <Counter>{num}</Counter>}
+      {count >= 0 && <Counter>{count}</Counter>}
     </Wrapper>
   );
 };

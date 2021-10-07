@@ -36,6 +36,7 @@ module.exports = async (req, res) => {
       if (alreadyLike) {
         return res.status(400).send({ message: '해당 게시물을 이미 북마크에 등록하였습니다' });
       } else {
+        let updatedPost;
         if (postType === 'recipes') {
           const recipe = await Recipe.findOne({ _id: ObjectId(postId) });
           if (!recipe) {
@@ -48,6 +49,7 @@ module.exports = async (req, res) => {
             bookmark.save(),
             Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { bookmarksCount: 1 } }),
           ]);
+          updatedPost = await Recipe.findOne({ _id: ObjectId(postId) });
         } else {
           const diet = await Diet.findOne({ _id: ObjectId(postId) });
           if (!diet) {
@@ -60,8 +62,13 @@ module.exports = async (req, res) => {
             bookmark.save(),
             Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { bookmarksCount: 1 } }),
           ]);
+          updatedPost = await Diet.findOne({ _id: ObjectId(postId) });
         }
-        return res.status(201).send({ message: '해당 게시물을 북마크에 등록하였습니다.' });
+
+        return res.status(201).send({
+          bookmarksCount: updatedPost.bookmarksCount,
+          message: '해당 게시물을 북마크에 등록하였습니다.',
+        });
       }
     });
   } catch (err) {

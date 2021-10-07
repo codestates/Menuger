@@ -71,6 +71,7 @@ const RecipePage = () => {
   const curMenu = sortOptions.indexOf(sortOption);
   const loadSortedRecipes = option => {
     if (input?.trim().length) {
+      localStorage.setItem('option', '/recipes');
       localStorage.setItem('searched', input);
     }
     refreshedHistory.push({

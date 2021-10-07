@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { createBrowserHistory } from 'history';
 
 import styled from 'styled-components';
@@ -18,13 +19,13 @@ const NoResultNumber = styled.div`
 `;
 
 const NoResultMsg = styled.div`
-  color: #424242;
+  color: ${({ isDark }) => (isDark ? 'white' : '#424242')};
   font-size: 2rem;
   font-weight: bold;
 `;
 
 const NoResultDesc = styled.div`
-  color: #424242;
+  color: ${({ isDark }) => (isDark ? 'white' : '#424242')};
   font-size: 1rem;
 `;
 
@@ -40,14 +41,17 @@ const GoToMainBtn = styled.div`
 `;
 
 const NoResult = () => {
+  const { isDarkMode } = useSelector(state => state.theme);
   const history = createBrowserHistory({ forceRefresh: true });
   const goToMain = () => history.push('/');
 
   return (
     <NoResultWrapper>
       <NoResultNumber>404</NoResultNumber>
-      <NoResultMsg>앗! 찾으시는 결과가 없네요.</NoResultMsg>
-      <NoResultDesc>입력하신 검색어가 정확한지 다시 한번 확인해 주세요.</NoResultDesc>
+      <NoResultMsg isDark={isDarkMode}>앗! 찾으시는 결과가 없네요.</NoResultMsg>
+      <NoResultDesc isDark={isDarkMode}>
+        입력하신 검색어가 정확한지 다시 한번 확인해 주세요.
+      </NoResultDesc>
       <GoToMainBtn onClick={goToMain}>메인으로</GoToMainBtn>
     </NoResultWrapper>
   );

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import { setInteraction } from '../../../modules/interaction';
 import BookmarkButton from '../buttons/BookmarkButton';
@@ -10,7 +11,7 @@ import chef from '../../../utils/logoImage/logoImageYellow.png';
 import pan from '../../../utils/logoImage/pan.png';
 import UserInfo from './UserInfo';
 import HashtagInfo from './HashtagInfo';
-import axios from 'axios';
+import useToast from '../../../hooks/toast/useToast';
 
 const CardContainer = styled.li`
   position: relative;
@@ -79,7 +80,7 @@ const Info = styled.div`
 `;
 
 const UserInfoWrapper = styled.div`
-  width: 60%;
+  width: 65%;
   padding-bottom: 0.5rem;
 `;
 
@@ -130,10 +131,11 @@ const Border = styled.div`
 `;
 
 const PostInfo = styled.div`
-  width: 40%;
+  width: 35%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  margin-left: auto;
 `;
 
 const CardItem = ({
@@ -157,29 +159,35 @@ const CardItem = ({
   const [bookmarksNum, setBookmarksNum] = useState(bookmarksCount);
   const [likesNum, setLikesNum] = useState(likesCount);
   const dispatch = useDispatch();
+  const addMessage = useToast();
 
   const handleBookmarkClick = async () => {
     if (!nickname) {
+      addMessage({ mode: 'info', message: '로그인을 먼저 진행해주세요', delay: 1000 });
       return;
     }
     try {
       if (isBookmarked) {
-        await axios.delete(
+        const {
+          data: { bookmarksCount },
+        } = await axios.delete(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
           {
             withCredentials: true,
           },
         );
-        setBookmarksNum(bookmarksNum - 1);
+        setBookmarksNum(bookmarksCount);
       } else {
-        await axios.post(
+        const {
+          data: { bookmarksCount },
+        } = await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
           null,
           {
             withCredentials: true,
           },
         );
-        setBookmarksNum(bookmarksNum + 1);
+        setBookmarksNum(bookmarksCount);
       }
 
       Promise.all([
@@ -204,23 +212,31 @@ const CardItem = ({
 
   const handleLikeButtonClick = async () => {
     if (!nickname) {
+      addMessage({ mode: 'info', message: '로그인을 먼저 진행해주세요', delay: 1000 });
       return;
     }
     try {
       if (isLiked) {
-        await axios.delete(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`, {
-          withCredentials: true,
-        });
-        setLikesNum(likesNum - 1);
+        const {
+          data: { likesCount },
+        } = await axios.delete(
+          `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`,
+          {
+            withCredentials: true,
+          },
+        );
+        setLikesNum(likesCount);
       } else {
-        await axios.post(
+        const {
+          data: { likesCount },
+        } = await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`,
           null,
           {
             withCredentials: true,
           },
         );
-        setLikesNum(likesNum + 1);
+        setLikesNum(likesCount);
       }
 
       Promise.all([

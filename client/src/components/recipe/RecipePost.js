@@ -6,7 +6,8 @@ import RecipeViewer from './RecipeViewer';
 const RecipePostStyle = styled.div`
   border: solid 1px #dadde6;
   border-radius: 5px;
-  padding: 10px;
+  height: 100%;
+  padding: 1rem 1.8rem;
 `;
 
 const RecipePost = ({ post, comments }) => {
@@ -35,7 +36,7 @@ const RecipePost = ({ post, comments }) => {
       createdAt={createdAt}
     >
       <RecipePostStyle>
-        <RecipeViewer content={post.content} />
+        <RecipeViewer content={content} />
       </RecipePostStyle>
     </PostViewer>
   );

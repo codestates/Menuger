@@ -55,18 +55,18 @@ module.exports = {
 
             res.cookie('kakaoAccessToken', access_token, {
               httpOnly: true,
-              secure: true,
-              sameSite: 'None',
-              domain: '.menuger.shop',
+              // secure: true,
+              // sameSite: 'None',
+              // domain: '.menuger.shop',
             });
             req.cookies.kakaoAccessToken = access_token;
 
             if (refresh_token !== null) {
               res.cookie('kakaoRefreshToken', refresh_token, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'None',
-                domain: '.menuger.shop',
+                // secure: true,
+                // sameSite: 'None',
+                // domain: '.menuger.shop',
               });
               req.cookies.kakaoRefreshToken = refresh_token;
               user.refreshToken = refresh_token;

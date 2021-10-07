@@ -57,11 +57,11 @@ const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
 
   const handleItemClick = () => {
     localStorage.setItem('option', '/recipes');
-    localStorage.setItem('searched', `#${item.name}`);
+    localStorage.setItem('searched', `${item.name}`);
     history.push({
       pathname: '/recipes',
       search: '?sort=dd',
-      state: { input: `#${item.name}` },
+      state: { input: `${item.name}` },
     });
   };
 

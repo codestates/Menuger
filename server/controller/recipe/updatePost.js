@@ -33,15 +33,15 @@ module.exports = async (req, res) => {
     const {
       title = recipe.title,
       content = recipe.content,
-      images = [],
+      thumbnail_url = recipe.thumbnail_url,
       hashtags = recipe.hashtags,
     } = req.body;
 
     recipe.title = title;
     recipe.content = content;
     recipe.hashtags = hashtags;
-    recipe.thumbnail_url = images.length ? images[0].imageKey : null;
-    recipe.originalFileName = images.length ? images[0].originalname : null;
+    recipe.thumbnail_url = thumbnail_url;
+    recipe.originalFileName = null;
 
     await recipe.save();
     return res.status(200).send({ data: { postId: id }, message: '해당 레시피를 수정하였습니다.' });

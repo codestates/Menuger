@@ -71,6 +71,7 @@ const RecipePage = () => {
   const curMenu = sortOptions.indexOf(sortOption);
   const loadSortedRecipes = option => {
     if (input?.trim().length) {
+      localStorage.setItem('option', '/recipes');
       localStorage.setItem('searched', input);
     }
     refreshedHistory.push({
@@ -95,6 +96,7 @@ const RecipePage = () => {
         axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes/${postId}/comments`),
       ]);
       setRecipePostInfo({ recipe, comments });
+      console.log(recipe);
       showModal();
     } catch (err) {
       console.log(err);

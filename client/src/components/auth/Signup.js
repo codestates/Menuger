@@ -106,9 +106,8 @@ const Signup = ({ handleMenuClick, hideModal }) => {
 
       if (status === 201) {
         hideModal();
-        addMessage({ message, delay: 1000 }, () => {
-          handleMenuClick('signin');
-        });
+        addMessage({ message, delay: 1000 });
+        handleMenuClick('signin');
       } else {
         setDisabled(false);
         addMessage({ mode: 'error', message: '이미 가입된 이메일 입니다.' });

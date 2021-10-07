@@ -38,7 +38,7 @@ const RecipeEditor = ({ editorRef, setImages }) => {
     <>
       <Editor
         previewStyle="vertical"
-        height="600px"
+        height="550px"
         initialEditType="markdown"
         plugins={[[colorSyntax]]}
         ref={editorRef}

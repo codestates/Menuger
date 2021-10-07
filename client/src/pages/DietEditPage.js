@@ -54,7 +54,7 @@ const DietEditPageStyle = styled.div`
 
   > .button-box {
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     margin-top: 10px;
 
     button:last-child {
@@ -182,12 +182,11 @@ const DietEditPage = () => {
       } = await axios.post(`${process.env.REACT_APP_ENDPOINT_URL}/diets`, data, {
         withCredentials: true,
       });
-      displayToast({ message, delay: 1000 }, () => {
-        history.push({
-          pathname: '/diets',
-          search: '?sort=dd',
-          state: { postId },
-        });
+      displayToast({ message, delay: 1000 });
+      history.push({
+        pathname: '/diets',
+        search: '?sort=dd',
+        state: { postId },
       });
     } catch (e) {
       console.error(e);
@@ -217,12 +216,11 @@ const DietEditPage = () => {
           withCredentials: true,
         },
       );
-      displayToast({ message, delay: 1000 }, () => {
-        history.push({
-          pathname: '/diets',
-          search: '?sort=dd',
-          state: { postId: updateModePostId },
-        });
+      displayToast({ message, delay: 1000 });
+      history.push({
+        pathname: '/diets',
+        search: '?sort=dd',
+        state: { postId: updateModePostId },
       });
     } catch (e) {
       console.dir(e);

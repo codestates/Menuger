@@ -8,6 +8,8 @@ import useToast from '../hooks/toast/useToast';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashTagEditor from '../components/common/HashtagEditor';
 import extractThumbnailKey from '../utils/thumbnail';
+import useModal from '../hooks/useModal';
+import ServiceReady from '../components/common/ServiceReady';
 
 const Wrapper = styled.div`
   margin: 20px auto;
@@ -52,6 +54,9 @@ const RecipeEditPage = () => {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const addMessage = useToast();
   const history = useHistory();
+
+  const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
+  const { showModal, ModalContainer } = useModal(modalConfig);
   const location = useLocation();
 
   useEffect(() => {
@@ -75,7 +80,6 @@ const RecipeEditPage = () => {
       }
     })();
   }, [location.state]);
-
   const handleSave = async () => {
     const title = titleRef.current.value;
     const editorInstance = editorRef.current.getInstance();
@@ -156,7 +160,7 @@ const RecipeEditPage = () => {
               backgroundColor="#fc9f77"
               padding="0.5rem 1rem"
               height="auto"
-              onClick={() => alert('준비중인 서비스입니다')}
+              onClick={showModal}
               disabled={disabled}
             >
               임시저장
@@ -172,6 +176,9 @@ const RecipeEditPage = () => {
           </>
         )}
       </Buttons>
+      <ModalContainer>
+        <ServiceReady />
+      </ModalContainer>
     </Wrapper>
   );
 };

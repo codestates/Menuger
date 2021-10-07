@@ -7,6 +7,8 @@ import axios from 'axios';
 import useToast from '../../hooks/toast/useToast';
 import { setUserInfo } from '../../modules/user';
 import svgToComponent from '../../utils/svg';
+import useModal from '../../hooks/useModal';
+import ServiceReady from '../common/ServiceReady';
 
 const Wrapper = styled.div`
   text-align: center;
@@ -108,6 +110,9 @@ const Signin = ({ handleMenuClick, hideModal }) => {
 
   const [disabled, setDisabled] = useState(false);
 
+  const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
+  const { showModal, ModalContainer } = useModal(modalConfig);
+
   const handleSubmit = async e => {
     e.preventDefault();
     const email = emailRef.current.value;
@@ -183,9 +188,12 @@ const Signin = ({ handleMenuClick, hideModal }) => {
           <SocialLoginBtn onClick={handleKakaoLogin}>
             {svgToComponent({ svgName: 'kakao', props: { width: '60px', height: '60px' } })}
           </SocialLoginBtn>
-          <SocialLoginBtn onClick={() => alert('🙇‍♂️11월 부터 지원 예정인 서비스입니다🙇‍♀️')}>
+          <SocialLoginBtn onClick={showModal}>
             {svgToComponent({ svgName: 'google', props: { width: '60px', height: '60px' } })}
           </SocialLoginBtn>
+          <ModalContainer>
+            <ServiceReady />
+          </ModalContainer>
         </BtnsContainer>
         <SignupLink onClick={() => handleMenuClick('signup')}>회원가입</SignupLink>
       </Footer>

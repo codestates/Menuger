@@ -53,6 +53,7 @@ const MainButton = styled.button`
 `;
 
 const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
+  const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
   const history = createBrowserHistory({ forceRefresh: true });
 
   const handleItemClick = () => {
@@ -81,6 +82,9 @@ const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
           x
         </button>
       ) : null}
+      <ModalContainer>
+        <ServiceReady />
+      </ModalContainer>
     </DietItemStyle>
   );
 };

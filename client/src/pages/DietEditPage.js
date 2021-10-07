@@ -54,7 +54,7 @@ const DietEditPageStyle = styled.div`
 
   > .button-box {
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     margin-top: 10px;
 
     button:last-child {

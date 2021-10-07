@@ -380,7 +380,7 @@ const RightContainer = ({
           </button>
         </WriteContainer>
       </Container>
-      <DarkModeToggler />
+      {/* <DarkModeToggler /> */}
     </>
   );
 };

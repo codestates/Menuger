@@ -105,9 +105,9 @@ const PostViewer = ({
   const goEdit = () => {
     let pathname = '';
     if (postType === 'diets') {
-      pathname = '/DietEditPage';
+      pathname = '/edit-diet';
     } else if ('recipe') {
-      pathname = '/RecipeEditPage';
+      pathname = '/edit-recipe';
     }
     history.push({
       pathname,

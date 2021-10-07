@@ -47,6 +47,9 @@ const UserMenuContainer = styled.div`
       color: black;
     }
   }
+  .userInfo {
+    cursor: pointer;
+  }
 `;
 
 const WriteContainer = styled.div`

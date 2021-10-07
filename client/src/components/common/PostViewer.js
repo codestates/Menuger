@@ -107,6 +107,8 @@ const PostViewer = ({
       <ViewerSection>
         <div className="info">
           <PostInfoViewer
+            postType={postType}
+            postId={postId}
             user={user}
             bookmarksCount={bookmarksCount}
             likesCount={likesCount}

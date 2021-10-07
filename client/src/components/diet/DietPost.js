@@ -21,7 +21,7 @@ const DietPostStyle = styled.div`
     }
 
     &:last-of-type {
-      min-height: 3000px;
+      min-height: 300px;
     }
   }
 `;
@@ -55,7 +55,7 @@ const DietPost = ({ post }) => {
       <DietPostStyle>
         <DietColumnContainer dietColumnList={dietColumnList} readonly />
         <textarea value={subtitle} readOnly></textarea>
-        <textarea value={content} readOnly></textarea>
+        <textarea>{content}</textarea>
       </DietPostStyle>
     </PostViewer>
   );

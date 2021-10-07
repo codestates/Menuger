@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history';
 
-import svgToComponent from '../../../utils/svg';
 import calcDateDiffToString from '../../../utils/date';
+
+import ProfileImage from '../ProfileImage';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -11,30 +12,6 @@ const Wrapper = styled.div`
   gap: 0.3rem;
   &:hover {
     cursor: pointer;
-  }
-`;
-
-const ProfileImage = styled.img`
-  width: 20%;
-  height: 20%;
-  border-radius: 50%;
-  &:hover {
-    cursor: pointer;
-    border: 2px solid #ffcd36;
-    box-sizing: content-box;
-    margin: -2px;
-  }
-`;
-
-const Svg = styled.div`
-  width: 20%;
-  min-width: 20%;
-  height: 100%;
-  &:hover {
-    cursor: pointer;
-    & > svg {
-      fill: #ffcd36;
-    }
   }
 `;
 
@@ -107,12 +84,17 @@ const UserInfo = ({ postType, image_url, nickname, title, createdAt, handleCardC
 
   return (
     <Wrapper>
-      {image_url && <ProfileImage onClick={handleUserClick} src={image_url} alt={image_url} />}
-      {!image_url && (
-        <Svg onClick={() => handleUserClick()}>
-          {svgToComponent({ svgName: 'chef', props: { width: '100%', height: '100%' } })}
-        </Svg>
-      )}
+      <div className="profile-image-container">
+        <ProfileImage
+          onClick={handleUserClick}
+          src={image_url}
+          alt={image_url}
+          size="30px"
+          mobileSize="45px"
+          iconSize="60%"
+        />
+      </div>
+
       <InnerWrapper>
         <Title onClick={handleCardClick}>{title}</Title>
         <Nickname onClick={() => handleUserClick(nickname)}>{nickname}</Nickname>

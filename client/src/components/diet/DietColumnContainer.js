@@ -8,7 +8,6 @@ import { useState, useRef } from 'react';
 import DietColumn from './diet_column/DietColumn';
 
 const DietColumnContainerStyle = styled.div`
-  width: 100%;
   padding: 20px;
   border: solid 1px #dadde6;
   border-radius: 5px;
@@ -16,6 +15,7 @@ const DietColumnContainerStyle = styled.div`
   overflow-x: auto;
 
   > .column-list {
+    width: ${props => props.readonly && '1px'};
     display: flex;
 
     > li {
@@ -137,6 +137,7 @@ const DietColumnContainer = ({ dietColumnList, updateColumnList, readonly = fals
       onDragLeave={onDragLeave}
       onDragOver={allowDrop}
       onDrop={onDrop}
+      readonly={readonly}
     >
       <ul className="column-list">
         {dietColumnList.map((column, i) => {

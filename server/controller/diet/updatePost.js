@@ -34,13 +34,15 @@ module.exports = async (req, res) => {
       title = diet.title,
       subtitle = diet.subtitle,
       content = diet.content,
-      hashtag = diet.hashtag,
+      hashtags = diet.hashtags,
+      dietColumnList = diet.dietColumnList,
     } = req.body;
 
     diet.title = title;
     diet.subtitle = subtitle;
     diet.content = content;
-    diet.hashtag = hashtag;
+    diet.hashtags = hashtags;
+    diet.dietColumnList = dietColumnList;
 
     await diet.save();
     return res.status(200).send({ message: '해당 식단을 수정하였습니다.' });

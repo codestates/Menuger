@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import PostViewer from '../common/PostViewer';
 import RecipeViewer from './RecipeViewer';
 
-const RecipePostStyle = styled.div``;
+const RecipePostStyle = styled.div`
+  border: solid 1px #dadde6;
+  border-radius: 5px;
+  padding: 10px;
+`;
 
 const RecipePost = ({ post, comments }) => {
   const {

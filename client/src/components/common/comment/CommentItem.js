@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import calcDateDiffToString from '../../../utils/date';
+import { darken } from 'polished';
 
 //import components
 import ProfileImage from '../ProfileImage';
@@ -25,6 +26,7 @@ const ContentArea = styled.section`
   line-height: 1.2rem;
 
   > .nickname {
+    display: ${props => props.editable && 'block'};
     color: #000;
     font-weight: bold;
     text-decoration: none;
@@ -35,6 +37,8 @@ const ContentArea = styled.section`
     height: 3rem;
     resize: none;
     outline: none;
+    border: solid 1px #dadde6;
+    border-radius: 5px;
     padding: 3px 5px;
   }
 `;
@@ -57,8 +61,20 @@ const OtherArea = styled.section`
     background-color: #00000000;
     cursor: pointer;
 
-    &.remove-yes-btn {
+    &:hover {
+      color: ${darken(0.2, '#8e8e8e')};
+    }
+
+    &:active {
+      color: ${darken(0.5, '#8e8e8e')};
+    }
+
+    &.remove-yes-btn:hover {
       color: #f66d6d;
+    }
+
+    &.remove-yes-btn:active {
+      color: ${darken(0.2, '#f66d6d')};
     }
   }
 `;
@@ -125,7 +141,7 @@ const CommentItem = ({ comment = {}, updateComment, removeComment }) => {
       <ProfileImageArea>
         <ProfileImage src={user.src} size="40px" />
       </ProfileImageArea>
-      <ContentArea>
+      <ContentArea editable={otherRenderType === 'edit'}>
         <a className="nickname" href="#">
           {user.nickname}
         </a>

@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
 
     *::-webkit-scrollbar {
         width: 3px;
-        height: 3px;
+        height: 5px;
     }
 
     *::-webkit-scrollbar-track {

@@ -30,14 +30,21 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: '게시물의 작성자만 수정할 수 있습니다' });
     }
 
-    const { title = recipe.title, content = recipe.content, hashtag = recipe.hashtag } = req.body;
+    const {
+      title = recipe.title,
+      content = recipe.content,
+      images = [],
+      hashtags = recipe.hashtags,
+    } = req.body;
 
     recipe.title = title;
     recipe.content = content;
-    recipe.hashtag = hashtag;
+    recipe.hashtags = hashtags;
+    recipe.thumbnail_url = images.length ? images[0].imageKey : null;
+    recipe.originalFileName = images.length ? images[0].originalname : null;
 
     await recipe.save();
-    return res.status(200).send({ message: '해당 레시피를 수정하였습니다.' });
+    return res.status(200).send({ data: { postId: id }, message: '해당 레시피를 수정하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

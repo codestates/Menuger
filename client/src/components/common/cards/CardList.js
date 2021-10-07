@@ -44,7 +44,7 @@ const CardList = forwardRef(
     const { isDarkMode } = useSelector(state => state.theme);
     const interaction = useSelector(state => state.interaction[postType]);
 
-    const isClicked = (type, postId) => {
+    const isActive = (type, postId) => {
       if (type === 'bookmark') {
         return interaction.bookmarkIds.includes(postId);
       }
@@ -72,8 +72,8 @@ const CardList = forwardRef(
                 hashtags={card.hashtags}
                 createdAt={card.createdAt}
                 handleCardClick={handleCardClick}
-                isBookmarked={isClicked('bookmark', card._id)}
-                isLiked={isClicked('like', card._id)}
+                isBookmarked={isActive('bookmark', card._id)}
+                isLiked={isActive('like', card._id)}
               />
             ))}
           </CardListContainer>

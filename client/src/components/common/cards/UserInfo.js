@@ -25,7 +25,7 @@ const Title = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
-  font-size: 1rem;
+  font-size: 0.9rem;
   @media (max-width: 1200px) {
     font-size: 1.2rem;
   }
@@ -74,6 +74,7 @@ const UserInfo = ({ postType, image_url, nickname, title, createdAt, handleCardC
 
   const handleUserClick = () => {
     localStorage.setItem('searched', `@${nickname}`);
+    localStorage.setItem('option', `/${postType}`);
     history.push({
       pathname: `/${postType}`,
       search: '?sort=dd',

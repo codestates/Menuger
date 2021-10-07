@@ -8,7 +8,6 @@ module.exports = {
         expiresIn: '4h',
       });
     } catch (err) {
-      console.log(err);
       return null;
     }
   },

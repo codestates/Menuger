@@ -153,10 +153,9 @@ const Signin = ({ handleMenuClick, hideModal }) => {
           subscribes: user.subscribes,
           type: user.type,
         };
-        addMessage({ message: '로그인 성공', delay: 500 }, () => {
-          dispatch(setUserInfo(userInfo));
-          history.push('/');
-        });
+        addMessage({ message: '로그인 성공', delay: 500 });
+        dispatch(setUserInfo(userInfo));
+        history.push('/');
       }
     } catch (err) {
       setDisabled(false);

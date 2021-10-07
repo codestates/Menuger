@@ -365,10 +365,10 @@ const RightContainer = ({
           {userInfo.email && (
             <StyledLink to="/mypage/recipes?sort=dd">{userInfo.nickname}</StyledLink>
           )}
-          <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
+          <StyledLink to="/edit-recipe" onClick={handleHamburgerMenu}>
             레시피 작성
           </StyledLink>
-          <StyledLink to="/DietEditPage" onClick={handleHamburgerMenu}>
+          <StyledLink to="/edit-diet" onClick={handleHamburgerMenu}>
             식단 작성
           </StyledLink>
           {userInfo.email && <SignoutButton onClick={signOut}>로그아웃</SignoutButton>}
@@ -379,10 +379,10 @@ const RightContainer = ({
             {svgToComponent({ svgName: 'arrowDown' })}
             {useDropdown && (
               <DropdownContainer>
-                <StyledLink to="/RecipeEditPage" onClick={handleDropdown}>
+                <StyledLink to="/edit-recipe" onClick={handleDropdown}>
                   레시피
                 </StyledLink>
-                <StyledLink to="/DietEditPage" onClick={handleDropdown}>
+                <StyledLink to="/edit-diet" onClick={handleDropdown}>
                   식단
                 </StyledLink>
               </DropdownContainer>
@@ -390,7 +390,7 @@ const RightContainer = ({
           </button>
         </WriteContainer>
       </Container>
-      <DarkModeToggler />
+      {/* <DarkModeToggler /> */}
     </>
   );
 };

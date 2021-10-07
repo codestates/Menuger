@@ -21,9 +21,6 @@ const CommentMarkStyle = styled.button`
   ${IconSytle} {
     font-size: ${props => props.imageSize || '1.5em'};
     color: #424242;
-    &:hover {
-      color: ${props => lighten(0.1, props.backgroundColor || 'gray')};
-    }
   }
 
   ${SpanStyle} {

@@ -37,18 +37,24 @@ module.exports = async (req, res) => {
       if (!bookmark) {
         return res.status(400).send({ message: '잘못된 북마크 등록 취소 요청입니다.' });
       } else {
+        let updatedPost;
         if (postType === 'recipes') {
           await Promise.all([
             Bookmark.deleteOne({ user: ObjectId(payload), post: ObjectId(postId) }),
             Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { bookmarksCount: -1 } }),
           ]);
+          updatedPost = await Recipe.findOne({ _id: ObjectId(postId) });
         } else {
           await Promise.all([
             Bookmark.deleteOne({ user: ObjectId(payload), post: ObjectId(postId) }),
             Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { bookmarksCount: -1 } }),
           ]);
+          updatedPost = await Diet.findOne({ _id: ObjectId(postId) });
         }
-        return res.status(200).send({ message: '해당 게시물의 북마크 등록을 취소하였습니다.' });
+        return res.status(200).send({
+          bookmarksCount: updatedPost.bookmarksCount,
+          message: '해당 게시물의 북마크 등록을 취소하였습니다.',
+        });
       }
     });
   } catch (err) {

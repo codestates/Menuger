@@ -1,8 +1,5 @@
+import { createBrowserHistory } from 'history';
 import styled, { css } from 'styled-components';
-import { lighten, darken } from 'polished';
-
-import useModal from '../../hooks/useModal';
-import ServiceReady from '../common/ServiceReady';
 
 const DietItemStyle = styled.div`
   width: fit-content;
@@ -57,7 +54,17 @@ const MainButton = styled.button`
 
 const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
   const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
-  const { showModal, ModalContainer } = useModal(modalConfig);
+  const history = createBrowserHistory({ forceRefresh: true });
+
+  const handleItemClick = () => {
+    localStorage.setItem('option', '/recipes');
+    localStorage.setItem('searched', `${item.name}`);
+    history.push({
+      pathname: '/recipes',
+      search: '?sort=dd',
+      state: { input: `${item.name}` },
+    });
+  };
 
   const onRemove = () => {
     removeItem(item.name);
@@ -67,7 +74,7 @@ const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
 
   return (
     <DietItemStyle onClick={editable ? null : onClick}>
-      <MainButton hoverable={readonly} onClick={showModal}>
+      <MainButton onClick={handleItemClick} hoverable={readonly}>
         {item.name}
       </MainButton>
       {editable ? (

@@ -42,13 +42,11 @@ const DietColumnHeader = ({ title, index, removeColumn, changeTitle, readonly = 
     setInputTitle(title);
   }, [title]);
 
-  const onEditMode = () => {
-    setIsEditMode(true);
-  };
-
-  const offEditMode = () => {
+  const onEditMode = () => setIsEditMode(true);
+  const offEditMode = () => setIsEditMode(false);
+  const onSubmit = () => {
     changeTitle(inputTitle);
-    setIsEditMode(false);
+    offEditMode();
   };
 
   const onRemove = () => {
@@ -57,7 +55,7 @@ const DietColumnHeader = ({ title, index, removeColumn, changeTitle, readonly = 
   };
 
   return (
-    <DietColumnHeaderStyle draggable={!readonly && !isEditMode}>
+    <DietColumnHeaderStyle draggable={!readonly && !isEditMode} onBlur={onSubmit}>
       {!readonly && isEditMode ? (
         <>
           <input
@@ -68,7 +66,7 @@ const DietColumnHeader = ({ title, index, removeColumn, changeTitle, readonly = 
           />
           <div className="button-box">
             <EditButton type="remove" onClick={onRemove} />
-            <EditButton type="edit-off" onClick={offEditMode} />
+            <EditButton type="edit-off" onClick={onSubmit} />
           </div>
         </>
       ) : (

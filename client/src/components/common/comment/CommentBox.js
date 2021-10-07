@@ -6,6 +6,7 @@ import { lighten } from 'polished';
 
 //import components
 import CommentItem from './CommentItem';
+import ButtonSpinner from '../spinners/ButtonSpinner';
 
 const CommentBoxStyle = styled.div`
   font-size: 0.825rem;
@@ -19,6 +20,10 @@ const CommentBoxStyle = styled.div`
     position: relative;
     flex-grow: 1;
     padding: 20px;
+  }
+
+  > .loading {
+    margin: 10px 20px 0;
   }
 `;
 
@@ -84,6 +89,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
   const [inputComment, setInputComment] = useState('');
   const [commentList, setCommentList] = useState([]);
   const [isMoreComment, setIsMoreComment] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(state => state.user);
   const pageNumber = useRef(2);
 
@@ -111,13 +117,20 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
   };
 
   useEffect(() => {
-    getComments(1).then(res => {
-      initCommentList(res.comments, res.commentsCount);
-    });
+    setIsLoading(true);
+    getComments(1)
+      .then(res => {
+        initCommentList(res.comments, res.commentsCount);
+      })
+      .catch(e => console.error(e))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [postId, postType]);
 
   const getMoreComments = async () => {
     try {
+      setIsLoading(true);
       const readRes = await getComments(pageNumber.current);
       const newCommentList = [...commentList, ...readRes.comments];
       setCommentList(newCommentList);
@@ -125,6 +138,8 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
       pageNumber.current++;
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,6 +159,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
 
   const removeComment = async commentId => {
     try {
+      setIsLoading(true);
       const deleteRes = await axios.delete(
         `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/comments/${commentId}`,
         { withCredentials: true },
@@ -155,19 +171,25 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
       }
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const onChange = e => {
+    if (isLoading) {
+      return;
+    }
     setInputComment(e.target.value);
   };
 
   const onSubmit = async e => {
     e.preventDefault();
-    if (inputComment.trim().length <= 0) {
+    if (inputComment.trim().length <= 0 || isLoading) {
       return;
     }
     try {
+      setIsLoading(true);
       const createRes = await axios.post(
         `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/comments`,
         {
@@ -185,6 +207,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
       console.error(e);
     } finally {
       setInputComment('');
+      setIsLoading(false);
     }
   };
 
@@ -206,6 +229,11 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
           <div className="disable">로그인 후 댓글을 작성할 수 있습니다.</div>
         )}
       </CommentInput>
+      {isLoading && (
+        <div className="loading">
+          <ButtonSpinner />
+        </div>
+      )}
       <div className="list-container">
         <CommentList>
           {commentList.length === 0 ? (

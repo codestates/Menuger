@@ -96,7 +96,6 @@ const RecipePage = () => {
         axios.get(`${process.env.REACT_APP_ENDPOINT_URL}/recipes/${postId}/comments`),
       ]);
       setRecipePostInfo({ recipe, comments });
-      console.log(recipe);
       showModal();
     } catch (err) {
       console.log(err);

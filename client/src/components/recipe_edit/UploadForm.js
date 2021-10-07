@@ -161,7 +161,7 @@ const UploadForm = ({ editorRef, width, setUploadModal, setImages }) => {
       const editorInstance = editorRef.current.getInstance();
 
       presignedData.data.forEach(({ imageKey }) => {
-        editorInstance.insertText(`<img src=${REACT_APP_S3_URL}/raw/${imageKey} width="200" />\n`);
+        editorInstance.insertText(`<img src=${REACT_APP_S3_URL}/raw/${imageKey} width="400" />\n`);
       });
 
       setImages([

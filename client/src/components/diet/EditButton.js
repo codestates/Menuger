@@ -1,17 +1,20 @@
 import styled from 'styled-components';
+import { HiOutlineTrash, HiPencil, HiCheck } from 'react-icons/hi';
+import { lighten, darken } from 'polished';
 
 const EditButtonStyle = styled.button`
   background-color: rgba(0, 0, 0, 0);
   color: #5e5e5e;
   border: none;
   cursor: pointer;
+  padding: 0 2px;
 
   &.edit-on:hover {
-    color: #000000;
+    color: ${darken(0.3, '#5e5e5e')};
   }
 
   &.edit-on:active {
-    color: #757575;
+    color: ${lighten(0.1, '#5e5e5e')};
   }
 
   &.edit-off:hover {
@@ -19,7 +22,7 @@ const EditButtonStyle = styled.button`
   }
 
   &.edit-off:active {
-    color: #1ca700;
+    color: ${darken(0.3, '#9be998')};
   }
 
   &.remove:hover {
@@ -27,15 +30,15 @@ const EditButtonStyle = styled.button`
   }
 
   &.remove:active {
-    color: #bd0000;
+    color: ${darken(0.2, '#f66d6d')};
   }
 `;
 
 const EditButton = ({ type, onClick }) => {
   const types = {
-    remove: '✕',
-    'edit-on': '✎',
-    'edit-off': '✔',
+    remove: <HiOutlineTrash size="16px" />,
+    'edit-on': <HiPencil />,
+    'edit-off': <HiCheck size="16px" />,
   };
   return (
     <EditButtonStyle onClick={onClick} className={type}>

@@ -12,6 +12,12 @@ import { HiOutlineArrowCircleUp } from 'react-icons/hi';
 import MobileFoodImg from '../utils/landingPageImage/undraw_healthy_options_sdo3.svg';
 import EatingTogether from '../utils/landingPageImage/undraw_Eating_together_re_ux62.svg';
 import Cooking from '../utils/landingPageImage/undraw_cooking_lyxy.svg';
+import logoImageYellow from '../utils/logoImage/logoImageYellow.png';
+import pngegg from '../utils/landingPageImage/pngegg.png';
+
+const TextContainer = styled.div``;
+
+const ImageContainer = styled.div``;
 
 const CircleContainer = styled.div`
   z-index: 8;
@@ -50,54 +56,253 @@ const ScrollToTop = styled.div`
 `;
 
 const Section1 = styled.section`
-  h1 {
-    padding-bottom: 40%;
+  overflow-x: hidden;
+  & > * {
+    padding-bottom: 10em;
   }
-  :nth-child(2) {
-    margin-left: 30%;
+  ${TextContainer} {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: left;
+    h1 {
+      font-weight: bold;
+      font-size: 4em;
+      padding-bottom: 0.5em;
+    }
+    span {
+      font-weight: normal;
+      font-size: 1.2em;
+      padding-bottom: 1em;
+    }
+    @media (max-width: 768px) {
+      padding: 0;
+      width: 100%;
+      height: 50%;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      h1 {
+        font-size: 2em;
+      }
+      span {
+        width: 80%;
+      }
+    }
+  }
+  ${ImageContainer} {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    > .slotMachineContainer {
+      position: relative;
+      > :nth-child(2) {
+        position: absolute;
+        top: 35px;
+        left: 35%;
+      }
+    }
+    .logo {
+      margin-right: 2em;
+      width: 250px;
+    }
+    .reverse {
+      transform: rotate(90deg);
+      -moz-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      filter: FlipH;
+      -ms-filter: 'FlipH';
+      width: 300px;
+      margin-left: 50px;
+    }
+    .click {
+      position: absolute;
+      left: 70%;
+      font-size: 1.2em;
+    }
+    @media (max-width: 768px) {
+      align-items: center;
+      width: 100%;
+      .reverse {
+        width: 250px;
+        margin-left: 0px;
+      }
+      > .slotMachineContainer {
+        > :nth-child(2) {
+          top: 20px;
+          left: 2%;
+        }
+      }
+      .logo {
+        margin-right: 0;
+        width: 250px;
+      }
+    }
   }
 `;
 const Section2 = styled.section`
-  h1 {
-    padding-bottom: 20%;
+  ${TextContainer} {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding-bottom: 30em;
+    text-align: right;
+    h1 {
+      font-weight: bold;
+      font-size: 4em;
+      padding-bottom: 0.5em;
+    }
+    span {
+      font-weight: normal;
+      font-size: 1.2em;
+      margin-bottom: 1em;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 50%;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 10em;
+      text-align: center;
+      h1 {
+        font-size: 2em;
+        padding-bottom: 0.5em;
+      }
+      span {
+        margin-bottom: 1em;
+      }
+    }
   }
-  img {
-    padding-top: 20%;
-    width: 400px;
+  ${ImageContainer} {
+    width: 50%;
+    position: relative;
+    * {
+      width: 100%;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 50%;
+      top: 100px;
+    }
   }
 `;
 const Section3 = styled.section`
-  h1 {
-    padding-bottom: 40%;
+  overflow-x: hidden;
+  ${TextContainer} {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding-bottom: 30em;
+    text-align: left;
+    h1 {
+      font-weight: bold;
+      font-size: 4em;
+      padding-bottom: 0.5em;
+    }
+    span {
+      font-weight: normal;
+      padding-bottom: 0.5em;
+      font-size: 1.2em;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 50%;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 0;
+      h1 {
+        font-weight: bold;
+        font-size: 2em;
+        padding-bottom: 0.5em;
+      }
+      span {
+        font-weight: normal;
+        padding-bottom: 0.5em;
+        font-size: 1.2em;
+      }
+    }
   }
-  img {
-    width: 400px;
-    padding-top: 20%;
+  ${ImageContainer} {
+    width: 50%;
+    position: relative;
+    * {
+      width: 35em;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 50%;
+      align-items: center;
+      justify-content: center;
+      * {
+        width: 100%;
+      }
+    }
   }
 `;
 
 const Section4 = styled.section`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  > :first-child {
-    flex: 2 0 auto;
-  }
-  > :last-child {
-    flex: 1 0 auto;
-  }
   .contents {
     display: flex;
     flex-direction: row;
-    > * {
-      flex: 1 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 200px;
+    height: 70%;
+    ${TextContainer} {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      text-align: right;
+      h1 {
+        font-weight: bold;
+        font-size: 4em;
+        padding-bottom: 0.5em;
+      }
+      span {
+        font-weight: normal;
+        font-size: 1.2em;
+        margin-bottom: 0.3em;
+      }
     }
-    > h1 {
-      padding-top: 20%;
+    ${ImageContainer} {
+      width: 40%;
+      position: relative;
+      * {
+        width: 100%;
+        height: 80%;
+      }
     }
-    > img {
-      width: 200px;
-      padding-top: 20%;
+  }
+  .footer {
+    height: 30%;
+  }
+
+  @media (max-width: 768px) {
+    .contents {
+      flex-direction: column;
+      justify-content: space-evenly;
+      ${TextContainer} {
+        text-align: center;
+        width: 100%;
+        h1 {
+          font-weight: bold;
+          font-size: 2.8em;
+          padding-bottom: 0.5em;
+        }
+        span {
+          font-weight: normal;
+          font-size: 1.2em;
+          margin-bottom: 0.3em;
+        }
+      }
+      ${ImageContainer} {
+        width: 100%;
+      }
     }
   }
 `;
@@ -139,6 +344,7 @@ const LandingPage = () => {
   const { toastRef } = useSelector(state => state.toast);
   const dispatch = useDispatch();
   const addMessage = useToast();
+  const [rollingProps, setRollingProps] = useState(true);
 
   const arr = [0, 1, 2, 3];
   const page = e => {
@@ -175,6 +381,10 @@ const LandingPage = () => {
     }
   }, [toastRef]);
 
+  const rollingClick = () => {
+    setRollingProps(!rollingProps);
+  };
+
   return (
     <>
       <CircleContainer>
@@ -199,27 +409,76 @@ const LandingPage = () => {
           customPageNumber={useScroll}
         >
           <Section1 className="full-page">
-            <h1>
-              '오늘 점심 뭐 먹지?'<br></br> '가성비 좋은 식단은 없을까?'<br></br> '새우 알레르기가
-              있는데... 새우를 쓰지않는 레시피는 없을까?'<br></br> 이런 고민을 해보신 적이
-              있으신가요?
-            </h1>
-            <SlotMachine />
+            <TextContainer>
+              <h1>
+                맛있는 식사를<br></br>만들어 보세요
+              </h1>
+              <span>
+                다양한 <span style={{ color: '#fc9f77', fontWeight: 'bold' }}>메뉴저</span>들이 만든
+                레시피와 식단을 확인해보세요.
+              </span>
+              <span>그리고, 여러분만의 레시피와 식단을 만들고 공유해보세요.</span>
+            </TextContainer>
+            <ImageContainer>
+              <div className="slotMachineContainer">
+                <img className="reverse" src={pngegg}></img>
+                <SlotMachine id="slotMachine" rollingProps={rollingProps} />
+              </div>
+              <div>
+                <img className="logo" src={logoImageYellow} onClick={rollingClick}></img>
+                <span className="click">Click me!</span>
+              </div>
+            </ImageContainer>
           </Section1>
           <Section2 className="full-page">
-            <h1>두번째 페이지입니다.</h1>
-            <img src={MobileFoodImg} alt="main-second"></img>
+            <ImageContainer>
+              <img src={MobileFoodImg}></img>
+            </ImageContainer>
+            <TextContainer>
+              <h1>
+                다양한 레시피와<br></br>식단을 찾아보세요
+              </h1>
+              <span>
+                알레르기, 건강식, 가성비 등 <br></br>여러분이 원하는
+                <span style={{ color: '#fc9f77', fontSize: '1em' }}>키워드</span>로 검색해보세요.
+              </span>
+              <span>수많은 레시피와 식단이 여러분을 기다리고 있습니다.</span>
+            </TextContainer>
           </Section2>
           <Section3 className="full-page">
-            <img src={EatingTogether} alt="third"></img>
-            <h1>세번째 페이지입니다.</h1>
+            <TextContainer>
+              <h1>
+                마음에 드는걸 <br></br>찾지 못하셨나요?
+              </h1>
+              <span>그렇다면, 직접 작성해보세요.</span>
+              <span>
+                당신만의 <span style={{ color: '#fc9f77', fontSize: '1em' }}>특별한</span> 레시피와
+                식단을 공유해보세요.
+              </span>
+            </TextContainer>
+            <ImageContainer>
+              <img src={EatingTogether} alt="third"></img>
+            </ImageContainer>
           </Section3>
           <Section4 className="full-page">
             <div className="contents">
-              <h1>네번째 페이지입니다.</h1>
-              <img src={Cooking} alt="fourth"></img>
+              <ImageContainer>
+                <img src={Cooking} alt="fourth"></img>
+              </ImageContainer>
+              <TextContainer>
+                <h1>
+                  요리할 준비가 <br></br>되셨나요?
+                </h1>
+                <span>
+                  메뉴저와 함께{' '}
+                  <span style={{ color: '#fc9f77', fontSize: '1em', fontWeight: 'bold' }}>
+                    행복한 요리
+                  </span>
+                  를 지금 바로 시작해보세요
+                </span>
+              </TextContainer>
             </div>
-            <Footer />
+            <Footer className="footer" />
           </Section4>
         </ReactPageScroller>
       </PageScrollerContainer>

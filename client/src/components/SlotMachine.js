@@ -39,8 +39,9 @@ const Div = styled.div`
     width: 200px;
     height: 50px;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.05);
+    /* background-color: rgba(0, 0, 0, 0.05); */
     border-radius: 5px;
+    /* border: 1px solid black; */
     margin: 50px auto 0;
 
     &.view {
@@ -75,7 +76,7 @@ const Div = styled.div`
     list-style: none;
     height: 50px;
     width: 100px;
-    background-color: #ffc436;
+    background-color: white;
     transform-origin: 50% 50%;
   }
 
@@ -131,6 +132,8 @@ const Div = styled.div`
     padding-left: 100px;
     font-size: 16px;
     line-height: 50px;
+    background-color: transparent;
+    text-align: start;
   }
 
   .btn_wrap {
@@ -139,13 +142,17 @@ const Div = styled.div`
   }
 `;
 
-const SlotMachine = () => {
+const SlotMachine = ({ rollingProps }) => {
   const [number, setNumber] = useState(0);
   const [rolling, setRolling] = useState(' rolling');
 
   useEffect(() => {
     handleRolling();
   }, []);
+
+  useEffect(() => {
+    handleRolling();
+  }, [rollingProps]);
 
   const handleRolling = () => {
     const list = {
@@ -204,13 +211,7 @@ const SlotMachine = () => {
             <span className="food">{number}</span>
           </li>
         </ul>
-        <h1 className="title">먹고 싶다</h1>
-      </div>
-
-      <div className="btn_wrap">
-        <button type="button" className="btn btn_first" onClick={handleRolling}>
-          이게 땡길껄?
-        </button>
+        <h1 className="title">만들어볼까?</h1>
       </div>
     </Div>
   );

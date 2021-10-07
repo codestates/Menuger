@@ -53,15 +53,16 @@ const MainButton = styled.button`
 `;
 
 const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
+  const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
   const history = createBrowserHistory({ forceRefresh: true });
 
   const handleItemClick = () => {
     localStorage.setItem('option', '/recipes');
-    localStorage.setItem('searched', `#${item.name}`);
+    localStorage.setItem('searched', `${item.name}`);
     history.push({
       pathname: '/recipes',
       search: '?sort=dd',
-      state: { input: `#${item.name}` },
+      state: { input: `${item.name}` },
     });
   };
 

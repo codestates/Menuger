@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -8,6 +8,8 @@ import useToast from '../hooks/toast/useToast';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashTagEditor from '../components/common/HashtagEditor';
 import extractThumbnailKey from '../utils/thumbnail';
+import useModal from '../hooks/useModal';
+import ServiceReady from '../components/common/ServiceReady';
 
 const Wrapper = styled.div`
   margin: 20px auto;
@@ -49,10 +51,36 @@ const RecipeEditPage = () => {
   const [images, setImages] = useState();
   const [tagList, setTagList] = useState([]);
   const [disabled, setDisabled] = useState(false);
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
   const addMessage = useToast();
   const history = useHistory();
 
-  const onClickSave = async () => {
+  const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
+  const { showModal, ModalContainer } = useModal(modalConfig);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.state || location.state.editPostId.length <= 0) {
+      return;
+    }
+    (async () => {
+      try {
+        const {
+          data: { recipe },
+        } = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT_URL}/recipes/${location.state.editPostId}`,
+        );
+        titleRef.current.value = recipe.title;
+        const editorInstance = editorRef.current.getInstance();
+        editorInstance.insertText(recipe.content);
+        setTagList(recipe.hashtags);
+        setIsUpdateMode(true);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [location.state]);
+  const handleSave = async () => {
     const title = titleRef.current.value;
     const editorInstance = editorRef.current.getInstance();
     const recipeContent = editorInstance.getHTML();
@@ -78,14 +106,16 @@ const RecipeEditPage = () => {
     setDisabled(true);
 
     try {
+      const method = isUpdateMode ? 'patch' : 'post';
+      const updatingPostId = isUpdateMode ? `/${location.state.editPostId}` : '';
       const {
         data: {
           message,
           data: { postId },
         },
         status,
-      } = await axios.post(
-        `${process.env.REACT_APP_ENDPOINT_URL}/recipes`,
+      } = await axios[method](
+        `${process.env.REACT_APP_ENDPOINT_URL}/recipes${updatingPostId}`,
         {
           images: thumbnailImage,
           title,
@@ -96,7 +126,7 @@ const RecipeEditPage = () => {
           withCredentials: true,
         },
       );
-      if (status === 201) {
+      if (status === 201 || status === 200) {
         addMessage({ message, delay: 1000 }, () => {
           history.push({
             pathname: '/recipes',
@@ -122,24 +152,33 @@ const RecipeEditPage = () => {
       <RecipeEditor editorRef={editorRef} setImages={setImages} />
       <HashTagEditor tagList={tagList} updateTagList={setTagList} width="100%" />
       <Buttons>
-        <StandardButton
-          backgroundColor="#fc9f77"
-          padding="0.5rem 1rem"
-          height="auto"
-          onClick={() => alert('준비중인 서비스입니다')}
-          disabled={disabled}
-        >
-          임시저장
-        </StandardButton>
-        <StandardButton
-          padding="0.5rem 1rem"
-          height="auto"
-          onClick={onClickSave}
-          disabled={disabled}
-        >
-          작성
-        </StandardButton>
+        {isUpdateMode ? (
+          <StandardButton onClick={handleSave}>수정</StandardButton>
+        ) : (
+          <>
+            <StandardButton
+              backgroundColor="#fc9f77"
+              padding="0.5rem 1rem"
+              height="auto"
+              onClick={showModal}
+              disabled={disabled}
+            >
+              임시저장
+            </StandardButton>
+            <StandardButton
+              padding="0.5rem 1rem"
+              height="auto"
+              onClick={handleSave}
+              disabled={disabled}
+            >
+              작성
+            </StandardButton>
+          </>
+        )}
       </Buttons>
+      <ModalContainer>
+        <ServiceReady />
+      </ModalContainer>
     </Wrapper>
   );
 };

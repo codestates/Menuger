@@ -27,6 +27,11 @@ const ProfileImageStyle = styled.div`
     //mobileSize => size => 75px
     width: ${props => (props.mobileSize ? props.mobileSize : props.size || '75px')};
     height: ${props => (props.mobileSize ? props.mobileSize : props.size || '75px')};
+
+    > img {
+      width: ${props => (props.mobileSize ? props.mobileSize : props.size || '75px')};
+      height: ${props => (props.mobileSize ? props.mobileSize : props.size || '75px')};
+    }
   }
 `;
 

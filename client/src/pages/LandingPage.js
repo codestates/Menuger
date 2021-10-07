@@ -105,6 +105,9 @@ const Section1 = styled.section`
     .logo {
       margin-right: 2em;
       width: 250px;
+      &:hover {
+        cursor: pointer;
+      }
     }
     .reverse {
       transform: rotate(90deg);

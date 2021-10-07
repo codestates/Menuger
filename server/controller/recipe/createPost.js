@@ -19,15 +19,14 @@ module.exports = async (req, res) => {
     }
 
     const user = await User.findById(ObjectId(payload));
-    const { title, content, images = [], hashtags = [] } = req.body;
+    const { title, content, thumbnail_url, hashtags = [] } = req.body;
 
     const post = new Recipe({
       title,
       content,
       user,
       hashtags,
-      thumbnail_url: images.length ? images[0].imageKey : null,
-      originalFileName: images.length ? images[0].originalname : null,
+      thumbnail_url,
     });
 
     await post.save();

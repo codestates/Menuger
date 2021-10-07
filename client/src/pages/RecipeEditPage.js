@@ -7,7 +7,6 @@ import RecipeEditor from '../components/recipe_edit/RecipeEditor';
 import useToast from '../hooks/toast/useToast';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashTagEditor from '../components/common/HashtagEditor';
-import extractThumbnailKey from '../utils/thumbnail';
 import useModal from '../hooks/useModal';
 import ServiceReady from '../components/common/ServiceReady';
 
@@ -39,6 +38,19 @@ const RecipeTitleInput = styled.input`
   }
 `;
 
+const ThumbnailInput = styled.input`
+  border: solid 1px #dadde6;
+  border-radius: 5px;
+  padding-left: 20px;
+  height: 50px;
+  &:focus {
+    outline: none;
+  }
+  @media screen and (max-width: ${process.env.REACT_APP_MOBILE_WIDTH}) {
+    width: 100%;
+  }
+`;
+
 const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -48,6 +60,7 @@ const Buttons = styled.div`
 const RecipeEditPage = () => {
   const editorRef = useRef();
   const titleRef = useRef();
+  const thumbnailRef = useRef();
   const [images, setImages] = useState();
   const [tagList, setTagList] = useState([]);
   const [disabled, setDisabled] = useState(false);
@@ -73,6 +86,7 @@ const RecipeEditPage = () => {
         titleRef.current.value = recipe.title;
         const editorInstance = editorRef.current.getInstance();
         editorInstance.insertText(recipe.content);
+        thumbnailRef.current.value = recipe.thumbnail_url;
         setTagList(recipe.hashtags);
         setIsUpdateMode(true);
       } catch (e) {
@@ -84,6 +98,7 @@ const RecipeEditPage = () => {
     const title = titleRef.current.value;
     const editorInstance = editorRef.current.getInstance();
     const recipeContent = editorInstance.getHTML();
+    const thumbnail_url = thumbnailRef.current.value;
 
     if (!title.trim().length) {
       titleRef.current.focus();
@@ -97,12 +112,6 @@ const RecipeEditPage = () => {
       return;
     }
 
-    const thumbnailImage =
-      images?.filter(image => image.imageKey === extractThumbnailKey(recipeContent)) || [];
-
-    thumbnailImage.forEach(
-      image => (image.imageKey = `${process.env.REACT_APP_S3_URL}/raw/${image.imageKey}`),
-    );
     setDisabled(true);
 
     try {
@@ -117,9 +126,9 @@ const RecipeEditPage = () => {
       } = await axios[method](
         `${process.env.REACT_APP_ENDPOINT_URL}/recipes${updatingPostId}`,
         {
-          images: thumbnailImage,
           title,
           content: recipeContent,
+          thumbnail_url,
           hashtags: tagList,
         },
         {
@@ -147,6 +156,11 @@ const RecipeEditPage = () => {
     <Wrapper>
       <RecipeTitleInput ref={titleRef} type="text" placeholder="제목" />
       <RecipeEditor editorRef={editorRef} setImages={setImages} />
+      <ThumbnailInput
+        ref={thumbnailRef}
+        type="text"
+        placeholder="썸네일로 사용할 src를 붙여넣어 주세요 ex) https://recipe-upload-image.favorite-food.jpeg"
+      />
       <HashTagEditor tagList={tagList} updateTagList={setTagList} width="100%" />
       <Buttons>
         {isUpdateMode ? (

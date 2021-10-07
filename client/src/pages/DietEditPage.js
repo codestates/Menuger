@@ -265,7 +265,9 @@ const DietEditPage = () => {
             <StandardButton onClick={update}>수정</StandardButton>
           ) : (
             <>
-              <StandardButton backgroundColor="#fc9f77" onClick={showModal}>임시저장</StandardButton>
+              <StandardButton backgroundColor="#fc9f77" onClick={showModal}>
+                임시저장
+              </StandardButton>
               <StandardButton onClick={write}>작성</StandardButton>
             </>
           )}

@@ -9,6 +9,8 @@ import { useHistory } from 'react-router';
 import DietColumnContainer from '../components/diet/DietColumnContainer';
 import StandardButton from '../components/common/buttons/StandardButton';
 import HashtagEditor from '../components/common/HashtagEditor';
+import useModal from '../hooks/useModal';
+import ServiceReady from '../components/common/ServiceReady';
 
 const DietEditPageStyle = styled.div`
   max-width: 1130px;
@@ -82,6 +84,9 @@ const DietEditPage = () => {
 
   const displayToast = useToast();
   const history = useHistory();
+
+  const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
+  const { showModal, ModalContainer } = useModal(modalConfig);
 
   const updateTagList = tagList => {
     setHashTagList(tagList);
@@ -193,10 +198,15 @@ const DietEditPage = () => {
         />
         <HashtagEditor tagList={hashTagList} updateTagList={updateTagList} />
         <div className="button-box">
-          <StandardButton backgroundColor="#fc9f77">임시저장</StandardButton>
+          <StandardButton backgroundColor="#fc9f77" onClick={showModal}>
+            임시저장
+          </StandardButton>
           <StandardButton onClick={write}>작성</StandardButton>
         </div>
       </DietEditPageStyle>
+      <ModalContainer>
+        <ServiceReady />
+      </ModalContainer>
     </DragDataProvider>
   );
 };

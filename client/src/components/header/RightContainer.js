@@ -39,6 +39,14 @@ const WriteByMobile = styled.div`
 
 const UserMenuContainer = styled.div`
   text-align: end;
+  > span {
+    font-weight: bold;
+    color: #fc9f77;
+    * {
+      font-weight: normal;
+      color: black;
+    }
+  }
 `;
 
 const WriteContainer = styled.div`
@@ -98,12 +106,14 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  span {
+  > span {
     cursor: pointer;
     color: #3c4043;
     :hover {
       color: #ffc436;
     }
+    text-align: right;
+    padding-right: 0;
   }
   * {
     padding: 1.2rem;
@@ -336,7 +346,7 @@ const RightContainer = ({
             }}
             ref={userRef}
           >
-            <span style={{ position: 'relative' }}>
+            <span className="userInfo" style={{ position: 'relative' }}>
               {userInfo.nickname}
               <UserDropdown active={userDropdown}>
                 <StyledLink to="/mypage/recipes?sort=dd">마이페이지</StyledLink>

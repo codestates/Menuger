@@ -1,6 +1,9 @@
 import styled, { css } from 'styled-components';
 import { lighten, darken } from 'polished';
 
+import useModal from '../../hooks/useModal';
+import ServiceReady from '../common/ServiceReady';
+
 const DietItemStyle = styled.div`
   width: fit-content;
   border-radius: 5px;
@@ -53,6 +56,9 @@ const MainButton = styled.button`
 `;
 
 const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
+  const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
+  const { showModal, ModalContainer } = useModal(modalConfig);
+
   const onRemove = () => {
     removeItem(item.name);
   };
@@ -61,12 +67,17 @@ const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
 
   return (
     <DietItemStyle onClick={editable ? null : onClick}>
-      <MainButton hoverable={readonly}>{item.name}</MainButton>
+      <MainButton hoverable={readonly} onClick={showModal}>
+        {item.name}
+      </MainButton>
       {editable ? (
         <button className="remove-btn" onClick={onRemove}>
           x
         </button>
       ) : null}
+      <ModalContainer>
+        <ServiceReady />
+      </ModalContainer>
     </DietItemStyle>
   );
 };

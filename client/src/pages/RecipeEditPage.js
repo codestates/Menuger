@@ -10,11 +10,16 @@ import HashTagEditor from '../components/common/HashtagEditor';
 import extractThumbnailKey from '../utils/thumbnail';
 
 const Wrapper = styled.div`
-  margin: 0 auto;
+  margin: 20px auto;
   max-width: ${process.env.REACT_APP_WEB_MAX_WIDTH};
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 8px;
+    padding: 0 8px;
+  }
 `;
 
 const RecipeTitleInput = styled.input`
@@ -23,7 +28,6 @@ const RecipeTitleInput = styled.input`
   height: 50px;
   padding-left: 0.5rem;
   font-size: 1.5rem;
-  margin: 1rem 0 0;
   &:focus {
     outline: none;
     border-bottom: 1px solid #dadde6;
@@ -37,9 +41,6 @@ const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
-  @media (max-width: 768px) {
-    margin-bottom: 1rem;
-  }
 `;
 
 const RecipeEditPage = () => {

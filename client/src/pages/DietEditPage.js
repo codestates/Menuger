@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DragDataProvider from '../utils/drag';
 import axios from 'axios';
 import useToast from '../hooks/toast/useToast';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 //import components
 import DietColumnContainer from '../components/diet/DietColumnContainer';
@@ -15,7 +15,7 @@ const DietEditPageStyle = styled.div`
   margin: 20px auto 20px;
   display: flex;
   flex-direction: column;
-  padding: 0 40px;
+  overflow-y: auto;
 
   > input {
     outline: none;
@@ -33,7 +33,7 @@ const DietEditPageStyle = styled.div`
   > #input-description {
     font-size: 1rem;
     height: 2.5rem;
-    margin: 20px 0;
+    margin: 10px 0;
     text-indent: 0.8rem;
     border: solid 1px #dadde6;
     border-radius: 5px;
@@ -61,7 +61,8 @@ const DietEditPageStyle = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding: 0 20px;
+    margin-bottom: 8px;
+    padding: 0 8px;
 
     > #input-title {
       width: 100%;
@@ -79,9 +80,36 @@ const DietEditPage = () => {
   const [dietColumnList, setDietColumnList] = useState([]);
   const [content, setContent] = useState('');
   const [hashTagList, setHashTagList] = useState([]);
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [updateModePostId, setUpdateModePostId] = useState('default');
 
   const displayToast = useToast();
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.state || location.state.editPostId.length <= 0) {
+      return;
+    }
+    (async () => {
+      try {
+        const {
+          data: { diet: data },
+        } = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT_URL}/diets/${location.state.editPostId}`,
+        );
+        setTitle(data.title);
+        setSubTitle(data.subtitle);
+        setDietColumnList(data.dietColumnList);
+        setContent(data.content);
+        setHashTagList(data.hashtags);
+        setIsUpdateMode(true);
+        setUpdateModePostId(location.state.editPostId);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [location.state]);
 
   const updateTagList = tagList => {
     setHashTagList(tagList);
@@ -161,6 +189,41 @@ const DietEditPage = () => {
     }
   };
 
+  const update = async () => {
+    if (verifyInput() === false) {
+      return;
+    }
+
+    const data = {
+      title,
+      subtitle,
+      dietColumnList,
+      content,
+      hashtags: hashTagList,
+    };
+
+    try {
+      const {
+        data: { message },
+      } = await axios.patch(
+        `${process.env.REACT_APP_ENDPOINT_URL}/diets/${updateModePostId}`,
+        data,
+        {
+          withCredentials: true,
+        },
+      );
+      displayToast({ message, delay: 1000 }, () => {
+        history.push({
+          pathname: '/diets',
+          search: '?sort=dd',
+          state: { postId: updateModePostId },
+        });
+      });
+    } catch (e) {
+      console.dir(e);
+    }
+  };
+
   const onChangeTitle = e => setTitle(e.target.value);
   const onChangeSubTitle = e => setSubTitle(e.target.value);
   const onChangeContent = e => setContent(e.target.value);
@@ -193,8 +256,14 @@ const DietEditPage = () => {
         />
         <HashtagEditor tagList={hashTagList} updateTagList={updateTagList} />
         <div className="button-box">
-          <StandardButton backgroundColor="#fc9f77">임시저장</StandardButton>
-          <StandardButton onClick={write}>작성</StandardButton>
+          {isUpdateMode ? (
+            <StandardButton onClick={update}>수정</StandardButton>
+          ) : (
+            <>
+              <StandardButton backgroundColor="#fc9f77">임시저장</StandardButton>
+              <StandardButton onClick={write}>작성</StandardButton>
+            </>
+          )}
         </div>
       </DietEditPageStyle>
     </DragDataProvider>

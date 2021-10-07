@@ -39,7 +39,7 @@ const ModalContainer = styled.div`
     width: 100%;
     height: ${({ height }) => (height ? `${height}%` : '90%')};
     min-width: 100%;
-    padding: 3rem 0.5rem 0.5rem;
+    padding: 50px 8px 8px;
     > ::-webkit-scrollbar {
       display: none;
     }

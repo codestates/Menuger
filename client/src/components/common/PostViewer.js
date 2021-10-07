@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { createBrowserHistory } from 'history';
 
 //import components
 import StandardButton from '../common/buttons/StandardButton';
@@ -100,11 +101,28 @@ const PostViewer = ({
 }) => {
   const [commentsCount, setCommentsCount] = useState(0);
   const isAuthority = useSelector(state => state.user.email) === user.email;
+  const history = createBrowserHistory({ forceRefresh: true });
+  const goEdit = () => {
+    let pathname = '';
+    if (postType === 'diets') {
+      pathname = '/edit-diet';
+    } else if ('recipe') {
+      pathname = '/edit-recipe';
+    }
+    history.push({
+      pathname,
+      state: { editPostId: postId },
+    });
+  };
   return (
     <PostViewerStyle>
       <ViewerHeader>
         <h1>{title}</h1>
-        {isAuthority && <StandardButton width="fit-content">수정</StandardButton>}
+        {isAuthority && (
+          <StandardButton width="fit-content" onClick={goEdit}>
+            수정
+          </StandardButton>
+        )}
       </ViewerHeader>
       <ViewerSection>
         <div className="info">

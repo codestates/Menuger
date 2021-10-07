@@ -82,9 +82,6 @@ const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
           x
         </button>
       ) : null}
-      <ModalContainer>
-        <ServiceReady />
-      </ModalContainer>
     </DietItemStyle>
   );
 };

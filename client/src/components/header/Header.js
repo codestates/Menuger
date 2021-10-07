@@ -150,18 +150,12 @@ const Header = () => {
       <Switch>
         <Route exact path="/" component={LandingPage}></Route>
         <Route path="/recipes" component={RecipePage}></Route>
-        <Route path="/RecipeEditPage" component={RecipeEditPage}></Route>
+        <Route path="/edit-recipe" component={RecipeEditPage}></Route>
         <Route path="/diets" component={DietPage}></Route>
-        <Route path="/DietEditPage" component={DietEditPage}></Route>
-        <Route path="/mypage/recipes">
-          <MyPage page="0" />
-        </Route>
-        <Route path="/mypage/diets">
-          <MyPage page="1" />
-        </Route>
-        <Route path="/mypage/delete">
-          <MyPage page="2" />
-        </Route>
+        <Route path="/edit-diet" component={DietEditPage}></Route>
+        <Route path="/mypage/recipes" render={props => <MyPage {...props} page="0" />} />
+        <Route path="/mypage/diets" render={props => <MyPage {...props} page="1" />} />
+        <Route path="/mypage/delete" render={props => <MyPage {...props} page="2" />} />
       </Switch>
     </BrowserRouter>
   );

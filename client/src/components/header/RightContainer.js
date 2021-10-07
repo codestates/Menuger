@@ -37,9 +37,13 @@ const WriteByMobile = styled.div`
   }
 `;
 
-const UserMenuContainer = styled.div``;
+const UserMenuContainer = styled.div`
+  text-align: end;
+`;
 
 const WriteContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
   position: relative;
   & > button {
     border: 0;
@@ -53,6 +57,7 @@ const WriteContainer = styled.div`
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    flex-grow: 0;
 
     &:hover {
       cursor: pointer;
@@ -92,7 +97,7 @@ const Container = styled.div`
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   span {
     cursor: pointer;
     color: #3c4043;
@@ -102,6 +107,7 @@ const Container = styled.div`
   }
   * {
     padding: 1.2rem;
+    flex: 1 0 auto;
   }
   & > .img-wrapper {
     width: 120px;
@@ -175,8 +181,8 @@ const DropdownContainer = styled.div`
   border-radius: 5px;
   display: flex;
   position: absolute;
-  top: 90%;
-  right: 16%;
+  top: 100%;
+  right: 10%;
   flex-direction: column;
   background-color: white;
   * {
@@ -215,10 +221,10 @@ const UserDropdown = styled.section`
   flex-direction: column;
   border: 1px solid black;
   border-radius: 5px;
-  top: 110%;
-  right: 10%;
+  top: 122%;
+  left: -30%;
   align-items: center;
-  width: 80px;
+  width: 100px;
   background-color: white;
   & > span {
     :hover {
@@ -333,7 +339,7 @@ const RightContainer = ({
             <span style={{ position: 'relative' }}>
               {userInfo.nickname}
               <UserDropdown active={userDropdown}>
-                <StyledLink to="/mypage/recipes">마이페이지</StyledLink>
+                <StyledLink to="/mypage/recipes?sort=dd">마이페이지</StyledLink>
                 <SignoutButton onClick={signOut}>로그아웃</SignoutButton>
               </UserDropdown>
             </span>
@@ -346,7 +352,9 @@ const RightContainer = ({
           </>
         )}
         <WriteByMobile ref={popRef}>
-          {userInfo.email && <StyledLink to="/mypage/recipes">{userInfo.nickname}</StyledLink>}
+          {userInfo.email && (
+            <StyledLink to="/mypage/recipes?sort=dd">{userInfo.nickname}</StyledLink>
+          )}
           <StyledLink to="/RecipeEditPage" onClick={handleHamburgerMenu}>
             레시피 작성
           </StyledLink>

@@ -159,13 +159,13 @@ const SlotMachine = ({ rollingProps }) => {
       0: '갈비찜',
       1: '김치찜',
       2: '김치찌개',
-      3: '삼겹살',
+      3: '부추전',
       4: '된장찌개',
       5: '마라탕',
       6: '간장새우',
       7: '찜닭',
-      8: '피자',
-      9: '햄버거',
+      8: '크림파스타',
+      9: '당근케이크',
     };
     let randomNumber = Math.floor(Math.random() * 10);
     setNumber(list[randomNumber]);

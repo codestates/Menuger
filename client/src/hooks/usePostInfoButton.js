@@ -85,7 +85,6 @@ const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickna
         );
         if (status === 200) {
           setIsActive(false);
-          setIsActive(!active);
         }
         addMessage({ mode: 'info', message: `구독이 취소되었습니다`, delay: 1000 });
       } else {
@@ -98,7 +97,6 @@ const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickna
         );
         if (status === 200) {
           setIsActive(true);
-          setIsActive(!active);
         }
         addMessage({ mode: 'info', message: `구독이 완료되었습니다`, delay: 1000 });
       }

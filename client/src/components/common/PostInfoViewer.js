@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import { createBrowserHistory } from 'history';
 import calcDateDiffToString from '../../utils/date';
 
-//import components
 import HashtagInfo from './cards/HashtagInfo';
 import PostInfoButtons from './buttons/PostInfoButtons';
 import ProfileImage from './ProfileImage';
@@ -88,19 +88,35 @@ const PostInfoViewer = ({
   hashtags = [],
   createdAt,
 }) => {
+  const history = createBrowserHistory({ forceRefresh: true });
   const hashtagStyle = {
     fs: '0.8rem',
     fs1200: '0.8rem',
     fs900: '0.8rem',
     fs768: '1rem',
   };
+
+  const handleUserInfoClick = nickname => {
+    localStorage.setItem('option', `/${postType}`);
+    localStorage.setItem('searched', `@${nickname}`);
+    history.push({
+      pathname: `/${postType}`,
+      search: '?sort=dd',
+      state: { input: `@${nickname}` },
+    });
+  };
+
   return (
     <PostInfoViewerStyle>
       <SocialInfoContainer>
         <div className="profile-image-container">
-          <ProfileImage src={user.image_url} mobileSize="100px" />
+          <ProfileImage
+            src={user.image_url}
+            mobileSize="100px"
+            onClick={() => handleUserInfoClick(user.nickname)}
+          />
         </div>
-        <div id="nickname" href="#">
+        <div id="nickname" href="#" onClick={() => handleUserInfoClick(user.nickname)}>
           <span> {user.nickname || 'default'}</span>
         </div>
         <div className="button-container">

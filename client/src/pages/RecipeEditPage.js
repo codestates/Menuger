@@ -127,22 +127,19 @@ const RecipeEditPage = () => {
         },
       );
       if (status === 201 || status === 200) {
-        addMessage({ message, delay: 1000 }, () => {
-          history.push({
-            pathname: '/recipes',
-            search: '?sort=dd',
-            state: { postId },
-          });
+        addMessage({ message, delay: 1000 });
+        history.push({
+          pathname: '/recipes',
+          search: '?sort=dd',
+          state: { postId },
         });
       } else {
-        addMessage({ mode: 'error', message: '레시피 등록 중 오류가 발생하였습니다.' }, () => {
-          history.push('/recipes');
-        });
+        addMessage({ mode: 'error', message: '레시피 등록 중 오류가 발생하였습니다.' });
+        history.push('/recipes');
       }
     } catch (err) {
-      addMessage({ mode: 'error', message: err.response.data.message }, () =>
-        history.push('/recipes'),
-      );
+      addMessage({ mode: 'error', message: err.response.data.message });
+      history.push('/recipes');
     }
   };
 

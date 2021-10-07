@@ -10,6 +10,7 @@ import CommentBox from './comment/CommentBox';
 //import temporary
 
 const PostViewerStyle = styled.div`
+  width: 100%;
   padding-right: 10px;
 
   @media screen and (max-width: 768px) {
@@ -41,10 +42,11 @@ const ViewerSection = styled.section`
   grid-template:
     'main info' auto
     'main comments' 1fr
-    / 1fr 300px;
+    / auto 300px;
   gap: 10px 10px;
 
   > .main {
+    width: auto;
     grid-area: main;
   }
 

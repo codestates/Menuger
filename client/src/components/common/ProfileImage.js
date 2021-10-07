@@ -30,14 +30,14 @@ const ProfileImageStyle = styled.div`
   }
 `;
 
-const ProfileImage = ({ src, alt, size, mobileSize }) => {
+const ProfileImage = ({ src, alt, size, mobileSize, iconSize, onClick }) => {
+  const iconProps = {
+    width: iconSize || '45%',
+    height: iconSize || '45%',
+  };
   return (
-    <ProfileImageStyle size={size} mobileSize={mobileSize}>
-      {src ? (
-        <img src={src} alt={alt} />
-      ) : (
-        svgToComponent({ svgName: 'chef', props: { width: '45%', height: '45%' } })
-      )}
+    <ProfileImageStyle size={size} mobileSize={mobileSize} onClick={onClick}>
+      {src ? <img src={src} alt={alt} /> : svgToComponent({ svgName: 'chef', props: iconProps })}
     </ProfileImageStyle>
   );
 };

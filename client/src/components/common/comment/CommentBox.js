@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { lighten } from 'polished';
 
 //import components
 import CommentItem from './CommentItem';
@@ -64,10 +65,14 @@ const CommentInput = styled.form`
   > button {
     color: ${props => (props.submitable ? '#000' : '#dadde6')};
     border: none;
-    cursor: pointer;
+    cursor: ${props => (props.submitable ? 'pointer' : 'default')};
     display: block;
     width: fit-content;
     background-color: #00000000;
+
+    &:hover {
+      color: ${props => (props.submitable ? lighten(0.4, '#000') : '#dadde6')};
+    }
   }
 
   > .disable {

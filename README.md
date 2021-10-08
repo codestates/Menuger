@@ -1,14 +1,13 @@
 # Menuger
 
-'오늘 점심 뭐 먹지?'  
-'가성비 좋은 식단은 없을까?'  
-'새우 알레르기가 있는데... 새우를 쓰지않는 레시피는 없을까?'  
-이런 고민을 해보신 적이 있으신가요?  
+'매일 점심 시간마다 뭘 먹을까 고민이신가요?'  
+'적은 돈으로 만들 수 있는 식사를 찾고 계신가요?'  
+'살 쭉쭉 빠지는 다이어트 식단을 없을까?'
 
-`Menuger`를 사용하면 나와 비슷한 고민을 가진 사람이 공유한 레시피와 식단을 찾아볼 수 있습니다.  
-더 나아가, 자신만의 메뉴를 직접 구성해보고 사람들과 공유해보세요!  
+당신의 매니저가 되어 당신의 고민을 끝내드리겠습니다.
 
-여러분의 밥 고민을 해결해 줄 서비스 `Menuger` 입니다.
+대한민국의 모든 밥 고민을 없애줄 서비스 `Menuger` 입니다.
+
 
 # 사용한 스택
 
@@ -18,14 +17,14 @@
 ![ReactLogo](https://img.shields.io/badge/FRONT-REACT-9cf?style=for-the-badge&logo=react)
 ![React-RouterLogo](https://img.shields.io/badge/FRONT-REACT--ROUTER-critical?style=for-the-badge&logo=react-router)
 ![Redux](https://img.shields.io/badge/FRONT-redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
-![Styled Components](https://img.shields.io/badge/FRONT-styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=DB7093)
+![Styled-ComponentsLogo](https://img.shields.io/badge/FRONT-Styled--Components-ff69b4?style=for-the-badge&logo=styled-components)
 
 ## BACK-END
 
-![NodeJSLogo](https://img.shields.io/badge/BACK-node.js-green?style=for-the-badge&logo=node.js)
+![NodeJSLogo](https://img.shields.io/badge/BACK-NODEJS-green?style=for-the-badge&logo=node.js)
 ![ExpressLogo](https://img.shields.io/badge/BACK-EXPRESS-black?style=for-the-badge&logo=express)
-![SequelizeLogo](https://img.shields.io/badge/BACK-SEQUELIZE-9cf?style=for-the-badge&logo=sequelize)
-![MysqlLogo](https://img.shields.io/badge/BACK-MYSQL-blue?style=for-the-badge&logo=mysql)
+![MongoDBLogo](https://img.shields.io/badge/BACK-MONGODB-success?style=for-the-badge&logo=mongodb)
+![MongooseLogo](https://img.shields.io/badge/BACK-Mongoose-red?style=for-the-badge)
 ![JWTLogo](https://img.shields.io/badge/BACK-JSON--WEB--TOKEN-inactive?style=for-the-badge&logo=json-web-tokens)
 
 # Architecture
@@ -36,11 +35,11 @@
 
 ## Server-Side Flow Chart
 
-![Client-Side Flow Chart](https://user-images.githubusercontent.com/68040092/132823269-bd6c67a8-eb1b-4869-8498-592af63fb21d.png)
+![Server-Side Flow Chart](https://user-images.githubusercontent.com/68040092/135194280-ec21154d-b30b-425d-8543-ac7cc2622613.png)
 
 ## Deployment Architecture
 
-![sys-arch](https://user-images.githubusercontent.com/38288479/135580783-6fb04ca7-690c-4d12-a374-a311a7b212f5.png)
+![Deployment Architecture](https://user-images.githubusercontent.com/38288479/135580783-6fb04ca7-690c-4d12-a374-a311a7b212f5.png)
 
 # Menu.random()팀의 멤버를 소개합니다.
 

@@ -8,6 +8,7 @@
 
 대한민국의 모든 밥 고민을 없애줄 서비스 `Menuger` 입니다.
 
+
 # 사용한 스택
 
 ## FRONT-END
@@ -15,6 +16,7 @@
 ![JSLogo](https://img.shields.io/badge/FRONT-JAVASCRIPT-yellow?style=for-the-badge&logo=javascript)
 ![ReactLogo](https://img.shields.io/badge/FRONT-REACT-9cf?style=for-the-badge&logo=react)
 ![React-RouterLogo](https://img.shields.io/badge/FRONT-REACT--ROUTER-critical?style=for-the-badge&logo=react-router)
+![Redux](https://img.shields.io/badge/FRONT-redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
 ![Styled-ComponentsLogo](https://img.shields.io/badge/FRONT-Styled--Components-ff69b4?style=for-the-badge&logo=styled-components)
 
 ## BACK-END

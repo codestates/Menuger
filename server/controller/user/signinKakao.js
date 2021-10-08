@@ -66,10 +66,10 @@ module.exports = async (req, res) => {
       }
     });
 
-    res.cookie('kakao_login', 'success', { maxAge });
-    res.cookie('email', email, { maxAge });
-    res.cookie('nickname', nickname, { maxAge });
-    res.cookie('image_url', image_url, { maxAge });
+    res.cookie('kakao_login', 'success', { maxAge, domain: '.menuger.shop' });
+    res.cookie('email', email, { maxAge, domain: '.menuger.shop' });
+    res.cookie('nickname', nickname, { maxAge, domain: '.menuger.shop' });
+    res.cookie('image_url', image_url, { maxAge, domain: '.menuger.shop' });
     res.cookie('kakaoAccessToken', data.access_token, {
       httpOnly: true,
       secure: true,

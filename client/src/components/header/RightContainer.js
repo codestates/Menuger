@@ -232,7 +232,7 @@ const UserDropdown = styled.section`
   border: 1px solid black;
   border-radius: 5px;
   top: 122%;
-  left: -30%;
+  left: -6%;
   align-items: center;
   width: 100px;
   background-color: white;

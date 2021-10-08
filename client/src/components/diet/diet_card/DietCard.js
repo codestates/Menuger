@@ -118,6 +118,14 @@ const DietCard = ({
     setIsSelected(false);
   };
 
+  const onBlur = e => {
+    if (e.currentTarget.contains(e.relatedTarget)) {
+      return;
+    }
+
+    offEditMode();
+  };
+
   return (
     <DietCardStyle
       isSelected={isSelected}
@@ -127,6 +135,7 @@ const DietCard = ({
       onDragOver={onDragOver}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
+      onBlur={onBlur}
       ref={cardView}
     >
       <DietCardHeader

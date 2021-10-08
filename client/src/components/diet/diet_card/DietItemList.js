@@ -16,21 +16,13 @@ const DietItemListStyle = styled.ul`
 const DietItemList = ({ dietItemList, removeItem, editable = false, readonly = false }) => {
   return (
     <DietItemListStyle>
-      {!readonly && editable
-        ? dietItemList.map((item, i) => {
-            return (
-              <li key={i}>
-                <DietItem item={item} removeItem={removeItem} editable />
-              </li>
-            );
-          })
-        : dietItemList.map(item => {
-            return (
-              <li key={item.name}>
-                <DietItem item={item} readonly />
-              </li>
-            );
-          })}
+      {dietItemList.map((item, i) => {
+        return (
+          <li key={i}>
+            <DietItem item={item} removeItem={removeItem} editable={editable} readonly={readonly} />
+          </li>
+        );
+      })}
     </DietItemListStyle>
   );
 };

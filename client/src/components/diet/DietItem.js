@@ -73,8 +73,8 @@ const DietItem = ({ item, removeItem, editable = false, readonly = false }) => {
   const onClick = () => {};
 
   return (
-    <DietItemStyle onClick={editable ? null : onClick}>
-      <MainButton onClick={handleItemClick} hoverable={readonly}>
+    <DietItemStyle>
+      <MainButton onClick={readonly ? handleItemClick : null} hoverable={readonly}>
         {item.name}
       </MainButton>
       {editable ? (

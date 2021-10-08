@@ -39,6 +39,7 @@ const Circle = styled.div`
   transition: all 0.2s;
   :hover {
     cursor: pointer;
+    opacity: 0.8;
   }
 `;
 
@@ -120,14 +121,19 @@ const Section1 = styled.section`
       width: 300px;
       margin-left: 50px;
     }
-    .click {
-      position: absolute;
-      left: 70%;
-      font-size: 1.2em;
+    .logoContainer {
+      position: relative;
+      width: fit-content;
+      .clickme {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
     @media (max-width: 768px) {
       align-items: center;
       width: 100%;
+      padding-bottom: 5em;
       .reverse {
         width: 250px;
         margin-left: 0px;
@@ -140,7 +146,7 @@ const Section1 = styled.section`
       }
       .logo {
         margin-right: 0;
-        width: 250px;
+        width: 200px;
       }
     }
   }
@@ -150,7 +156,7 @@ const Section2 = styled.section`
     display: flex;
     flex-direction: column;
     width: 50%;
-    padding-bottom: 30em;
+    padding-bottom: 15em;
     text-align: right;
     h1 {
       font-weight: bold;
@@ -196,8 +202,8 @@ const Section3 = styled.section`
   ${TextContainer} {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding-bottom: 30em;
+    width: 80%;
+    padding-bottom: 15em;
     text-align: left;
     h1 {
       font-weight: bold;
@@ -229,10 +235,9 @@ const Section3 = styled.section`
     }
   }
   ${ImageContainer} {
-    width: 50%;
-    position: relative;
+    padding: 0;
     * {
-      width: 35em;
+      width: 110%;
     }
     @media (max-width: 768px) {
       width: 100%;
@@ -254,13 +259,14 @@ const Section4 = styled.section`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-bottom: 200px;
+    padding-bottom: 50px;
     height: 70%;
     ${TextContainer} {
       display: flex;
       flex-direction: column;
       width: 60%;
       text-align: right;
+      padding-right: 3em;
       h1 {
         font-weight: bold;
         font-size: 4em;
@@ -276,13 +282,20 @@ const Section4 = styled.section`
       width: 40%;
       position: relative;
       * {
-        width: 100%;
-        height: 80%;
+        width: 90%;
+        height: 70%;
       }
     }
   }
   .footer {
-    height: 30%;
+    height: 200px;
+    width: 100%;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    border-top: 1px #dadde6 solid;
+    & > * {
+      height: 100%;
+    }
   }
 
   @media (max-width: 768px) {
@@ -291,7 +304,8 @@ const Section4 = styled.section`
       justify-content: space-evenly;
       ${TextContainer} {
         text-align: center;
-        width: 100%;
+        width: 110%;
+        padding-right: 0;
         h1 {
           font-weight: bold;
           font-size: 2.8em;
@@ -407,7 +421,7 @@ const LandingPage = () => {
       <PageScrollerContainer>
         <ReactPageScroller
           className="scroller"
-          animationTimer={250}
+          animationTimer={650}
           pageOnChange={setUseScroll}
           customPageNumber={useScroll}
         >
@@ -417,8 +431,11 @@ const LandingPage = () => {
                 맛있는 식사를<br></br>만들어 보세요
               </h1>
               <span>
-                다양한 <span style={{ color: '#fc9f77', fontWeight: 'bold' }}>메뉴저</span>들이 만든
-                레시피와 식단을 확인해보세요.
+                다양한{' '}
+                <span style={{ color: '#fc9f77', fontWeight: 'bold', fontSize: '1em' }}>
+                  메뉴저
+                </span>
+                들이 만든 레시피와 식단을 확인해보세요.
               </span>
               <span>그리고, 여러분만의 레시피와 식단을 만들고 공유해보세요.</span>
             </TextContainer>
@@ -427,9 +444,9 @@ const LandingPage = () => {
                 <img className="reverse" src={pngegg}></img>
                 <SlotMachine id="slotMachine" rollingProps={rollingProps} />
               </div>
-              <div>
+              <div className="logoContainer">
                 <img className="logo" src={logoImageYellow} onClick={rollingClick}></img>
-                <span className="click">Click me!</span>
+                <span className="clickme">Click me!</span>
               </div>
             </ImageContainer>
           </Section1>
@@ -443,7 +460,11 @@ const LandingPage = () => {
               </h1>
               <span>
                 알레르기, 건강식, 가성비 등 <br></br>여러분이 원하는
-                <span style={{ color: '#fc9f77', fontSize: '1em' }}>키워드</span>로 검색해보세요.
+                <span style={{ color: '#fc9f77', fontWeight: 'bold', fontSize: '1em' }}>
+                  {' '}
+                  키워드
+                </span>
+                로 검색해보세요.
               </span>
               <span>수많은 레시피와 식단이 여러분을 기다리고 있습니다.</span>
             </TextContainer>
@@ -455,8 +476,11 @@ const LandingPage = () => {
               </h1>
               <span>그렇다면, 직접 작성해보세요.</span>
               <span>
-                당신만의 <span style={{ color: '#fc9f77', fontSize: '1em' }}>특별한</span> 레시피와
-                식단을 공유해보세요.
+                당신만의{' '}
+                <span style={{ color: '#fc9f77', fontWeight: 'bold', fontSize: '1em' }}>
+                  특별한
+                </span>{' '}
+                레시피와 식단을 공유해보세요.
               </span>
             </TextContainer>
             <ImageContainer>
@@ -481,7 +505,9 @@ const LandingPage = () => {
                 </span>
               </TextContainer>
             </div>
-            <Footer className="footer" />
+            <div className="footer">
+              <Footer />
+            </div>
           </Section4>
         </ReactPageScroller>
       </PageScrollerContainer>

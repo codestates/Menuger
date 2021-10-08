@@ -54,8 +54,16 @@ const DietColumnHeader = ({ title, index, removeColumn, changeTitle, readonly = 
     removeColumn(index);
   };
 
+  const onBlur = e => {
+    if (e.currentTarget.contains(e.relatedTarget)) {
+      return;
+    }
+
+    onSubmit();
+  };
+
   return (
-    <DietColumnHeaderStyle draggable={!readonly && !isEditMode} onBlur={onSubmit}>
+    <DietColumnHeaderStyle draggable={!readonly && !isEditMode} onBlur={onBlur}>
       {!readonly && isEditMode ? (
         <>
           <input

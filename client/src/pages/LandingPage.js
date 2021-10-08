@@ -39,6 +39,7 @@ const Circle = styled.div`
   transition: all 0.2s;
   :hover {
     cursor: pointer;
+    opacity: 0.8;
   }
 `;
 
@@ -120,14 +121,19 @@ const Section1 = styled.section`
       width: 300px;
       margin-left: 50px;
     }
-    .click {
-      position: absolute;
-      left: 70%;
-      font-size: 1.2em;
+    .logoContainer {
+      position: relative;
+      width: fit-content;
+      .clickme {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
     @media (max-width: 768px) {
       align-items: center;
       width: 100%;
+      padding-bottom: 5em;
       .reverse {
         width: 250px;
         margin-left: 0px;
@@ -140,7 +146,7 @@ const Section1 = styled.section`
       }
       .logo {
         margin-right: 0;
-        width: 250px;
+        width: 200px;
       }
     }
   }
@@ -253,7 +259,7 @@ const Section4 = styled.section`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-bottom: 200px;
+    padding-bottom: 50px;
     height: 70%;
     ${TextContainer} {
       display: flex;
@@ -282,7 +288,14 @@ const Section4 = styled.section`
     }
   }
   .footer {
-    height: 30%;
+    height: 200px;
+    width: 100%;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    border-top: 1px #dadde6 solid;
+    & > * {
+      height: 100%;
+    }
   }
 
   @media (max-width: 768px) {
@@ -291,7 +304,8 @@ const Section4 = styled.section`
       justify-content: space-evenly;
       ${TextContainer} {
         text-align: center;
-        width: 100%;
+        width: 110%;
+        padding-right: 0;
         h1 {
           font-weight: bold;
           font-size: 2.8em;
@@ -407,7 +421,7 @@ const LandingPage = () => {
       <PageScrollerContainer>
         <ReactPageScroller
           className="scroller"
-          animationTimer={250}
+          animationTimer={650}
           pageOnChange={setUseScroll}
           customPageNumber={useScroll}
         >
@@ -430,9 +444,9 @@ const LandingPage = () => {
                 <img className="reverse" src={pngegg}></img>
                 <SlotMachine id="slotMachine" rollingProps={rollingProps} />
               </div>
-              <div>
+              <div className="logoContainer">
                 <img className="logo" src={logoImageYellow} onClick={rollingClick}></img>
-                <span className="click">Click me!</span>
+                <span className="clickme">Click me!</span>
               </div>
             </ImageContainer>
           </Section1>
@@ -491,7 +505,9 @@ const LandingPage = () => {
                 </span>
               </TextContainer>
             </div>
-            <Footer className="footer" />
+            <div className="footer">
+              <Footer />
+            </div>
           </Section4>
         </ReactPageScroller>
       </PageScrollerContainer>

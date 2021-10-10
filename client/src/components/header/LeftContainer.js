@@ -8,7 +8,10 @@ import logoTextTwoLine from '../../utils/logoImage/logoTextTwoLine.png';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
-  color: ${({ isDark }) => (isDark ? 'white' : '#3c4043')};
+  color: #3c4043;
+  &.isDark {
+    color: white;
+  }
   &:hover {
     color: #ffc436;
     cursor: pointer;
@@ -47,10 +50,10 @@ const LeftContainer = () => {
         <img src={logoImageYellow} alt="로고 이미지"></img>
         <img src={logoTextTwoLine} alt="로고 텍스트"></img>
       </StyledLink>
-      <StyledLink isDark={isDarkMode} to="/recipes?sort=dd">
+      <StyledLink className={isDarkMode ? 'isDark' : ''} to="/recipes?sort=dd">
         레시피
       </StyledLink>
-      <StyledLink isDark={isDarkMode} to="/diets?sort=dd">
+      <StyledLink className={isDarkMode ? 'isDark' : ''} to="/diets?sort=dd">
         식단
       </StyledLink>
     </Container>

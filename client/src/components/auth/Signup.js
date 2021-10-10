@@ -201,30 +201,30 @@ const Signup = ({ handleMenuClick, hideModal }) => {
         <Logo src={logo} width="170px" />
       </Header>
       <Form>
-        <UserInput className={isDarkMode && 'isDark'}>
+        <UserInput className={isDarkMode ? 'isDark' : ''}>
           <InputForm
-            className={isDarkMode && 'isDark'}
+            className={isDarkMode ? 'isDark' : ''}
             ref={emailRef}
             placeholder="이메일"
             type="text"
             validate={validateEmail}
           />
           <InputForm
-            className={isDarkMode && 'isDark'}
+            className={isDarkMode ? 'isDark' : ''}
             ref={nicknameRef}
             placeholder="닉네임"
             type="text"
             validate={validateNickname}
           />
           <InputForm
-            className={isDarkMode && 'isDark'}
+            className={isDarkMode ? 'isDark' : ''}
             ref={pwdRef}
             placeholder="비밀번호"
             type="password"
             validate={validatePassword}
           />
           <InputForm
-            className={isDarkMode && 'isDark'}
+            className={isDarkMode ? 'isDark' : ''}
             ref={pwdConfirmRef}
             placeholder="비밀번호 확인"
             type="password"
@@ -236,7 +236,7 @@ const Signup = ({ handleMenuClick, hideModal }) => {
           회원가입
         </SubmitBtn>
       </Form>
-      <Footer className={isDarkMode && 'isDark'}>
+      <Footer className={isDarkMode ? 'isDark' : ''}>
         이미 회원이신가요? <LoginLink onClick={() => handleMenuClick('signin')}>로그인</LoginLink>
       </Footer>
     </Wrapper>

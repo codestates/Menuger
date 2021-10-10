@@ -33,7 +33,7 @@ const ServiceReady = () => {
   const { isDarkMode } = useSelector(state => state.theme);
 
   return (
-    <Wrapper className={isDarkMode && 'isDark'}>
+    <Wrapper className={isDarkMode ? 'isDark' : ''}>
       <IconContainer>
         <BsExclamationCircle />
       </IconContainer>

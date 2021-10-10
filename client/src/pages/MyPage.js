@@ -88,7 +88,7 @@ const MyPage = page => {
 
   return (
     <MyPageContainer>
-      <TabContainer className={isDarkMode && 'isDark'}>
+      <TabContainer className={isDarkMode ? 'isDark' : ''}>
         <div>
           <span>마이페이지</span>
         </div>

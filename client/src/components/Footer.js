@@ -98,31 +98,31 @@ const Footer = () => {
         <img src={logoImageYellow}></img>
         <img src={logTextOneLine}></img>
       </ImgContainer>
-      <AboutUs className={isDarkMode && 'isDark'}>
+      <AboutUs className={isDarkMode ? 'isDark' : ''}>
         <Ptag>About Us</Ptag>
         <a href="https://github.com/codestates/Menuger/wiki">WIKI</a>
         <a href="https://github.com/codestates/Menuger">Repository</a>
       </AboutUs>
-      <Contact className={isDarkMode && 'isDark'}>
+      <Contact className={isDarkMode ? 'isDark' : ''}>
         <Ptag>Contact</Ptag>
         <div>
           <a href="https://github.com/Soujiro-a">
             <span style={{ color: '#9be998' }}>BE </span>
-            <span className={isDarkMode && 'isDark'}>김경윤</span>
+            <span className={isDarkMode ? 'isDark' : ''}>김경윤</span>
           </a>
           <a href="https://github.com/minbyoungdae" style={{ paddingLeft: '10px' }}>
             <span style={{ color: '#9be998' }}>FE </span>
-            <span className={isDarkMode && 'isDark'}>민병대</span>
+            <span className={isDarkMode ? 'isDark' : ''}>민병대</span>
           </a>
         </div>
         <div>
           <a href="https://github.com/jihunv8">
             <span style={{ color: '#9be998' }}>FE </span>
-            <span className={isDarkMode && 'isDark'}>박지훈</span>
+            <span className={isDarkMode ? 'isDark' : ''}>박지훈</span>
           </a>
           <a href="https://github.com/jch422" style={{ paddingLeft: '10px' }}>
             <span style={{ color: '#9be998' }}>FE </span>
-            <span className={isDarkMode && 'isDark'}>정지찬</span>
+            <span cclassName={isDarkMode ? 'isDark' : ''}>정지찬</span>
           </a>
         </div>
       </Contact>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 //import components
 import PostViewer from '../common/PostViewer';
@@ -15,6 +16,11 @@ const DietPostStyle = styled.div`
     outline: none;
     cursor: default;
     margin-top: 10px;
+
+    &.isDark {
+      background-color: transparent;
+      color: white;
+    }
 
     &:first-of-type {
       min-height: 60px;
@@ -40,6 +46,8 @@ const DietPost = ({ post }) => {
     _id: postId,
     createdAt,
   } = post;
+  const { isDarkMode } = useSelector(state => state.theme);
+
   return (
     <PostViewer
       title={title}
@@ -54,8 +62,8 @@ const DietPost = ({ post }) => {
     >
       <DietPostStyle>
         <DietColumnContainer dietColumnList={dietColumnList} readonly />
-        <textarea value={subtitle} readOnly></textarea>
-        <textarea value={content} readOnly></textarea>
+        <textarea className={isDarkMode ? 'isDark' : ''} value={subtitle} readOnly></textarea>
+        <textarea className={isDarkMode ? 'isDark' : ''} value={content} readOnly></textarea>
       </DietPostStyle>
     </PostViewer>
   );

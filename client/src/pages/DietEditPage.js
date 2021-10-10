@@ -56,7 +56,7 @@ const DietEditPageStyle = styled.div`
     margin: 10px 0;
     font-size: 1rem;
     &.isDark {
-      background-color: #36393f;
+      background-color: transparent;
       color: white;
     }
   }
@@ -250,7 +250,7 @@ const DietEditPage = () => {
           placeholder="제목"
           value={title}
           onChange={onChangeTitle}
-          className={isDarkMode && 'isDark'}
+          className={isDarkMode ? 'isDark' : ''}
         />
         <input
           id="input-description"
@@ -258,7 +258,7 @@ const DietEditPage = () => {
           placeholder="식단 소개"
           value={subtitle}
           onChange={onChangeSubTitle}
-          className={isDarkMode && 'isDark'}
+          className={isDarkMode ? 'isDark' : ''}
         />
         <DietColumnContainer dietColumnList={dietColumnList} updateColumnList={updateColumnList} />
         <textarea
@@ -268,7 +268,7 @@ const DietEditPage = () => {
           placeholder="본문"
           value={content}
           onChange={onChangeContent}
-          className={isDarkMode && 'isDark'}
+          className={isDarkMode ? 'isDark' : ''}
         />
         <HashtagEditor tagList={hashTagList} updateTagList={updateTagList} />
         <div className="button-box">

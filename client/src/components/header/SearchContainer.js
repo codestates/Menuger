@@ -121,9 +121,9 @@ const SearchContainer = ({ useSearch, searchInputRef }) => {
       useSearch={useSearch}
       onKeyPress={onClickEvent}
       ref={searchInputRef}
-      className={isDarkMode && 'isDark'}
+      className={isDarkMode ? 'isDark' : ''}
     >
-      <select onChange={handleSelect} value={selected} className={isDarkMode && 'isDark'}>
+      <select onChange={handleSelect} value={selected} className={isDarkMode ? 'isDark' : ''}>
         <option value="/recipes">레시피</option>
         <option value="/diets">식단</option>
       </select>
@@ -131,7 +131,7 @@ const SearchContainer = ({ useSearch, searchInputRef }) => {
         type="text"
         onChange={handleSearch}
         value={search}
-        className={isDarkMode && 'isDark'}
+        className={isDarkMode ? 'isDark' : ''}
       />
     </Container>
   );

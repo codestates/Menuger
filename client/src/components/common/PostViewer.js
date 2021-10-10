@@ -187,7 +187,7 @@ const PostViewer = ({
   return (
     <PostViewerStyle>
       <ViewerHeader>
-        <h1 className={isDarkMode && 'isDark'}>{title}</h1>
+        <h1 className={isDarkMode ? 'isDark' : ''}>{title}</h1>
         {isAuthority &&
           (isRemoveMode ? (
             <div className="remove-mode">

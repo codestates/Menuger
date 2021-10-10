@@ -363,10 +363,10 @@ const RightContainer = ({
         )}
         {!userInfo.email && (
           <>
-            <span className={isDarkMode && 'isDark'} onClick={() => handleMenuClick('signin')}>
+            <span className={isDarkMode ? 'isDark' : ''} onClick={() => handleMenuClick('signin')}>
               로그인
             </span>
-            <span className={isDarkMode && 'isDark'} onClick={() => handleMenuClick('signup')}>
+            <span className={isDarkMode ? 'isDark' : ''} onClick={() => handleMenuClick('signup')}>
               회원가입
             </span>
           </>

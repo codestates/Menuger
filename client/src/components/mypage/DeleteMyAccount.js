@@ -130,13 +130,13 @@ const DeleteMyAccount = () => {
 
   return (
     <Wrapper>
-      <TextContainer className={isDarkMode && 'isDark'}>
+      <TextContainer className={isDarkMode ? 'isDark' : ''}>
         <h1>메뉴저에서 회원탈퇴하시겠습니까?</h1>
         <br></br>
         <span>• 회원 정보 확인 후 회원탈퇴가 가능합니다.</span>
         <span>• 입력하신 정보는 회원 탈퇴 이외의 목적으로 사용되지 않습니다.</span>
       </TextContainer>
-      <FormContainer className={isDarkMode && 'isDark'}>
+      <FormContainer className={isDarkMode ? 'isDark' : ''}>
         <div className="title">
           <span>닉네임</span>
           <span>비밀번호</span>

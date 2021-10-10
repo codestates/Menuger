@@ -13,7 +13,7 @@ const DietColumnContainerStyle = styled.div`
   border-radius: 5px;
   display: flex;
   overflow-x: auto;
-  background-color: white;
+  background-color: transparent;
 
   > .column-list {
     width: ${props => props.readonly && '1px'};

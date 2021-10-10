@@ -194,13 +194,13 @@ const Signin = ({ handleMenuClick, hideModal }) => {
       <Form>
         <UserInput>
           <Email
-            className={isDarkMode && 'isDark'}
+            className={isDarkMode ? 'isDark' : ''}
             ref={emailRef}
             placeholder="이메일"
             type="text"
           />
           <Password
-            className={isDarkMode && 'isDark'}
+            className={isDarkMode ? 'isDark' : ''}
             ref={pwdRef}
             placeholder="비밀번호"
             type="password"
@@ -211,7 +211,7 @@ const Signin = ({ handleMenuClick, hideModal }) => {
         </SubmitBtn>
       </Form>
       <Footer>
-        <Text className={isDarkMode && 'isDark'}>소셜 로그인</Text>
+        <Text className={isDarkMode ? 'isDark' : ''}>소셜 로그인</Text>
         <BtnsContainer>
           <SocialLoginBtn onClick={handleKakaoLogin}>
             {svgToComponent({ svgName: 'kakao', props: { width: '60px', height: '60px' } })}

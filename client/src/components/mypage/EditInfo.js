@@ -178,7 +178,7 @@ const EditInfo = () => {
   };
 
   return (
-    <Wrapper className={isDarkMode && 'isDark'}>
+    <Wrapper className={isDarkMode ? 'isDark' : ''}>
       <ProfileImg src={imageUrl} onClick={() => setIsUploadingImage(true)} />
       {isUploadingImage && (
         <UploadImageForm setUploadModal={setIsUploadingImage} setImage={setImageUrl} />

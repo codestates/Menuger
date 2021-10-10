@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import InputForm from '../common/forms/InputForm';
 import validator from '../../utils/validation';
 import useToast from '../../hooks/toast/useToast';
+import logo from '../../utils/logoImage/logTextOneLine.png';
 
 const Wrapper = styled.div`
   text-align: center;
@@ -12,13 +14,8 @@ const Wrapper = styled.div`
 
 const Header = styled.div``;
 
-const Logo = styled.div`
-  font-size: 2rem;
-`;
-
-const Title = styled.div`
-  margin-top: 1em;
-  font-size: 1.1rem;
+const Logo = styled.img`
+  margin-bottom: 1rem;
 `;
 
 const Form = styled.form`
@@ -30,6 +27,16 @@ const UserInput = styled.div`
   flex-direction: column;
   gap: 3.5rem;
   margin-bottom: 5rem;
+
+  &.isDark {
+    & > div > input {
+      background-color: transparent;
+      color: white;
+      &::placeholder {
+        color: white;
+      }
+    }
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -52,6 +59,9 @@ const SubmitBtn = styled.button`
 
 const Footer = styled.div`
   margin-top: 3rem;
+  &.isDark {
+    color: white;
+  }
 `;
 
 const LoginLink = styled.span`
@@ -66,6 +76,7 @@ const LoginLink = styled.span`
 const Signup = ({ handleMenuClick, hideModal }) => {
   const [isValidPwd, setIsValidPwd] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const { isDarkMode } = useSelector(state => state.theme);
 
   const emailRef = useRef();
   const nicknameRef = useRef();
@@ -187,25 +198,33 @@ const Signup = ({ handleMenuClick, hideModal }) => {
   return (
     <Wrapper>
       <Header>
-        <Logo>Logo</Logo>
-        <Title>회원가입</Title>
+        <Logo src={logo} width="170px" />
       </Header>
       <Form>
-        <UserInput>
-          <InputForm ref={emailRef} placeholder="이메일" type="text" validate={validateEmail} />
+        <UserInput className={isDarkMode && 'isDark'}>
           <InputForm
+            className={isDarkMode && 'isDark'}
+            ref={emailRef}
+            placeholder="이메일"
+            type="text"
+            validate={validateEmail}
+          />
+          <InputForm
+            className={isDarkMode && 'isDark'}
             ref={nicknameRef}
             placeholder="닉네임"
             type="text"
             validate={validateNickname}
           />
           <InputForm
+            className={isDarkMode && 'isDark'}
             ref={pwdRef}
             placeholder="비밀번호"
             type="password"
             validate={validatePassword}
           />
           <InputForm
+            className={isDarkMode && 'isDark'}
             ref={pwdConfirmRef}
             placeholder="비밀번호 확인"
             type="password"
@@ -217,7 +236,7 @@ const Signup = ({ handleMenuClick, hideModal }) => {
           회원가입
         </SubmitBtn>
       </Form>
-      <Footer>
+      <Footer className={isDarkMode && 'isDark'}>
         이미 회원이신가요? <LoginLink onClick={() => handleMenuClick('signin')}>로그인</LoginLink>
       </Footer>
     </Wrapper>

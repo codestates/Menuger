@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -29,6 +30,8 @@ const RecipeTitleInput = styled.input`
   height: 50px;
   padding-left: 0.5rem;
   font-size: 1.5rem;
+  background-color: transparent;
+  color: ${({ isDark }) => (isDark ? 'white' : 'black')};
   &:focus {
     outline: none;
     border-bottom: 1px solid #dadde6;
@@ -43,6 +46,8 @@ const ThumbnailInput = styled.input`
   border-radius: 5px;
   padding-left: 20px;
   height: 50px;
+  background-color: transparent;
+  color: ${({ isDark }) => (isDark ? 'white' : 'black')};
   &:focus {
     outline: none;
   }
@@ -70,6 +75,7 @@ const RecipeEditPage = () => {
 
   const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
   const { showModal, ModalContainer } = useModal(modalConfig);
+  const { isDarkMode } = useSelector(state => state.theme);
   const location = useLocation();
 
   useEffect(() => {
@@ -154,9 +160,10 @@ const RecipeEditPage = () => {
 
   return (
     <Wrapper>
-      <RecipeTitleInput ref={titleRef} type="text" placeholder="제목" />
+      <RecipeTitleInput isDark={isDarkMode} ref={titleRef} type="text" placeholder="제목" />
       <RecipeEditor editorRef={editorRef} setImages={setImages} />
       <ThumbnailInput
+        isDark={isDarkMode}
         ref={thumbnailRef}
         type="text"
         placeholder="썸네일로 사용할 src를 붙여넣어 주세요 ex) https://recipe-upload-image.favorite-food.jpeg"

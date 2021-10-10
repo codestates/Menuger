@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import { setInteraction } from '../../../modules/interaction';
+import { increaseCount, decreaseCount } from '../../../modules/list';
 import BookmarkButton from '../buttons/BookmarkButton';
 import LikeButton from '../buttons/LikeButton';
 import CommentMark from '../buttons/CommentMark';
@@ -156,8 +156,6 @@ const CardItem = ({
 }) => {
   const { isDarkMode } = useSelector(state => state.theme);
   const { nickname } = useSelector(state => state.user);
-  const [bookmarksNum, setBookmarksNum] = useState(bookmarksCount);
-  const [likesNum, setLikesNum] = useState(likesCount);
   const dispatch = useDispatch();
   const addMessage = useToast();
 
@@ -168,26 +166,22 @@ const CardItem = ({
     }
     try {
       if (isBookmarked) {
-        const {
-          data: { bookmarksCount },
-        } = await axios.delete(
+        await axios.delete(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
           {
             withCredentials: true,
           },
         );
-        setBookmarksNum(bookmarksCount);
+        dispatch(decreaseCount({ _id: postId, type: 'bookmarks' }));
       } else {
-        const {
-          data: { bookmarksCount },
-        } = await axios.post(
+        await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
           null,
           {
             withCredentials: true,
           },
         );
-        setBookmarksNum(bookmarksCount);
+        dispatch(increaseCount({ _id: postId, type: 'bookmarks' }));
       }
 
       Promise.all([
@@ -217,26 +211,19 @@ const CardItem = ({
     }
     try {
       if (isLiked) {
-        const {
-          data: { likesCount },
-        } = await axios.delete(
-          `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`,
-          {
-            withCredentials: true,
-          },
-        );
-        setLikesNum(likesCount);
+        await axios.delete(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`, {
+          withCredentials: true,
+        });
+        dispatch(decreaseCount({ _id: postId, type: 'likes' }));
       } else {
-        const {
-          data: { likesCount },
-        } = await axios.post(
+        await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`,
           null,
           {
             withCredentials: true,
           },
         );
-        setLikesNum(likesCount);
+        dispatch(increaseCount({ _id: postId, type: 'likes' }));
       }
 
       Promise.all([
@@ -288,9 +275,9 @@ const CardItem = ({
           <BookmarkButton
             active={isBookmarked}
             onClick={handleBookmarkClick}
-            number={bookmarksNum}
+            number={bookmarksCount}
           />
-          <LikeButton active={isLiked} onClick={handleLikeButtonClick} number={likesNum} />
+          <LikeButton active={isLiked} onClick={handleLikeButtonClick} number={likesCount} />
           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>

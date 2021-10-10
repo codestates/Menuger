@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { setInteraction } from '../modules/interaction';
+import { setList } from '../modules/list';
 import CardList from '../components/common/cards/CardList';
 import RecipePost from '../components/recipe/RecipePost';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
@@ -153,6 +154,7 @@ const RecipePage = () => {
       return;
     }
     setPage(page => page + 1);
+    dispatch(setList([...cards, ...fetchedRecipes]));
     setCards(prevRecipes => [...prevRecipes, ...fetchedRecipes]);
 
     if (postId) {

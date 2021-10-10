@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import logoImageYellow from '../../utils/logoImage/logoImageYellow.png';
@@ -7,7 +8,7 @@ import logoTextTwoLine from '../../utils/logoImage/logoTextTwoLine.png';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
-  color: #3c4043;
+  color: ${({ isDark }) => (isDark ? 'white' : '#3c4043')};
   &:hover {
     color: #ffc436;
     cursor: pointer;
@@ -38,14 +39,20 @@ const Container = styled.div`
 `;
 
 const LeftContainer = () => {
+  const { isDarkMode } = useSelector(state => state.theme);
+
   return (
     <Container>
       <StyledLink exact to="/">
         <img src={logoImageYellow} alt="로고 이미지"></img>
         <img src={logoTextTwoLine} alt="로고 텍스트"></img>
       </StyledLink>
-      <StyledLink to="/recipes?sort=dd">레시피</StyledLink>
-      <StyledLink to="/diets?sort=dd">식단</StyledLink>
+      <StyledLink isDark={isDarkMode} to="/recipes?sort=dd">
+        레시피
+      </StyledLink>
+      <StyledLink isDark={isDarkMode} to="/diets?sort=dd">
+        식단
+      </StyledLink>
     </Container>
   );
 };

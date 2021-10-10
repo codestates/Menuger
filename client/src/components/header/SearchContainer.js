@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { createBrowserHistory } from 'history';
@@ -9,6 +10,9 @@ const Container = styled.div`
   justify-content: flex-start;
   border: solid 2px #3c4043;
   height: 40px;
+  &.isDark {
+    border: 2px solid white;
+  }
   &:focus-within {
     border: 2px solid #ffc436;
   }
@@ -24,11 +28,19 @@ const Container = styled.div`
     padding-right: 3px;
     width: 150px;
     flex-grow: 1;
+    &.isDark {
+      background-color: #36393f;
+      color: white;
+    }
   }
   select {
     background-color: white;
     padding-left: 1em;
     color: #3c4043;
+    &.isDark {
+      background-color: #36393f;
+      color: white;
+    }
   }
   @media screen and (max-width: 768px) {
     display: none;
@@ -49,6 +61,7 @@ const SearchContainer = ({ useSearch, searchInputRef }) => {
   const [selected, setSelected] = useState('/recipes');
   const [search, setSearch] = useState('');
   const history = createBrowserHistory({ forceRefresh: true });
+  const { isDarkMode } = useSelector(state => state.theme);
   const { pathname } = useLocation();
   const MAIN_PAGE = '/';
   const DIET_PAGE = '/diets';
@@ -104,12 +117,22 @@ const SearchContainer = ({ useSearch, searchInputRef }) => {
   };
 
   return (
-    <Container useSearch={useSearch} onKeyPress={onClickEvent} ref={searchInputRef}>
-      <select onChange={handleSelect} value={selected}>
+    <Container
+      useSearch={useSearch}
+      onKeyPress={onClickEvent}
+      ref={searchInputRef}
+      className={isDarkMode && 'isDark'}
+    >
+      <select onChange={handleSelect} value={selected} className={isDarkMode && 'isDark'}>
         <option value="/recipes">레시피</option>
         <option value="/diets">식단</option>
       </select>
-      <input type="text" onChange={handleSearch} value={search} />
+      <input
+        type="text"
+        onChange={handleSearch}
+        value={search}
+        className={isDarkMode && 'isDark'}
+      />
     </Container>
   );
 };

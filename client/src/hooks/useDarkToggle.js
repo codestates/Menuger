@@ -6,15 +6,20 @@ import { FiMoon, FiSun } from 'react-icons/fi';
 
 const SvgContainer = styled.div`
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  width: 40px;
-  height: 40px;
+  bottom: 5rem;
+  right: 0.9rem;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
+  border: 4px solid #ffcd36;
   padding: 0.4rem;
+  z-index: 20;
   &:hover {
     cursor: pointer;
-    background-color: #eeeeee;
+    border-color: #fc9f77;
+    & > svg {
+      fill: #fc9f77;
+    }
   }
 `;
 
@@ -25,8 +30,8 @@ const useDarkToggle = () => {
   const handleToggle = () => dispatch(toggleTheme());
 
   return () => (
-    <SvgContainer onClick={handleToggle}>
-      {!isDarkMode && <FiMoon size="100%" color="#333" strokeWidth="1.5" />}
+    <SvgContainer onClick={handleToggle} isDarkMode={isDarkMode}>
+      {!isDarkMode && <FiMoon size="100%" color="#ffcd36" strokeWidth="1.5" fill="#ffcd36" />}
       {isDarkMode && <FiSun size="100%" color="#ffcd36" strokeWidth="1.5" />}
     </SvgContainer>
   );

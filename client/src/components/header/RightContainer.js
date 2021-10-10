@@ -11,7 +11,7 @@ import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
 import Signin from '../auth/Signin';
 import svgToComponent from '../../utils/svg';
-import useDarkToggle from '../../hooks/useDarkToggle';
+import { HiTemplate } from 'react-icons/hi';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -110,6 +110,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: flex-end;
   > span {
+    &.isDark {
+      color: white;
+    }
     cursor: pointer;
     color: #3c4043;
     :hover {
@@ -300,7 +303,7 @@ const RightContainer = ({
   const [modalContent, setModalContent] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const DarkModeToggler = useDarkToggle();
+  const { isDarkMode } = useSelector(state => state.theme);
   const { showModal, hideModal, ModalContainer } = useModal({
     width: 30,
     height: 70,
@@ -352,7 +355,7 @@ const RightContainer = ({
             <span className="userInfo" style={{ position: 'relative' }}>
               {userInfo.nickname}
               <UserDropdown active={userDropdown}>
-                <StyledLink to="/mypage/recipes?sort=dd">마이페이지</StyledLink>
+                <StyledLink to="/mypage/edit">마이페이지</StyledLink>
                 <SignoutButton onClick={signOut}>로그아웃</SignoutButton>
               </UserDropdown>
             </span>
@@ -360,8 +363,12 @@ const RightContainer = ({
         )}
         {!userInfo.email && (
           <>
-            <span onClick={() => handleMenuClick('signin')}>로그인</span>
-            <span onClick={() => handleMenuClick('signup')}>회원가입</span>
+            <span className={isDarkMode && 'isDark'} onClick={() => handleMenuClick('signin')}>
+              로그인
+            </span>
+            <span className={isDarkMode && 'isDark'} onClick={() => handleMenuClick('signup')}>
+              회원가입
+            </span>
           </>
         )}
         <WriteByMobile ref={popRef}>
@@ -393,7 +400,6 @@ const RightContainer = ({
           </button>
         </WriteContainer>
       </Container>
-      {/* <DarkModeToggler /> */}
     </>
   );
 };

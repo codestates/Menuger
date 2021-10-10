@@ -32,6 +32,9 @@ const ViewerHeader = styled.div`
     width: 20px;
     flex-grow: 1;
     font-size: 1.5rem;
+    &.isDark {
+      color: white;
+    }
   }
 
   > .button-container {
@@ -105,6 +108,8 @@ const ViewerSection = styled.section`
     top: 0;
     left: 0;
     height: fit-content;
+    background-color: white;
+    border-radius: 5px;
   }
 
   @media (max-width: 768px) {
@@ -147,6 +152,7 @@ const PostViewer = ({
   const [isRemoveMode, setIsRemoveMode] = useState(false);
   const isAuthority = useSelector(state => state.user.email) === user.email;
   const history = createBrowserHistory({ forceRefresh: true });
+  const { isDarkMode } = useSelector(state => state.theme);
 
   const onRemoveMode = () => setIsRemoveMode(true);
   const offRemoveMode = () => setIsRemoveMode(false);
@@ -181,7 +187,7 @@ const PostViewer = ({
   return (
     <PostViewerStyle>
       <ViewerHeader>
-        <h1>{title}</h1>
+        <h1 className={isDarkMode && 'isDark'}>{title}</h1>
         {isAuthority &&
           (isRemoveMode ? (
             <div className="remove-mode">

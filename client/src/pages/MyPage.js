@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
+import EditInfo from '../components/mypage/EditInfo';
 import MyRecipe from '../components/mypage/MyRecipe';
 import MyDiet from '../components/mypage/MyDiet';
 import DeleteMyAccount from '../components/mypage/DeleteMyAccount';
@@ -17,6 +19,9 @@ const TabContainer = styled.div`
   border-right: #c0c0c0 solid 1px;
   margin-top: 2em;
   margin-bottom: 2em;
+  &.isDark {
+    color: white;
+  }
   div {
     border-bottom: #c0c0c0 solid 1px;
     padding-top: 2em;
@@ -49,7 +54,7 @@ const TabContainer = styled.div`
 const ContentsContainer = styled.div`
   flex-grow: 1;
   width: 80%;
-  overflow-y: scroll !important;
+  //overflow-y: scroll !important;
 `;
 const MyPageContainer = styled.div`
   display: flex;
@@ -62,8 +67,14 @@ const MyPageContainer = styled.div`
 `;
 
 const MyPage = page => {
-  const tabCotents = ['내 레시피', '내 식단', '회원 탈퇴'];
-  const pageName = ['/mypage/recipes?sort=dd', '/mypage/diets?sort=dd', '/mypage/delete'];
+  const { isDarkMode } = useSelector(state => state.theme);
+  const tabCotents = ['내 정보', '내 레시피', '내 식단', '회원 탈퇴'];
+  const pageName = [
+    '/mypage/edit',
+    '/mypage/recipes?sort=dd',
+    '/mypage/diets?sort=dd',
+    '/mypage/delete',
+  ];
 
   const history = useHistory();
 
@@ -77,7 +88,7 @@ const MyPage = page => {
 
   return (
     <MyPageContainer>
-      <TabContainer>
+      <TabContainer className={isDarkMode && 'isDark'}>
         <div>
           <span>마이페이지</span>
         </div>
@@ -98,9 +109,10 @@ const MyPage = page => {
         </ul>
       </TabContainer>
       <ContentsContainer>
-        {page['page'] === '0' && <MyRecipe />}
-        {page['page'] === '1' && <MyDiet />}
-        {page['page'] === '2' && <DeleteMyAccount />}
+        {page['page'] === '0' && <EditInfo />}
+        {page['page'] === '1' && <MyRecipe />}
+        {page['page'] === '2' && <MyDiet />}
+        {page['page'] === '3' && <DeleteMyAccount />}
       </ContentsContainer>
     </MyPageContainer>
   );

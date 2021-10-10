@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import logoImageYellow from '../utils/logoImage/logoImageYellow.png';
 import logTextOneLine from '../utils/logoImage/logTextOneLine.png';
@@ -26,12 +27,24 @@ const Ptag = styled.p`
 const AboutUs = styled.div`
   display: flex;
   flex-direction: column;
+  &.isDark {
+    color: white;
+    & > a {
+      color: white;
+    }
+  }
 `;
 const Contact = styled.div`
   display: flex;
   flex-direction: column;
+  &.isDark {
+    color: white;
+  }
   > :nth-child(2) {
     padding-bottom: 10px;
+  }
+  & > * > * > .isDark {
+    color: white;
   }
 `;
 
@@ -77,37 +90,39 @@ const FooterCantainer = styled.div`
 `;
 
 const Footer = () => {
+  const { isDarkMode } = useSelector(state => state.theme);
+
   return (
     <FooterCantainer>
       <ImgContainer>
         <img src={logoImageYellow}></img>
         <img src={logTextOneLine}></img>
       </ImgContainer>
-      <AboutUs>
+      <AboutUs className={isDarkMode && 'isDark'}>
         <Ptag>About Us</Ptag>
         <a href="https://github.com/codestates/Menuger/wiki">WIKI</a>
         <a href="https://github.com/codestates/Menuger">Repository</a>
       </AboutUs>
-      <Contact>
+      <Contact className={isDarkMode && 'isDark'}>
         <Ptag>Contact</Ptag>
         <div>
           <a href="https://github.com/Soujiro-a">
             <span style={{ color: '#9be998' }}>BE </span>
-            <span>김경윤</span>
+            <span className={isDarkMode && 'isDark'}>김경윤</span>
           </a>
-          <a href="https://github.com/Soujiro-a" style={{ paddingLeft: '10px' }}>
+          <a href="https://github.com/minbyoungdae" style={{ paddingLeft: '10px' }}>
             <span style={{ color: '#9be998' }}>FE </span>
-            <span>민병대</span>
+            <span className={isDarkMode && 'isDark'}>민병대</span>
           </a>
         </div>
         <div>
-          <a href="https://github.com/Soujiro-a">
+          <a href="https://github.com/jihunv8">
             <span style={{ color: '#9be998' }}>FE </span>
-            <span>박지훈</span>
+            <span className={isDarkMode && 'isDark'}>박지훈</span>
           </a>
-          <a href="https://github.com/Soujiro-a" style={{ paddingLeft: '10px' }}>
+          <a href="https://github.com/jch422" style={{ paddingLeft: '10px' }}>
             <span style={{ color: '#9be998' }}>FE </span>
-            <span>정지찬</span>
+            <span className={isDarkMode && 'isDark'}>정지찬</span>
           </a>
         </div>
       </Contact>

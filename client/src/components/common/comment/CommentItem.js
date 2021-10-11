@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import calcDateDiffToString from '../../../utils/date';
 import { darken } from 'polished';
 
 //import components
 import ProfileImage from '../ProfileImage';
+import { decreaseCount } from '../../../modules/list';
 
 const CommentItemStyle = styled.div`
   font-size: 0.875rem;
@@ -79,12 +80,13 @@ const OtherArea = styled.section`
   }
 `;
 
-const CommentItem = ({ comment = {}, updateComment, removeComment }) => {
+const CommentItem = ({ comment = {}, updateComment, removeComment, postId: _postId }) => {
   const { _id: id, user = {}, content, post: postId, createdAt } = comment;
   const [otherRenderType, setOtherRenderType] = useState('default');
   const [contentForDisplay, setContentForDisplay] = useState(content);
   const [inputContent, setInputContent] = useState(content);
   const currentUser = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const onEditMode = () => setOtherRenderType('edit');
   const offEditMode = () => {
@@ -95,7 +97,10 @@ const CommentItem = ({ comment = {}, updateComment, removeComment }) => {
   const offRemoveMode = () => setOtherRenderType('default');
 
   const onChange = e => setInputContent(e.target.value);
-  const onRemove = () => removeComment(id);
+  const onRemove = () => {
+    removeComment(id);
+    dispatch(decreaseCount({ _id: _postId, type: 'comments' }));
+  };
   const onUpdate = () => {
     updateComment(id, inputContent);
     setContentForDisplay(inputContent);

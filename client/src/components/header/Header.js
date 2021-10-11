@@ -17,6 +17,7 @@ import SearchContainer from './SearchContainer';
 import RightContainer from './RightContainer';
 
 import useToast from '../../hooks/toast/useToast';
+import useDarkToggle from '../../hooks/useDarkToggle';
 
 const HamburgerContainer = styled.div`
   display: none;
@@ -46,9 +47,8 @@ const HeaderContainer = styled.header`
   width: 100%;
   max-width: 1130px;
   height: 80px;
-  background-color: white;
+  background-color: ${({ isDark }) => (isDark ? '#202225' : 'white')};
   display: flex;
-  background-color: white;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
@@ -79,7 +79,9 @@ const Header = () => {
   const [userDropdown, setUserDropdown] = useState(false);
 
   const userInfo = useSelector(state => state.user);
+  const { isDarkMode } = useSelector(state => state.theme);
   const addMessage = useToast();
+  const DarkModeToggler = useDarkToggle();
 
   const handleDropdown = () => {
     if (!userInfo.email) {
@@ -128,7 +130,7 @@ const Header = () => {
   return (
     <BrowserRouter>
       <Wrapper>
-        <HeaderContainer active={useHamburgerMenu}>
+        <HeaderContainer active={useHamburgerMenu} isDark={isDarkMode}>
           <LeftContainer />
           <SearchContainer useSearch={useSearch} searchInputRef={searchInputRef} />
           <RightContainer
@@ -149,6 +151,7 @@ const Header = () => {
             <BiSearchAlt2 onClick={handleSearch} />
           </SearchIconContainer>
         </HeaderContainer>
+        <DarkModeToggler />
       </Wrapper>
 
       <Switch>
@@ -157,9 +160,10 @@ const Header = () => {
         <Route path="/edit-recipe" component={RecipeEditPage}></Route>
         <Route path="/diets" component={DietPage}></Route>
         <Route path="/edit-diet" component={DietEditPage}></Route>
-        <Route path="/mypage/recipes" render={props => <MyPage {...props} page="0" />} />
-        <Route path="/mypage/diets" render={props => <MyPage {...props} page="1" />} />
-        <Route path="/mypage/delete" render={props => <MyPage {...props} page="2" />} />
+        <Route path="/mypage/edit" render={props => <MyPage {...props} page="0" />} />
+        <Route path="/mypage/recipes" render={props => <MyPage {...props} page="1" />} />
+        <Route path="/mypage/diets" render={props => <MyPage {...props} page="2" />} />
+        <Route path="/mypage/delete" render={props => <MyPage {...props} page="3" />} />
       </Switch>
     </BrowserRouter>
   );

@@ -36,6 +36,7 @@ const PostInfoButtons = ({ postId, postType, bookmarksCount, likesCount, author,
     buttonType: 'subscribe',
     nickname,
     author,
+    disabled: author === nickname,
   });
   const BookmarkBtn = usePostInfoButton({
     postId,

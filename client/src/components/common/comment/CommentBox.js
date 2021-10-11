@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { lighten } from 'polished';
 
 //import components
 import CommentItem from './CommentItem';
 import ButtonSpinner from '../spinners/ButtonSpinner';
+import { increaseCount } from '../../../modules/list';
 
 const CommentBoxStyle = styled.div`
   font-size: 0.825rem;
@@ -91,6 +92,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
   const [isMoreComment, setIsMoreComment] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const pageNumber = useRef(2);
 
   const getComments = async page => {
@@ -202,6 +204,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
       if (createRes.status === 201) {
         const readRes = await getComments(1);
         initCommentList(readRes.comments, readRes.commentsCount);
+        dispatch(increaseCount({ _id: postId, type: 'comments' }));
       }
     } catch (e) {
       console.error(e);
@@ -243,6 +246,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
               return (
                 <li key={comment._id}>
                   <CommentItem
+                    postId={postId}
                     comment={comment}
                     updateComment={updateComment}
                     removeComment={removeComment}

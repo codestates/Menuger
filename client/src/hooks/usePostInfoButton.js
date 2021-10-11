@@ -5,14 +5,25 @@ import axios from 'axios';
 import PostInfoButton from '../components/common/buttons/PostInfoButton';
 import useToast from '../hooks/toast/useToast';
 import { setInteraction } from '../modules/interaction';
+import { increaseCount, decreaseCount } from '../modules/list';
 
-const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickname, author }) => {
+const usePostInfoButton = ({
+  postId,
+  postType,
+  active,
+  count,
+  buttonType,
+  nickname,
+  author,
+  disabled,
+}) => {
   const [num, setNum] = useState(count);
   const [isActive, setIsActive] = useState(active);
   const addMessage = useToast();
   const dispatch = useDispatch();
 
   const handleClick = async () => {
+    if (disabled) return;
     if (!nickname) {
       addMessage({ mode: 'info', message: '로그인을 먼저 진행해주세요', delay: 1000 });
       return;
@@ -29,6 +40,7 @@ const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickna
         );
         setNum(bookmarksCount);
         setIsActive(!active);
+        dispatch(decreaseCount({ _id: postId, type: 'bookmarks' }));
       } else {
         const {
           data: { bookmarksCount },
@@ -41,6 +53,7 @@ const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickna
         );
         setNum(bookmarksCount);
         setIsActive(!active);
+        dispatch(increaseCount({ _id: postId, type: 'bookmarks' }));
       }
     }
 
@@ -56,6 +69,7 @@ const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickna
         );
         setNum(likesCount);
         setIsActive(!active);
+        dispatch(decreaseCount({ _id: postId, type: 'likes' }));
       } else {
         const {
           data: { likesCount },
@@ -68,12 +82,12 @@ const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickna
         );
         setNum(likesCount);
         setIsActive(!active);
+        dispatch(increaseCount({ _id: postId, type: 'likes' }));
       }
     }
 
     if (buttonType === 'subscribe') {
       if (author === nickname) {
-        alert('같음');
         return;
       }
       if (active) {
@@ -120,7 +134,7 @@ const usePostInfoButton = ({ postId, postType, active, count, buttonType, nickna
   };
 
   return ({ children }) => (
-    <PostInfoButton onClick={handleClick} active={isActive} count={num}>
+    <PostInfoButton onClick={handleClick} active={isActive} count={num} disabled={disabled}>
       {children}
     </PostInfoButton>
   );

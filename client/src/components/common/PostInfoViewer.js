@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { createBrowserHistory } from 'history';
 import calcDateDiffToString from '../../utils/date';
+import { useSelector } from 'react-redux';
 
 import HashtagInfo from './cards/HashtagInfo';
 import PostInfoButtons from './buttons/PostInfoButtons';
@@ -13,7 +14,8 @@ const PostInfoViewerStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
+  background-color: white;
+  //background-color: ${({ isDark }) => (isDark ? 'gray' : 'white')};
   @media screen and (max-width: 768px) {
     padding: 20px 30px;
   }
@@ -88,6 +90,7 @@ const PostInfoViewer = ({
   hashtags = [],
   createdAt,
 }) => {
+  const { isDarkMode } = useSelector(state => state.theme);
   const history = createBrowserHistory({ forceRefresh: true });
   const hashtagStyle = {
     fs: '0.8rem',
@@ -107,7 +110,7 @@ const PostInfoViewer = ({
   };
 
   return (
-    <PostInfoViewerStyle>
+    <PostInfoViewerStyle isDark={isDarkMode}>
       <SocialInfoContainer>
         <div className="profile-image-container">
           <ProfileImage

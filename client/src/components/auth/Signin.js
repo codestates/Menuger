@@ -3,12 +3,14 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import useToast from '../../hooks/toast/useToast';
 import { setUserInfo } from '../../modules/user';
 import svgToComponent from '../../utils/svg';
 import useModal from '../../hooks/useModal';
 import ServiceReady from '../common/ServiceReady';
+import logo from '../../utils/logoImage/logTextOneLine.png';
 
 const Wrapper = styled.div`
   text-align: center;
@@ -16,13 +18,8 @@ const Wrapper = styled.div`
 
 const Header = styled.div``;
 
-const Logo = styled.div`
-  font-size: 2rem;
-`;
-
-const Title = styled.div`
-  margin-top: 1em;
-  font-size: 1.1rem;
+const Logo = styled.img`
+  margin-bottom: 2rem;
 `;
 
 const Form = styled.form`
@@ -41,15 +38,33 @@ const Input = styled.input`
   border: none;
   border-bottom: 1px solid #cdc5bf;
   font-size: 1.1rem;
+  background-color: transparent;
   &:focus {
     outline: none;
     border-bottom: 2px solid #222222;
     margin-bottom: -1px;
+    &.isDark {
+      border-bottom: 2px solid white;
+    }
   }
 `;
 
-const Email = styled(Input)``;
-const Password = styled(Input)``;
+const Email = styled(Input)`
+  &.isDark {
+    color: white;
+    &::placeholder {
+      color: white;
+    }
+  }
+`;
+const Password = styled(Input)`
+  &.isDark {
+    color: white;
+    &::placeholder {
+      color: white;
+    }
+  }
+`;
 
 const SubmitBtn = styled.button`
   width: 100%;
@@ -75,6 +90,9 @@ const Footer = styled.div`
 
 const Text = styled.div`
   font-size: 1.1rem;
+  &.isDark {
+    color: white;
+  }
 `;
 
 const BtnsContainer = styled.div`
@@ -112,6 +130,7 @@ const Signin = ({ handleMenuClick, hideModal }) => {
 
   const modalConfig = { width: 50, height: 45, padding: 2.5, overflow: 'hidden' };
   const { showModal, ModalContainer } = useModal(modalConfig);
+  const { isDarkMode } = useSelector(state => state.theme);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -170,20 +189,29 @@ const Signin = ({ handleMenuClick, hideModal }) => {
   return (
     <Wrapper>
       <Header>
-        <Logo>Logo</Logo>
-        <Title>로그인</Title>
+        <Logo src={logo} width="170px" />
       </Header>
       <Form>
         <UserInput>
-          <Email ref={emailRef} placeholder="이메일" type="text" />
-          <Password ref={pwdRef} placeholder="비밀번호" type="password" />
+          <Email
+            className={isDarkMode ? 'isDark' : ''}
+            ref={emailRef}
+            placeholder="이메일"
+            type="text"
+          />
+          <Password
+            className={isDarkMode ? 'isDark' : ''}
+            ref={pwdRef}
+            placeholder="비밀번호"
+            type="password"
+          />
         </UserInput>
         <SubmitBtn onClick={handleSubmit} disabled={disabled}>
           로그인
         </SubmitBtn>
       </Form>
       <Footer>
-        <Text>소셜 로그인</Text>
+        <Text className={isDarkMode ? 'isDark' : ''}>소셜 로그인</Text>
         <BtnsContainer>
           <SocialLoginBtn onClick={handleKakaoLogin}>
             {svgToComponent({ svgName: 'kakao', props: { width: '60px', height: '60px' } })}

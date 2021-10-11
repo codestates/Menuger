@@ -8,6 +8,7 @@ const RecipePostStyle = styled.div`
   border-radius: 5px;
   height: 100%;
   padding: 1rem 1.8rem;
+  background-color: white;
 `;
 
 const RecipePost = ({ post, comments }) => {

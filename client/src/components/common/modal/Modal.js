@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import useKeyPress from '../../../hooks/useKeyPress';
 
@@ -34,7 +35,7 @@ const ModalContainer = styled.div`
   overflow-y: hidden;
   box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s linear;
-
+  background-color: ${({ isDark }) => (isDark ? '#808185' : 'white')};
   @media screen and (max-width: 768px) {
     width: 100%;
     height: ${({ height }) => (height ? `${height}%` : '90%')};
@@ -73,6 +74,7 @@ const Content = styled.div`
 `;
 
 const Modal = ({ children, hideModal, style }) => {
+  const { isDarkMode } = useSelector(state => state.theme);
   useKeyPress('Escape', hideModal);
 
   const modalEl = document.getElementById('modal-root');
@@ -83,7 +85,12 @@ const Modal = ({ children, hideModal, style }) => {
   return ReactDOM.createPortal(
     <>
       <Overlay onClick={hideModal} color={style.overlayColor} opacity={style.overlayOpacity} />
-      <ModalContainer width={style.width} height={style.height} padding={style.padding}>
+      <ModalContainer
+        width={style.width}
+        height={style.height}
+        padding={style.padding}
+        isDark={isDarkMode}
+      >
         <CloseBtn onClick={hideModal}>&times;</CloseBtn>
         <Content>{children}</Content>
       </ModalContainer>

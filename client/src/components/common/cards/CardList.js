@@ -43,6 +43,7 @@ const CardList = forwardRef(
   ({ postType, isDoneSearching, cards, handleCardClick }, fetchMoreRef) => {
     const { isDarkMode } = useSelector(state => state.theme);
     const interaction = useSelector(state => state.interaction[postType]);
+    const { list } = useSelector(state => state.list);
 
     const isActive = (type, postId) => {
       if (type === 'bookmark') {
@@ -50,6 +51,19 @@ const CardList = forwardRef(
       }
       if (type === 'like') {
         return interaction.likeIds.includes(postId);
+      }
+    };
+
+    const getCount = (postId, type) => {
+      const card = list.filter(({ _id }) => _id === postId)?.[0];
+      if (type === 'comments') {
+        return card.commentsCount;
+      }
+      if (type === 'likes') {
+        return card.likesCount;
+      }
+      if (type === 'bookmarks') {
+        return card.bookmarksCount;
       }
     };
 
@@ -66,9 +80,9 @@ const CardList = forwardRef(
                 thumbnail_url={card.thumbnail_url}
                 originalFileName={card.originalFileName}
                 user={card.user}
-                commentsCount={card.commentsCount}
-                likesCount={card.likesCount}
-                bookmarksCount={card.bookmarksCount}
+                commentsCount={getCount(card._id, 'comments')}
+                likesCount={getCount(card._id, 'likes')}
+                bookmarksCount={getCount(card._id, 'bookmarks')}
                 hashtags={card.hashtags}
                 createdAt={card.createdAt}
                 handleCardClick={handleCardClick}

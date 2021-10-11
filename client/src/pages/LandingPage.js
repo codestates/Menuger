@@ -70,11 +70,17 @@ const Section1 = styled.section`
       font-weight: bold;
       font-size: 4em;
       padding-bottom: 0.5em;
+      &.isDark {
+        color: white;
+      }
     }
     span {
       font-weight: normal;
       font-size: 1.2em;
       padding-bottom: 1em;
+      &.isDark {
+        color: white;
+      }
     }
     @media (max-width: 768px) {
       padding: 0;
@@ -129,6 +135,9 @@ const Section1 = styled.section`
         top: 0;
         left: 0;
       }
+      .clickme.isDark {
+        color: #ffcd36;
+      }
     }
     @media (max-width: 768px) {
       align-items: center;
@@ -162,11 +171,17 @@ const Section2 = styled.section`
       font-weight: bold;
       font-size: 4em;
       padding-bottom: 0.5em;
+      &.isDark {
+        color: white;
+      }
     }
     span {
       font-weight: normal;
       font-size: 1.2em;
       margin-bottom: 1em;
+      &.isDark {
+        color: white;
+      }
     }
     @media (max-width: 768px) {
       width: 100%;
@@ -209,11 +224,17 @@ const Section3 = styled.section`
       font-weight: bold;
       font-size: 4em;
       padding-bottom: 0.5em;
+      &.isDark {
+        color: white;
+      }
     }
     span {
       font-weight: normal;
       padding-bottom: 0.5em;
       font-size: 1.2em;
+      &.isDark {
+        color: white;
+      }
     }
     @media (max-width: 768px) {
       width: 100%;
@@ -271,11 +292,17 @@ const Section4 = styled.section`
         font-weight: bold;
         font-size: 4em;
         padding-bottom: 0.5em;
+        &.isDark {
+          color: white;
+        }
       }
       span {
         font-weight: normal;
         font-size: 1.2em;
         margin-bottom: 0.3em;
+        &.isDark {
+          color: white;
+        }
       }
     }
     ${ImageContainer} {
@@ -362,6 +389,7 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const addMessage = useToast();
   const [rollingProps, setRollingProps] = useState(true);
+  const { isDarkMode } = useSelector(state => state.theme);
 
   const arr = [0, 1, 2, 3];
   const page = e => {
@@ -427,17 +455,19 @@ const LandingPage = () => {
         >
           <Section1 className="full-page">
             <TextContainer>
-              <h1>
+              <h1 className={isDarkMode ? 'isDark' : ''}>
                 맛있는 식사를<br></br>만들어 보세요
               </h1>
-              <span>
+              <span className={isDarkMode ? 'isDark' : ''}>
                 다양한{' '}
                 <span style={{ color: '#fc9f77', fontWeight: 'bold', fontSize: '1em' }}>
                   메뉴저
                 </span>
                 들이 만든 레시피와 식단을 확인해보세요.
               </span>
-              <span>그리고, 여러분만의 레시피와 식단을 만들고 공유해보세요.</span>
+              <span className={isDarkMode ? 'isDark' : ''}>
+                그리고, 여러분만의 레시피와 식단을 만들고 공유해보세요.
+              </span>
             </TextContainer>
             <ImageContainer>
               <div className="slotMachineContainer">
@@ -446,7 +476,7 @@ const LandingPage = () => {
               </div>
               <div className="logoContainer">
                 <img className="logo" src={logoImageYellow} onClick={rollingClick}></img>
-                <span className="clickme">Click me!</span>
+                <span className={`clickme ${isDarkMode ? 'isDark' : ''}`}>Click me!</span>
               </div>
             </ImageContainer>
           </Section1>
@@ -455,10 +485,10 @@ const LandingPage = () => {
               <img src={MobileFoodImg}></img>
             </ImageContainer>
             <TextContainer>
-              <h1>
+              <h1 className={isDarkMode ? 'isDark' : ''}>
                 다양한 레시피와<br></br>식단을 찾아보세요
               </h1>
-              <span>
+              <span className={isDarkMode ? 'isDark' : ''}>
                 알레르기, 건강식, 가성비 등 <br></br>여러분이 원하는
                 <span style={{ color: '#fc9f77', fontWeight: 'bold', fontSize: '1em' }}>
                   {' '}
@@ -466,16 +496,18 @@ const LandingPage = () => {
                 </span>
                 로 검색해보세요.
               </span>
-              <span>수많은 레시피와 식단이 여러분을 기다리고 있습니다.</span>
+              <span className={isDarkMode ? 'isDark' : ''}>
+                수많은 레시피와 식단이 여러분을 기다리고 있습니다.
+              </span>
             </TextContainer>
           </Section2>
           <Section3 className="full-page">
             <TextContainer>
-              <h1>
+              <h1 className={isDarkMode ? 'isDark' : ''}>
                 마음에 드는걸 <br></br>찾지 못하셨나요?
               </h1>
-              <span>그렇다면, 직접 작성해보세요.</span>
-              <span>
+              <span className={isDarkMode ? 'isDark' : ''}>그렇다면, 직접 작성해보세요.</span>
+              <span className={isDarkMode ? 'isDark' : ''}>
                 당신만의{' '}
                 <span style={{ color: '#fc9f77', fontWeight: 'bold', fontSize: '1em' }}>
                   특별한
@@ -493,10 +525,10 @@ const LandingPage = () => {
                 <img src={Cooking} alt="fourth"></img>
               </ImageContainer>
               <TextContainer>
-                <h1>
+                <h1 className={isDarkMode ? 'isDark' : ''}>
                   요리할 준비가 <br></br>되셨나요?
                 </h1>
-                <span>
+                <span className={isDarkMode ? 'isDark' : ''}>
                   메뉴저와 함께{' '}
                   <span style={{ color: '#fc9f77', fontSize: '1em', fontWeight: 'bold' }}>
                     행복한 요리

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { setInteraction } from '../modules/interaction';
+import { setList, addToList } from '../modules/list';
 import CardList from '../components/common/cards/CardList';
 import DietPost from '../components/diet/DietPost';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
@@ -153,6 +154,11 @@ const DietPage = () => {
       return;
     }
     setPage(page => page + 1);
+    if (cards.length) {
+      dispatch(addToList(fetchedDiets));
+    } else {
+      dispatch(setList([...cards, ...fetchedDiets]));
+    }
     setCards(prevDiets => [...prevDiets, ...fetchedDiets]);
 
     if (postId) {

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
 import { BsExclamationCircle } from 'react-icons/bs';
 
 const Wrapper = styled.div`
@@ -7,6 +9,9 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  &.isDark {
+    color: white;
+  }
 `;
 
 const IconContainer = styled.div`
@@ -25,8 +30,10 @@ const Contents = styled.span`
 `;
 
 const ServiceReady = () => {
+  const { isDarkMode } = useSelector(state => state.theme);
+
   return (
-    <Wrapper>
+    <Wrapper className={isDarkMode ? 'isDark' : ''}>
       <IconContainer>
         <BsExclamationCircle />
       </IconContainer>

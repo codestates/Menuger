@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import DragDataProvider from '../utils/drag';
 import axios from 'axios';
 import useToast from '../hooks/toast/useToast';
@@ -21,6 +22,10 @@ const DietEditPageStyle = styled.div`
 
   > input {
     outline: none;
+    background-color: transparent;
+    &.isDark {
+      color: white;
+    }
   }
 
   > #input-title {
@@ -50,6 +55,10 @@ const DietEditPageStyle = styled.div`
     padding: 10px;
     margin: 10px 0;
     font-size: 1rem;
+    &.isDark {
+      background-color: transparent;
+      color: white;
+    }
   }
 
   > .button-box {
@@ -84,6 +93,7 @@ const DietEditPage = () => {
   const [hashTagList, setHashTagList] = useState([]);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [updateModePostId, setUpdateModePostId] = useState('default');
+  const { isDarkMode } = useSelector(state => state.theme);
 
   const displayToast = useToast();
   const history = useHistory();
@@ -240,6 +250,7 @@ const DietEditPage = () => {
           placeholder="제목"
           value={title}
           onChange={onChangeTitle}
+          className={isDarkMode ? 'isDark' : ''}
         />
         <input
           id="input-description"
@@ -247,6 +258,7 @@ const DietEditPage = () => {
           placeholder="식단 소개"
           value={subtitle}
           onChange={onChangeSubTitle}
+          className={isDarkMode ? 'isDark' : ''}
         />
         <DietColumnContainer dietColumnList={dietColumnList} updateColumnList={updateColumnList} />
         <textarea
@@ -256,6 +268,7 @@ const DietEditPage = () => {
           placeholder="본문"
           value={content}
           onChange={onChangeContent}
+          className={isDarkMode ? 'isDark' : ''}
         />
         <HashtagEditor tagList={hashTagList} updateTagList={updateTagList} />
         <div className="button-box">

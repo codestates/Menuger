@@ -1,10 +1,16 @@
-# Menuger
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/38288479/136725801-3d5c631e-79a8-403c-97e3-73689a45b511.png" width="250" />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://user-images.githubusercontent.com/38288479/136726043-ff9bdba0-639b-45b0-a1e5-25bf26937c64.png" />
+</p>
+
+
 
 '매일 점심 시간마다 뭘 먹을까 고민이신가요?'  
 '적은 돈으로 만들 수 있는 식사를 찾고 계신가요?'  
-'살 쭉쭉 빠지는 다이어트 식단을 없을까?'
+'살 쭉쭉 빠지는 다이어트 식단이 궁금하신가요?'
 
-당신의 매니저가 되어 당신의 고민을 끝내드리겠습니다.
+당신의 매니저가 되어 당신의 고민을 해결해드리겠습니다.
 
 대한민국의 모든 밥 고민을 없애줄 서비스 `Menuger` 입니다.
 

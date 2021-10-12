@@ -142,7 +142,7 @@
   | ![마이페이지_모바일](https://user-images.githubusercontent.com/38288479/136892664-79565855-e0fc-4fa3-b710-2f6ff611a6ba.gif) |  
 
 </details>  
-    
+<br/>
   
 # 사용한 스택
 

@@ -118,7 +118,7 @@
 </details> 
   
 <details>  
-  <summary>🍴 게시글 반응 및 댓글 작성<summary>  
+  <summary>🍴 게시글 반응 및 댓글 작성</summary>  
     
   |                웹                |  
   | :----------------------------------: |  

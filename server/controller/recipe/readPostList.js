@@ -9,83 +9,25 @@ module.exports = async (req, res) => {
     page = parseInt(page);
     sort = parseInt(sort);
 
-    if (like) {
-      if (!hashtag && !user && !title) {
-        const recipes = await Recipe.find({})
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-        return res.status(200).send({ recipes });
-      }
-
-      if (title) {
-        recipes = await Recipe.find({ title: new RegExp(title) })
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-
-          .limit(12);
-      } else if (hashtag) {
-        recipes = await Recipe.find({ hashtags: hashtag })
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else {
-        recipes = await Recipe.find({ 'user.nickname': user })
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      }
-    } else if (comment) {
-      if (!hashtag && !user && !title) {
-        const recipes = await Recipe.find({})
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-        return res.status(200).send({ recipes });
-      }
-
-      if (title) {
-        recipes = await Recipe.find({ title: new RegExp(title) })
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else if (hashtag) {
-        recipes = await Recipe.find({ hashtags: hashtag })
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else {
-        recipes = await Recipe.find({ 'user.nickname': user })
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      }
-    } else {
-      if (!hashtag && !user && !title) {
-        const recipes = await Recipe.find({})
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-        return res.status(200).send({ recipes });
-      }
-
-      if (title) {
-        recipes = await Recipe.find({ title: new RegExp(title) })
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else if (hashtag) {
-        recipes = await Recipe.find({ hashtags: hashtag })
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else {
-        recipes = await Recipe.find({ 'user.nickname': user })
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      }
-    }
+    recipes = await Recipe.find({
+      ...(title ? { title: new RegExp(title) } : null),
+      ...(hashtag ? { hashtags: hashtag } : null),
+      ...(user ? { 'user.nickname': user } : null),
+    })
+      .sort({
+        ...(like ? { likesCount: like } : null),
+        ...(comment ? { commentsCount: comment } : null),
+        ...{ createdAt: sort },
+      })
+      .skip((page - 1) * 12)
+      .limit(12)
+      .map(recipes => {
+        return recipes.map(recipe => {
+          /* eslint-disable-next-line no-unused-vars */
+          const { content, ...list } = recipe._doc;
+          return list;
+        });
+      });
     return res.status(200).send({ recipes });
   } catch (err) {
     return res.status(500).send({ message: err.message });

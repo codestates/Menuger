@@ -9,83 +9,25 @@ module.exports = async (req, res) => {
     page = parseInt(page);
     sort = parseInt(sort);
 
-    if (like) {
-      if (!hashtag && !user && !title) {
-        const diets = await Diet.find({})
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-        return res.status(200).send({ diets });
-      }
-
-      if (title) {
-        diets = await Diet.find({ title: new RegExp(title) })
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-
-          .limit(12);
-      } else if (hashtag) {
-        diets = await Diet.find({ hashtags: hashtag })
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else {
-        diets = await Diet.find({ 'user.nickname': user })
-          .sort({ likesCount: like, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      }
-    } else if (comment) {
-      if (!hashtag && !user && !title) {
-        const diets = await Diet.find({})
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-        return res.status(200).send({ diets });
-      }
-
-      if (title) {
-        diets = await Diet.find({ title: new RegExp(title) })
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else if (hashtag) {
-        diets = await Diet.find({ hashtags: hashtag })
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else {
-        diets = await Diet.find({ 'user.nickname': user })
-          .sort({ commentsCount: comment, createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      }
-    } else {
-      if (!hashtag && !user && !title) {
-        const diets = await Diet.find({})
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-        return res.status(200).send({ diets });
-      }
-
-      if (title) {
-        diets = await Diet.find({ title: new RegExp(title) })
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else if (hashtag) {
-        diets = await Diet.find({ hashtags: hashtag })
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      } else {
-        diets = await Diet.find({ 'user.nickname': user })
-          .sort({ createdAt: sort })
-          .skip((page - 1) * 12)
-          .limit(12);
-      }
-    }
+    diets = await Diet.find({
+      ...(title ? { title: new RegExp(title) } : null),
+      ...(hashtag ? { hashtags: hashtag } : null),
+      ...(user ? { 'user.nickname': user } : null),
+    })
+      .sort({
+        ...(like ? { likesCount: like } : null),
+        ...(comment ? { commentsCount: comment } : null),
+        ...{ createdAt: sort },
+      })
+      .skip((page - 1) * 12)
+      .limit(12)
+      .map(diets => {
+        return diets.map(diet => {
+          /* eslint-disable-next-line no-unused-vars */
+          const { dietColumnList, subtitle, content, ...list } = diet._doc;
+          return list;
+        });
+      });
     return res.status(200).send({ diets });
   } catch (err) {
     return res.status(500).send({ message: err.message });

@@ -26,12 +26,13 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: '해당 댓글id는 유효하지 않습니다.' });
     }
 
-    const comment = await Comment.findById(ObjectId(commentId));
+    const [comment, user] = await Promise.all([
+      Comment.findById(ObjectId(commentId)),
+      User.findOne({ _id: ObjectId(payload) }),
+    ]);
     if (!comment) {
       return res.status(400).send({ message: '존재하지 않는 댓글입니다.' });
     }
-
-    const user = await User.findOne({ _id: ObjectId(payload) });
 
     if (user.type !== 'admin') {
       if (!comment.user._id.equals(ObjectId(payload))) {
@@ -39,17 +40,13 @@ module.exports = async (req, res) => {
       }
     }
 
-    if (postType === 'recipes') {
-      await Promise.all([
-        Comment.deleteOne({ _id: ObjectId(commentId) }),
-        Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
-      ]);
-    } else {
-      await Promise.all([
-        Comment.deleteOne({ _id: ObjectId(commentId) }),
-        Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
-      ]);
-    }
+    await Promise.all([
+      Comment.deleteOne({ _id: ObjectId(commentId) }),
+      postType === 'recipes'
+        ? Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } })
+        : Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
+    ]);
+
     return res.status(200).send({ message: '해당 댓글을 삭제하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });

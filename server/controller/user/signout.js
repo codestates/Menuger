@@ -34,10 +34,10 @@ module.exports = async (req, res) => {
       }
 
       return res
-        .clearCookie('accessToken')
-        .clearCookie('refreshToken')
-        .clearCookie('kakaoAccessToken')
-        .clearCookie('kakaoRefreshToken')
+        .clearCookie('accessToken', { path: '/', domain: '.menuger.shop' })
+        .clearCookie('refreshToken', { path: '/', domain: '.menuger.shop' })
+        .clearCookie('kakaoAccessToken', { path: '/', domain: '.menuger.shop' })
+        .clearCookie('kakaoRefreshToken', { path: '/', domain: '.menuger.shop' })
         .status(200)
         .send({ message: '로그아웃 하였습니다.' });
     });

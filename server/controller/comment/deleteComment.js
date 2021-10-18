@@ -26,8 +26,6 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: '해당 댓글id는 유효하지 않습니다.' });
     }
 
-    // const comment = await Comment.findById(ObjectId(commentId));
-
     const [comment, user] = await Promise.all([
       Comment.findById(ObjectId(commentId)),
       User.findOne({ _id: ObjectId(payload) }),
@@ -42,8 +40,6 @@ module.exports = async (req, res) => {
       }
     }
 
-    // const user = await User.findOne({ _id: ObjectId(payload) });
-
     await Promise.all([
       Comment.deleteOne({ _id: ObjectId(commentId) }),
       postType === 'recipes'
@@ -51,17 +47,6 @@ module.exports = async (req, res) => {
         : Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
     ]);
 
-    // if (postType === 'recipes') {
-    //   await Promise.all([
-    //     Comment.deleteOne({ _id: ObjectId(commentId) }),
-    //     Recipe.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
-    //   ]);
-    // } else {
-    //   await Promise.all([
-    //     Comment.deleteOne({ _id: ObjectId(commentId) }),
-    //     Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
-    //   ]);
-    // }
     return res.status(200).send({ message: '해당 댓글을 삭제하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });

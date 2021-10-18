@@ -22,13 +22,12 @@ module.exports = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip((page - 1) * 6)
       .limit(6);
-    if (postType === 'recipes') {
-      const { commentsCount } = await Recipe.findOne({ _id: ObjectId(postId) });
-      return res.status(200).send({ data: { commentsCount }, comments });
-    } else {
-      const { commentsCount } = await Diet.findOne({ _id: ObjectId(postId) });
-      return res.status(200).send({ data: { commentsCount }, comments });
-    }
+
+    const { commentsCount } =
+      postType === 'recipes'
+        ? await Recipe.findOne({ _id: ObjectId(postId) })
+        : await Diet.findOne({ _id: ObjectId(postId) });
+    return res.status(200).send({ data: { commentsCount }, comments });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

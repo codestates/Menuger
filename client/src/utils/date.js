@@ -24,7 +24,7 @@ const calcDateDiffToString = createdAt => {
   const week = day * 7;
   const diffInWeek = parseInt(diffInTime / week);
   if (diffInWeek < 4) {
-    return `${diffInTime} ${diffInWeek === 1 ? 'week' : 'weeks'} ago`;
+    return `${diffInWeek} ${diffInWeek === 1 ? 'week' : 'weeks'} ago`;
   }
 
   const month = week * 4;

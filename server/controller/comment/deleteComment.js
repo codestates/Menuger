@@ -47,7 +47,18 @@ module.exports = async (req, res) => {
         : Diet.updateOne({ _id: ObjectId(postId) }, { $inc: { commentsCount: -1 } }),
     ]);
 
-    return res.status(200).send({ message: '해당 댓글을 삭제하였습니다.' });
+    let commentsCount;
+    if (postType === 'recipes') {
+      const { commentsCount: cnt } = await Recipe.findOne({ _id: ObjectId(postId) });
+      commentsCount = cnt;
+    } else {
+      const { commentsCount: cnt } = await Diet.findOne({ _id: ObjectId(postId) });
+      commentsCount = cnt;
+    }
+
+    return res
+      .status(200)
+      .send({ data: { commentsCount }, message: '해당 댓글을 삭제하였습니다.' });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

@@ -147,6 +147,8 @@ const PostViewer = ({
   postId,
   postType,
   createdAt,
+  setCards,
+  updatedCardsRef,
 }) => {
   const [commentsCount, setCommentsCount] = useState(0);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
@@ -219,11 +221,18 @@ const PostViewer = ({
             hashtags={hashtags}
             createdAt={createdAt}
             commentsCount={commentsCount}
+            setCards={setCards}
+            updatedCardsRef={updatedCardsRef}
           />
         </div>
         <div className="main">{children || <TempComponent>Viewer</TempComponent>}</div>
         <div className="comments">
-          <CommentBox postId={postId} postType={postType} setCommentsCount={setCommentsCount} />
+          <CommentBox
+            postId={postId}
+            postType={postType}
+            setCommentsCount={setCommentsCount}
+            updatedCardsRef={updatedCardsRef}
+          />
         </div>
       </ViewerSection>
     </PostViewerStyle>

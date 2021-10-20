@@ -1,8 +1,10 @@
 //Action Type
 const SET_INTERACTION = 'interaction/SET_INTERACTION';
+const RESET_INTERACTION = 'interaction/RESET_INTERACTION';
 
 //Action Creator
 export const setInteraction = interaction => ({ type: SET_INTERACTION, payload: interaction });
+export const resetInteraction = () => ({ type: RESET_INTERACTION });
 
 //init
 const initialState = {
@@ -35,6 +37,8 @@ const interactionReducer = (state = initialState, action) => {
           subscribes: [...action.payload.diets.subscribes],
         },
       };
+    case RESET_INTERACTION:
+      return initialState;
     default:
       return state;
   }

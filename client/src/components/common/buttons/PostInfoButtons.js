@@ -12,7 +12,16 @@ const Wrapper = styled.div`
   gap: 10%;
 `;
 
-const PostInfoButtons = ({ postId, postType, bookmarksCount, likesCount, author, authorId }) => {
+const PostInfoButtons = ({
+  postId,
+  postType,
+  bookmarksCount,
+  likesCount,
+  author,
+  authorId,
+  setCards,
+  updatedCardsRef,
+}) => {
   const interaction = useSelector(state => state.interaction);
   const { nickname } = useSelector(state => state.user);
 
@@ -38,6 +47,7 @@ const PostInfoButtons = ({ postId, postType, bookmarksCount, likesCount, author,
     author,
     disabled: author === nickname,
   });
+
   const BookmarkBtn = usePostInfoButton({
     postId,
     postType,
@@ -46,7 +56,11 @@ const PostInfoButtons = ({ postId, postType, bookmarksCount, likesCount, author,
     buttonType: 'bookmark',
     nickname,
     author,
+    disabled: author === nickname,
+    setCards,
+    updatedCardsRef,
   });
+
   const LikeBtn = usePostInfoButton({
     postId,
     postType,
@@ -55,11 +69,18 @@ const PostInfoButtons = ({ postId, postType, bookmarksCount, likesCount, author,
     buttonType: 'like',
     nickname,
     author,
+    disabled: author === nickname,
+    setCards,
+    updatedCardsRef,
   });
+
   const buttonSize = '25px';
+
   return (
     <Wrapper>
-      <SubBtn>{!(author === nickname) && <BsBell size={buttonSize} />}</SubBtn>
+      <SubBtn>
+        <BsBell size={buttonSize} />
+      </SubBtn>
       <BookmarkBtn>
         <BsBookmark size={buttonSize} />
       </BookmarkBtn>

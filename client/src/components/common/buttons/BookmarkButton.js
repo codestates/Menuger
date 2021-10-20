@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import { BsBookmark } from 'react-icons/bs';
@@ -16,7 +15,7 @@ const BookmarkButtonStyle = styled.button`
   height: ${props => props.height || '2em'};
   background-color: transparent;
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
   ${IconSytle} {
     font-size: ${props => props.imageSize || '1.5em'};
@@ -77,6 +76,7 @@ const BookmarkButton = ({
   onClick,
   imageSize,
   active,
+  disabled,
 }) => {
   return (
     <BookmarkButtonStyle
@@ -90,6 +90,7 @@ const BookmarkButton = ({
       number={number}
       imageSize={imageSize}
       active={active}
+      disabled={disabled}
     >
       <IconSytle>
         <BsBookmark />

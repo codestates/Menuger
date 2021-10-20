@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { darken } from 'polished';
 
 const HashtagEditorStyle = styled.div`
@@ -58,6 +59,10 @@ const TagInputForm = styled.form`
     outline: none;
     border: ${props => (props.isError ? 'solid 1px #f66d6d' : 'solid 1px rgba(0, 0, 0, 0)')};
     border-radius: 5px;
+    &.isDark {
+      background-color: #202225;
+      color: white;
+    }
   }
 `;
 
@@ -77,6 +82,7 @@ const TagInputForm = styled.form`
 const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
   const [inputTag, setInputTag] = useState('');
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
+  const { isDarkMode } = useSelector(state => state.theme);
   const inputBox = useRef();
 
   const placeholderList = [
@@ -159,6 +165,7 @@ const HashtagEditor = ({ tagList = [], updateTagList, width }) => {
         <li>
           <TagInputForm onSubmit={onSubmit} isError={currentPlaceholder !== 0}>
             <input
+              className={isDarkMode ? 'isDark' : ''}
               type="text"
               value={inputTag}
               placeholder={placeholderList[currentPlaceholder]}

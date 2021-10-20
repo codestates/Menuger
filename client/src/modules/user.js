@@ -1,8 +1,10 @@
 //Action Type
 const SET_USERINFO = 'user/SET_USERINFO';
+const RESET_USERINFO = 'user/RESET_USERINFO';
 
 //Action Creator
 export const setUserInfo = userInfo => ({ type: SET_USERINFO, payload: userInfo });
+export const resetUserInfo = () => ({ type: RESET_USERINFO });
 
 //init
 const initialState = {
@@ -21,6 +23,8 @@ const userReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
       };
+    case RESET_USERINFO:
+      return initialState;
     default:
       return state;
   }

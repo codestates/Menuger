@@ -4,6 +4,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 import axios from 'axios';
+import produce from 'immer';
 
 import { setInteraction } from '../modules/interaction';
 import { setList, addToList } from '../modules/list';
@@ -56,9 +57,10 @@ const DietPage = () => {
   const [isDoneFetching, setIsDoneFetching] = useState(false);
 
   const fetchMoreRef = useRef();
+  const updatedCardsRef = useRef({});
   const intersecting = useInfiniteScroll(fetchMoreRef);
   const modalConfig = { width: 100, height: 90, padding: 2.5, overflow: 'hidden' };
-  const { showModal, ModalContainer } = useModal(modalConfig);
+  const { showModal, ModalContainer } = useModal(modalConfig, setCards, updatedCardsRef);
 
   const dispatch = useDispatch();
   const query = useQuery();
@@ -154,12 +156,12 @@ const DietPage = () => {
       return;
     }
     setPage(page => page + 1);
+    setCards(produce(draft => [...draft, ...fetchedDiets]));
     if (cards.length) {
       dispatch(addToList(fetchedDiets));
     } else {
       dispatch(setList([...cards, ...fetchedDiets]));
     }
-    setCards(prevDiets => [...prevDiets, ...fetchedDiets]);
 
     if (postId) {
       try {
@@ -234,11 +236,17 @@ const DietPage = () => {
         postType="diets"
         isDoneSearching={isDoneFetching}
         cards={cards}
+        setCards={setCards}
         ref={fetchMoreRef}
         handleCardClick={handleCardClick}
       />
       <ModalContainer>
-        <DietPost post={dietPostInfo.diet} comments={dietPostInfo.comments}></DietPost>
+        <DietPost
+          post={dietPostInfo.diet}
+          comments={dietPostInfo.comments}
+          setCards={setCards}
+          updatedCardsRef={updatedCardsRef}
+        />
       </ModalContainer>
     </Wrapper>
   );

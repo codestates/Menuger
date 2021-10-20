@@ -18,7 +18,7 @@ const DietPostStyle = styled.div`
     margin-top: 10px;
 
     &.isDark {
-      background-color: transparent;
+      background-color: #424656;
       color: white;
     }
 
@@ -32,7 +32,7 @@ const DietPostStyle = styled.div`
   }
 `;
 
-const DietPost = ({ post }) => {
+const DietPost = ({ post, setCards, updatedCardsRef }) => {
   const {
     title,
     subtitle,
@@ -59,6 +59,8 @@ const DietPost = ({ post }) => {
       postId={postId}
       postType="diets"
       createdAt={createdAt}
+      setCards={setCards}
+      updatedCardsRef={updatedCardsRef}
     >
       <DietPostStyle>
         <DietColumnContainer dietColumnList={dietColumnList} readonly />

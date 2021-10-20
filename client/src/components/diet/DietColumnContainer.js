@@ -3,6 +3,7 @@ import { allowDrop } from '../../utils/drag';
 import { useDragColumnData } from '../../utils/drag';
 import { lighten, darken } from 'polished';
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 //import components
 import DietColumn from './diet_column/DietColumn';
@@ -13,7 +14,8 @@ const DietColumnContainerStyle = styled.div`
   border-radius: 5px;
   display: flex;
   overflow-x: auto;
-  background-color: transparent;
+  background-color: ${({ isDark, readonly }) =>
+    isDark ? (readonly ? '#424656' : '#202225') : 'transparent'};
 
   > .column-list {
     width: ${props => props.readonly && '1px'};
@@ -75,6 +77,7 @@ const DietColumnContainer = ({ dietColumnList, updateColumnList, readonly = fals
   const dragColumnData = useDragColumnData();
   const [columnShadowIndex, setColumnShadowIndex] = useState(-1);
   const dragEnterAndLeaveCount = useRef(0);
+  const { isDarkMode } = useSelector(state => state.theme);
 
   const addColumn = () => {
     const initColumn = { title: '식단 열', dietCardList: [] };
@@ -139,6 +142,7 @@ const DietColumnContainer = ({ dietColumnList, updateColumnList, readonly = fals
       onDragOver={allowDrop}
       onDrop={onDrop}
       readonly={readonly}
+      isDark={isDarkMode}
     >
       <ul className="column-list">
         {dietColumnList.map((column, i) => {

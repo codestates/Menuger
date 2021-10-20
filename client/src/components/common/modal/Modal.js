@@ -30,12 +30,11 @@ const ModalContainer = styled.div`
   margin: auto;
   padding: ${({ padding }) => (padding ? `${padding}em` : '3rem')};
   border-radius: 10px;
-  background: white;
   z-index: 10;
   overflow-y: hidden;
   box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s linear;
-  background-color: ${({ isDark }) => (isDark ? '#808185' : 'white')};
+  background-color: ${({ isDark }) => (isDark ? '#424656' : 'white')};
   @media screen and (max-width: 768px) {
     width: 100%;
     height: ${({ height }) => (height ? `${height}%` : '90%')};

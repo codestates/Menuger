@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import calcDateDiffToString from '../../../utils/date';
 import { darken } from 'polished';
 
 //import components
 import ProfileImage from '../ProfileImage';
-import { decreaseCount } from '../../../modules/list';
 
 const CommentItemStyle = styled.div`
   font-size: 0.875rem;
@@ -25,10 +24,11 @@ const ProfileImageArea = styled.section`
 const ContentArea = styled.section`
   grid-area: content;
   line-height: 1.2rem;
+  color: ${({ isDark }) => (isDark ? 'white' : '#000')};
 
   > .nickname {
     display: ${props => props.editable && 'block'};
-    color: #000;
+    color: ${({ isDark }) => (isDark ? '#D19F9C' : '#000')};
     font-weight: bold;
     text-decoration: none;
     margin-right: 0.5rem;
@@ -52,18 +52,19 @@ const OtherArea = styled.section`
   > span,
   button {
     margin-right: 0.4rem;
+    color: ${({ isDark }) => (isDark ? 'white' : '#8e8e8e')};
   }
 
   > button {
     padding: 0;
     border: none;
-    color: inherit;
+    //color: inherit;
     font-size: inherit;
     background-color: #00000000;
     cursor: pointer;
 
     &:hover {
-      color: ${darken(0.2, '#8e8e8e')};
+      color: ${({ isDark }) => (isDark ? 'white' : darken(0.2, '#8e8e8e'))};
     }
 
     &:active {
@@ -86,7 +87,7 @@ const CommentItem = ({ comment = {}, updateComment, removeComment, postId: _post
   const [contentForDisplay, setContentForDisplay] = useState(content);
   const [inputContent, setInputContent] = useState(content);
   const currentUser = useSelector(state => state.user);
-  const dispatch = useDispatch();
+  const { isDarkMode } = useSelector(state => state.theme);
 
   const onEditMode = () => setOtherRenderType('edit');
   const offEditMode = () => {
@@ -97,10 +98,7 @@ const CommentItem = ({ comment = {}, updateComment, removeComment, postId: _post
   const offRemoveMode = () => setOtherRenderType('default');
 
   const onChange = e => setInputContent(e.target.value);
-  const onRemove = () => {
-    removeComment(id);
-    dispatch(decreaseCount({ _id: _postId, type: 'comments' }));
-  };
+  const onRemove = () => removeComment(id);
   const onUpdate = () => {
     updateComment(id, inputContent);
     setContentForDisplay(inputContent);
@@ -144,19 +142,19 @@ const CommentItem = ({ comment = {}, updateComment, removeComment, postId: _post
   return (
     <CommentItemStyle>
       <ProfileImageArea>
-        <ProfileImage src={user.src} size="40px" />
+        <ProfileImage src={user.image_url} size="40px" />
       </ProfileImageArea>
-      <ContentArea editable={otherRenderType === 'edit'}>
-        <a className="nickname" href="#">
-          {user.nickname}
-        </a>
+      <ContentArea editable={otherRenderType === 'edit'} isDark={isDarkMode}>
+        <a className="nickname">{user.nickname}</a>
         {otherRenderType === 'edit' ? (
           <textarea onChange={onChange} value={inputContent} spellCheck="false"></textarea>
         ) : (
           contentForDisplay
         )}
       </ContentArea>
-      <OtherArea className="other-area">{renderOther(otherRenderType)}</OtherArea>
+      <OtherArea className="other-area" isDark={isDarkMode}>
+        {renderOther(otherRenderType)}
+      </OtherArea>
     </CommentItemStyle>
   );
 };

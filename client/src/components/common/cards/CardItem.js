@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import axios from 'axios';
+import produce from 'immer';
 
 import { setInteraction } from '../../../modules/interaction';
-import { increaseCount, decreaseCount } from '../../../modules/list';
 import BookmarkButton from '../buttons/BookmarkButton';
 import LikeButton from '../buttons/LikeButton';
 import CommentMark from '../buttons/CommentMark';
@@ -153,18 +154,22 @@ const CardItem = ({
   isBookmarked,
   isLiked,
   handleCardClick,
+  setCards,
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
   const { isDarkMode } = useSelector(state => state.theme);
   const { nickname } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const addMessage = useToast();
 
   const handleBookmarkClick = async () => {
+    if (isProcessing) return;
     if (!nickname) {
       addMessage({ mode: 'info', message: '로그인을 먼저 진행해주세요', delay: 1000 });
       return;
     }
     try {
+      setIsProcessing(true);
       if (isBookmarked) {
         await axios.delete(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
@@ -172,7 +177,15 @@ const CardItem = ({
             withCredentials: true,
           },
         );
-        dispatch(decreaseCount({ _id: postId, type: 'bookmarks' }));
+        setCards(
+          produce(draft => {
+            for (const cardData of draft) {
+              if (cardData._id === postId) {
+                cardData.bookmarksCount--;
+              }
+            }
+          }),
+        );
       } else {
         await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/bookmarks`,
@@ -181,7 +194,15 @@ const CardItem = ({
             withCredentials: true,
           },
         );
-        dispatch(increaseCount({ _id: postId, type: 'bookmarks' }));
+        setCards(
+          produce(draft => {
+            for (const cardData of draft) {
+              if (cardData._id === postId) {
+                cardData.bookmarksCount++;
+              }
+            }
+          }),
+        );
       }
 
       Promise.all([
@@ -201,6 +222,8 @@ const CardItem = ({
       });
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -214,7 +237,15 @@ const CardItem = ({
         await axios.delete(`${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`, {
           withCredentials: true,
         });
-        dispatch(decreaseCount({ _id: postId, type: 'likes' }));
+        setCards(
+          produce(draft => {
+            for (const cardData of draft) {
+              if (cardData._id === postId) {
+                cardData.likesCount--;
+              }
+            }
+          }),
+        );
       } else {
         await axios.post(
           `${process.env.REACT_APP_ENDPOINT_URL}/${postType}/${postId}/likes`,
@@ -223,7 +254,15 @@ const CardItem = ({
             withCredentials: true,
           },
         );
-        dispatch(increaseCount({ _id: postId, type: 'likes' }));
+        setCards(
+          produce(draft => {
+            for (const cardData of draft) {
+              if (cardData._id === postId) {
+                cardData.likesCount++;
+              }
+            }
+          }),
+        );
       }
 
       Promise.all([
@@ -276,8 +315,14 @@ const CardItem = ({
             active={isBookmarked}
             onClick={handleBookmarkClick}
             number={bookmarksCount}
+            disabled={user.nickname === nickname}
           />
-          <LikeButton active={isLiked} onClick={handleLikeButtonClick} number={likesCount} />
+          <LikeButton
+            active={isLiked}
+            onClick={handleLikeButtonClick}
+            number={likesCount}
+            disabled={user.nickname === nickname}
+          />
           <CommentMark number={commentsCount} />
         </PostInfo>
       </Info>

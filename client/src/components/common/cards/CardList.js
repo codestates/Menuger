@@ -40,10 +40,9 @@ const ScrollToTop = styled.div`
 `;
 
 const CardList = forwardRef(
-  ({ postType, isDoneSearching, cards, handleCardClick }, fetchMoreRef) => {
+  ({ postType, isDoneSearching, cards, setCards, handleCardClick }, fetchMoreRef) => {
     const { isDarkMode } = useSelector(state => state.theme);
     const interaction = useSelector(state => state.interaction[postType]);
-    const { list } = useSelector(state => state.list);
 
     const isActive = (type, postId) => {
       if (type === 'bookmark') {
@@ -55,7 +54,7 @@ const CardList = forwardRef(
     };
 
     const getCount = (postId, type) => {
-      const card = list.filter(({ _id }) => _id === postId)?.[0];
+      const card = cards.filter(({ _id }) => _id === postId)?.[0];
       if (type === 'comments') {
         return card.commentsCount;
       }
@@ -85,9 +84,10 @@ const CardList = forwardRef(
                 bookmarksCount={getCount(card._id, 'bookmarks')}
                 hashtags={card.hashtags}
                 createdAt={card.createdAt}
-                handleCardClick={handleCardClick}
                 isBookmarked={isActive('bookmark', card._id)}
                 isLiked={isActive('like', card._id)}
+                handleCardClick={handleCardClick}
+                setCards={setCards}
               />
             ))}
           </CardListContainer>

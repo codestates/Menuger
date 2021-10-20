@@ -16,6 +16,7 @@ const CommentBoxStyle = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  background-color: ${({ isDark }) => isDark && '#424656'};
 
   > .list-container {
     position: relative;
@@ -66,6 +67,10 @@ const CommentInput = styled.form`
     outline: none;
     height: fit-content;
     flex-grow: 1;
+    &.isDark {
+      background-color: transparent;
+      color: white;
+    }
   }
 
   > button {
@@ -76,6 +81,12 @@ const CommentInput = styled.form`
     width: fit-content;
     background-color: #00000000;
 
+    &.isDark {
+      color: ${props => (props.submitable ? 'white' : 'gray')};
+      &:hover {
+        color: ${props => (props.submitable ? '#DADDE2' : 'gray')};
+      }
+    }
     &:hover {
       color: ${props => (props.submitable ? lighten(0.4, '#000') : '#dadde6')};
     }
@@ -86,12 +97,13 @@ const CommentInput = styled.form`
   }
 `;
 
-const CommentBox = ({ postId, postType, setCommentsCount }) => {
+const CommentBox = ({ postId, postType, setCommentsCount, updatedCardsRef }) => {
   const [inputComment, setInputComment] = useState('');
   const [commentList, setCommentList] = useState([]);
   const [isMoreComment, setIsMoreComment] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(state => state.user);
+  const { isDarkMode } = useSelector(state => state.theme);
   const dispatch = useDispatch();
   const pageNumber = useRef(2);
 
@@ -168,6 +180,10 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
       );
 
       if (deleteRes.status === 200) {
+        updatedCardsRef.current.comment = {
+          _id: postId,
+          commentsCount: deleteRes.data.data.commentsCount,
+        };
         const readRes = await getComments(1);
         initCommentList(readRes.comments, readRes.commentsCount);
       }
@@ -202,6 +218,10 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
         },
       );
       if (createRes.status === 201) {
+        updatedCardsRef.current.comment = {
+          _id: postId,
+          commentsCount: createRes.data.data.commentsCount,
+        };
         const readRes = await getComments(1);
         initCommentList(readRes.comments, readRes.commentsCount);
         dispatch(increaseCount({ _id: postId, type: 'comments' }));
@@ -215,7 +235,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
   };
 
   return (
-    <CommentBoxStyle>
+    <CommentBoxStyle isDark={isDarkMode}>
       <CommentInput onSubmit={onSubmit} submitable={inputComment.trim().length > 0}>
         {user.email ? (
           <>
@@ -225,8 +245,9 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
               size="1"
               value={inputComment}
               onChange={onChange}
+              className={isDarkMode ? 'isDark' : ''}
             />
-            <button>보내기</button>
+            <button className={isDarkMode ? 'isDark' : ''}>보내기</button>
           </>
         ) : (
           <div className="disable">로그인 후 댓글을 작성할 수 있습니다.</div>
@@ -250,6 +271,7 @@ const CommentBox = ({ postId, postType, setCommentsCount }) => {
                     comment={comment}
                     updateComment={updateComment}
                     removeComment={removeComment}
+                    updatedCardsRef={updatedCardsRef}
                   />
                 </li>
               );

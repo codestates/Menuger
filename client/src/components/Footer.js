@@ -122,7 +122,7 @@ const Footer = () => {
           </a>
           <a href="https://github.com/jch422" style={{ paddingLeft: '10px' }}>
             <span style={{ color: '#9be998' }}>FE </span>
-            <span cclassName={isDarkMode ? 'isDark' : ''}>정지찬</span>
+            <span className={isDarkMode ? 'isDark' : ''}>정지찬</span>
           </a>
         </div>
       </Contact>

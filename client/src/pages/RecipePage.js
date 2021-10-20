@@ -4,6 +4,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 import axios from 'axios';
+import produce from 'immer';
 
 import { setInteraction } from '../modules/interaction';
 import { setList, addToList } from '../modules/list';
@@ -56,9 +57,10 @@ const RecipePage = () => {
   const [isDoneFetching, setIsDoneFetching] = useState(false);
 
   const fetchMoreRef = useRef();
+  const updatedCardsRef = useRef({});
   const intersecting = useInfiniteScroll(fetchMoreRef);
   const modalConfig = { width: 100, height: 90, padding: 2.5, overflow: 'hidden' };
-  const { showModal, ModalContainer } = useModal(modalConfig);
+  const { showModal, ModalContainer } = useModal(modalConfig, setCards, updatedCardsRef);
 
   const dispatch = useDispatch();
   const query = useQuery();
@@ -154,12 +156,12 @@ const RecipePage = () => {
       return;
     }
     setPage(page => page + 1);
+    setCards(produce(draft => [...draft, ...fetchedRecipes]));
     if (cards.length) {
       dispatch(addToList(fetchedRecipes));
     } else {
       dispatch(setList([...cards, ...fetchedRecipes]));
     }
-    setCards(prevRecipes => [...prevRecipes, ...fetchedRecipes]);
 
     if (postId) {
       try {
@@ -234,11 +236,17 @@ const RecipePage = () => {
         postType="recipes"
         isDoneSearching={isDoneFetching}
         cards={cards}
+        setCards={setCards}
         ref={fetchMoreRef}
         handleCardClick={handleCardClick}
       />
       <ModalContainer>
-        <RecipePost post={recipePostInfo.recipe} comments={recipePostInfo.comments}></RecipePost>
+        <RecipePost
+          post={recipePostInfo.recipe}
+          comments={recipePostInfo.comments}
+          setCards={setCards}
+          updatedCardsRef={updatedCardsRef}
+        />
       </ModalContainer>
     </Wrapper>
   );

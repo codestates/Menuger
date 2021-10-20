@@ -13,7 +13,7 @@ const SvgContainer = styled.div`
   border-radius: 50%;
   border: 4px solid #ffcd36;
   padding: 0.4rem;
-  z-index: 20;
+  z-index: 9;
   &:hover {
     cursor: pointer;
     border-color: #fc9f77;

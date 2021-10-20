@@ -437,15 +437,13 @@ const LandingPage = () => {
           <Circle key={idx} active={idx === useScroll} onClick={() => setUseScroll(idx)} />
         ))}
       </CircleContainer>
-      {useScroll > 0 && (
-        <ScrollToTop>
-          <HiOutlineArrowCircleUp
-            onClick={() => {
-              page(0);
-            }}
-          />
-        </ScrollToTop>
-      )}
+      <ScrollToTop>
+        <HiOutlineArrowCircleUp
+          onClick={() => {
+            page(0);
+          }}
+        />
+      </ScrollToTop>
       <PageScrollerContainer>
         <ReactPageScroller
           className="scroller"

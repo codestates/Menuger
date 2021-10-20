@@ -14,8 +14,7 @@ const PostInfoViewerStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: white;
-  //background-color: ${({ isDark }) => (isDark ? 'gray' : 'white')};
+  background-color: ${({ isDark }) => (isDark ? '#424656' : 'white')};
   @media screen and (max-width: 768px) {
     padding: 20px 30px;
   }
@@ -39,7 +38,7 @@ const SocialInfoContainer = styled.div`
     width: 100%;
     text-decoration: none;
     text-indent: 4px;
-    color: #000;
+    color: ${({ isDark }) => (isDark ? 'white' : '#000')};
     display: flex;
     align-items: center;
     & > span:hover {
@@ -71,6 +70,7 @@ const OtherArea = styled.section`
   font-size: 0.8rem;
 
   > span {
+    color: ${({ isDark }) => isDark && 'white'};
     &.time {
       margin-right: 0.4rem;
     }
@@ -89,6 +89,8 @@ const PostInfoViewer = ({
   commentsCount = 0,
   hashtags = [],
   createdAt,
+  setCards,
+  updatedCardsRef,
 }) => {
   const { isDarkMode } = useSelector(state => state.theme);
   const history = createBrowserHistory({ forceRefresh: true });
@@ -111,7 +113,7 @@ const PostInfoViewer = ({
 
   return (
     <PostInfoViewerStyle isDark={isDarkMode}>
-      <SocialInfoContainer>
+      <SocialInfoContainer isDark={isDarkMode}>
         <div className="profile-image-container">
           <ProfileImage
             src={user.image_url}
@@ -130,13 +132,15 @@ const PostInfoViewer = ({
             bookmarksCount={bookmarksCount}
             author={user.nickname}
             authorId={user._id}
+            setCards={setCards}
+            updatedCardsRef={updatedCardsRef}
           />
         </div>
       </SocialInfoContainer>
       <HashTagsContainer>
         <HashtagInfo postType={postType} hashtags={hashtags} style={hashtagStyle} />
       </HashTagsContainer>
-      <OtherArea className="other-area">
+      <OtherArea className="other-area" isDark={isDarkMode}>
         <span className="time">{calcDateDiffToString(createdAt)}</span>
         <span className="comments-count">{commentsCount}개의 댓글</span>
       </OtherArea>

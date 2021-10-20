@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserInfo } from '../../modules/user';
+import { setUserInfo, resetUserInfo } from '../../modules/user';
+import { resetInteraction } from '../../modules/interaction';
 import { useHistory } from 'react-router';
 
 import axios from 'axios';
@@ -11,7 +12,6 @@ import useModal from '../../hooks/useModal';
 import Signup from '../auth/Signup';
 import Signin from '../auth/Signin';
 import svgToComponent from '../../utils/svg';
-import { HiTemplate } from 'react-icons/hi';
 
 const StyledLink = styled(NavLink)`
   text-decoration: none !important;
@@ -315,19 +315,24 @@ const RightContainer = ({
     showModal();
   };
 
-  const user = {
-    email: '',
-    image_url: '',
-    nickname: '',
-    subscribes: [],
-    type: 'user',
-  };
+  // const user = {
+  //   email: '',
+  //   image_url: '',
+  //   nickname: '',
+  //   subscribes: [],
+  //   type: 'user',
+  // };
 
-  const signOut = async () => {
+  const signOut = () => {
     try {
-      await axios
-        .post(`${process.env.REACT_APP_ENDPOINT_URL}/users/signout`, {}, { withCredentials: true })
-        .then(dispatch(setUserInfo(user)))
+      axios
+        .post(`${process.env.REACT_APP_ENDPOINT_URL}/users/signout`, null, {
+          withCredentials: true,
+        })
+        .then(() => {
+          dispatch(resetUserInfo());
+          dispatch(resetInteraction());
+        })
         .then(history.push('/'));
     } catch (err) {
       console.log(err);

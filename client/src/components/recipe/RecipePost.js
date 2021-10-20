@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import PostViewer from '../common/PostViewer';
 import RecipeViewer from './RecipeViewer';
@@ -8,10 +9,12 @@ const RecipePostStyle = styled.div`
   border-radius: 5px;
   height: 100%;
   padding: 1rem 1.8rem;
-  background-color: white;
+  background-color: ${({ isDark }) => (isDark ? '#424656' : 'white')};
 `;
 
-const RecipePost = ({ post, comments }) => {
+const RecipePost = ({ setCards, post, comments, updatedCardsRef }) => {
+  const { isDarkMode } = useSelector(state => state.theme);
+
   const {
     title,
     content,
@@ -35,9 +38,11 @@ const RecipePost = ({ post, comments }) => {
       postId={postId}
       postType="recipes"
       createdAt={createdAt}
+      setCards={setCards}
+      updatedCardsRef={updatedCardsRef}
     >
-      <RecipePostStyle>
-        <RecipeViewer content={content} />
+      <RecipePostStyle isDark={isDarkMode}>
+        <RecipeViewer content={content} isDark={isDarkMode} />
       </RecipePostStyle>
     </PostViewer>
   );

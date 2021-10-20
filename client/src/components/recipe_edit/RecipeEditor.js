@@ -18,7 +18,7 @@ const RecipeEditor = ({ editorRef, setImages }) => {
     const createImageInsertButton = () => {
       const btn = document.createElement('button');
       btn.style.margin = '0';
-      btn.style.backgroundColor = 'transparent';
+      btn.style.backgroundColor = isDarkMode ? '#eeeeee' : 'transparent';
       btn.ariaLabel = 'Insert image';
       btn.innerHTML = '<i>IMG</i>';
       btn.addEventListener('click', () => setIsUploadingImage(true));
@@ -35,7 +35,7 @@ const RecipeEditor = ({ editorRef, setImages }) => {
         style: { backgroundImage: 'none' },
       },
     );
-  }, [editorRef]);
+  }, [editorRef, isDarkMode]);
 
   return (
     <>

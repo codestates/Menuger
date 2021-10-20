@@ -16,7 +16,7 @@ const LikeButtonStyle = styled.button`
   height: ${props => props.height || '2em'};
   background-color: transparent;
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
   ${IconSytle} {
     font-size: ${props => props.imageSize || '1.5em'};
@@ -77,6 +77,7 @@ const LikeButton = ({
   onClick,
   imageSize,
   active,
+  disabled,
 }) => {
   return (
     <LikeButtonStyle
@@ -90,6 +91,7 @@ const LikeButton = ({
       number={number}
       imageSize={imageSize}
       active={active}
+      disabled={disabled}
     >
       <IconSytle>
         <AiOutlineLike />

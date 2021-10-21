@@ -34,10 +34,18 @@ module.exports = async (req, res) => {
       }
 
       return res
-        .clearCookie('accessToken', { path: '/', domain: '.menuger.shop' })
-        .clearCookie('refreshToken', { path: '/', domain: '.menuger.shop' })
-        .clearCookie('kakaoAccessToken', { path: '/', domain: '.menuger.shop' })
-        .clearCookie('kakaoRefreshToken', { path: '/', domain: '.menuger.shop' })
+        .clearCookie('accessToken', {
+          ...(process.env.COOKIE_SECURE === 'true' ? { path: '/', domain: '.menuger.shop' } : null),
+        })
+        .clearCookie('refreshToken', {
+          ...(process.env.COOKIE_SECURE === 'true' ? { path: '/', domain: '.menuger.shop' } : null),
+        })
+        .clearCookie('kakaoAccessToken', {
+          ...(process.env.COOKIE_SECURE === 'true' ? { path: '/', domain: '.menuger.shop' } : null),
+        })
+        .clearCookie('kakaoRefreshToken', {
+          ...(process.env.COOKIE_SECURE === 'true' ? { path: '/', domain: '.menuger.shop' } : null),
+        })
         .status(200)
         .send({ message: '로그아웃 하였습니다.' });
     });

@@ -68,31 +68,31 @@ module.exports = async (req, res) => {
 
     res.cookie('kakao_login', 'success', {
       maxAge,
-      domain: '.menuger.shop',
+      ...(process.env.COOKIE_SECURE === 'true' ? { domain: '.menuger.shop' } : null),
     });
     res.cookie('email', email, {
       maxAge,
-      domain: '.menuger.shop',
+      ...(process.env.COOKIE_SECURE === 'true' ? { domain: '.menuger.shop' } : null),
     });
     res.cookie('nickname', nickname, {
       maxAge,
-      domain: '.menuger.shop',
+      ...(process.env.COOKIE_SECURE === 'true' ? { domain: '.menuger.shop' } : null),
     });
     res.cookie('image_url', image_url, {
       maxAge,
-      domain: '.menuger.shop',
+      ...(process.env.COOKIE_SECURE === 'true' ? { domain: '.menuger.shop' } : null),
     });
     res.cookie('kakaoAccessToken', data.access_token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'None',
-      domain: '.menuger.shop',
+      ...(process.env.COOKIE_SECURE === 'true'
+        ? { secure: true, sameSite: 'None', domain: '.menuger.shop' }
+        : null),
     });
     res.cookie('kakaoRefreshToken', data.refresh_token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'None',
-      domain: '.menuger.shop',
+      ...(process.env.COOKIE_SECURE === 'true'
+        ? { secure: true, sameSite: 'None', domain: '.menuger.shop' }
+        : null),
     });
     res.clearCookie('accessToken').clearCookie('refreshToken');
     res.redirect(process.env.SITE_DOMAIN);

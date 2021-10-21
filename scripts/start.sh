@@ -10,5 +10,6 @@ export REDIRECT_URI=$(aws ssm get-parameters --region ap-northeast-2 --names RED
 export REFRESH_SECRET=$(aws ssm get-parameters --region ap-northeast-2 --names REFRESH_SECRET --query Parameters[0].Value | sed 's/"//g')
 export SECRET_KEY=$(aws ssm get-parameters --region ap-northeast-2 --names SECRET_KEY --query Parameters[0].Value | sed 's/"//g')
 export SITE_DOMAIN=$(aws ssm get-parameters --region ap-northeast-2 --names SITE_DOMAIN --query Parameters[0].Value | sed 's/"//g')
+export COOKIE_SECURE=$(aws ssm get-parameters --region ap-northeast-2 --names COOKIE_SECURE --query Parameters[0].Value | sed 's/"//g')
 
 authbind --deep pm2 start app.js

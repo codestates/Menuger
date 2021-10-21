@@ -94,7 +94,13 @@ module.exports = async (req, res) => {
         ? { secure: true, sameSite: 'None', domain: '.menuger.shop' }
         : null),
     });
-    res.clearCookie('accessToken').clearCookie('refreshToken');
+    res
+      .clearCookie('accessToken', {
+        ...(process.env.COOKIE_SECURE === 'true' ? { path: '/', domain: '.menuger.shop' } : null),
+      })
+      .clearCookie('refreshToken', {
+        ...(process.env.COOKIE_SECURE === 'true' ? { path: '/', domain: '.menuger.shop' } : null),
+      });
     res.redirect(process.env.SITE_DOMAIN);
   } catch (err) {
     res.cookie('kakao_login', 'fail', { maxAge });

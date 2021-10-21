@@ -50,8 +50,16 @@ module.exports = (req, res) => {
         await user.save();
 
         return res
-          .clearCookie('kakaoAccessToken')
-          .clearCookie('kakaoRefreshToken')
+          .clearCookie('kakaoAccessToken', {
+            ...(process.env.COOKIE_SECURE === 'true'
+              ? { path: '/', domain: '.menuger.shop' }
+              : null),
+          })
+          .clearCookie('kakaoRefreshToken', {
+            ...(process.env.COOKIE_SECURE === 'true'
+              ? { path: '/', domain: '.menuger.shop' }
+              : null),
+          })
           .status(200)
           .send({
             data: {

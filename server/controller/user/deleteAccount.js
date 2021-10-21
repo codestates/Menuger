@@ -81,8 +81,16 @@ module.exports = async (req, res) => {
           await Bookmark.deleteMany({ user: ObjectId(payload) });
         });
         return res
-          .clearCookie('accessToken')
-          .clearCookie('refreshToken')
+          .clearCookie('accessToken', {
+            ...(process.env.COOKIE_SECURE === 'true'
+              ? { path: '/', domain: '.menuger.shop' }
+              : null),
+          })
+          .clearCookie('refreshToken', {
+            ...(process.env.COOKIE_SECURE === 'true'
+              ? { path: '/', domain: '.menuger.shop' }
+              : null),
+          })
           .status(200)
           .send({ message: '계정이 정상적으로 삭제되었습니다.' });
       });

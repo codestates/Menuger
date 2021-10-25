@@ -57,6 +57,7 @@ const ScrollToTop = styled.div`
 `;
 
 const Section1 = styled.section`
+  height: 100vh;
   overflow-x: hidden;
   & > * {
     padding-bottom: 10em;
@@ -161,6 +162,7 @@ const Section1 = styled.section`
   }
 `;
 const Section2 = styled.section`
+  height: 100vh;
   ${TextContainer} {
     display: flex;
     flex-direction: column;
@@ -169,7 +171,7 @@ const Section2 = styled.section`
     text-align: right;
     h1 {
       font-weight: bold;
-      font-size: 4em;
+      font-size: 3.5em;
       padding-bottom: 0.5em;
       &.isDark {
         color: white;
@@ -213,6 +215,7 @@ const Section2 = styled.section`
   }
 `;
 const Section3 = styled.section`
+  height: 100vh;
   overflow-x: hidden;
   ${TextContainer} {
     display: flex;
@@ -222,7 +225,7 @@ const Section3 = styled.section`
     text-align: left;
     h1 {
       font-weight: bold;
-      font-size: 4em;
+      font-size: 3.5em;
       padding-bottom: 0.5em;
       &.isDark {
         color: white;
@@ -273,6 +276,7 @@ const Section3 = styled.section`
 `;
 
 const Section4 = styled.section`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   .contents {
@@ -353,6 +357,7 @@ const Section4 = styled.section`
 
 const PageScrollerContainer = styled.div`
   z-index: 100;
+  height: 100vh;
   .full-page {
     margin: 0 auto;
     height: 80%;

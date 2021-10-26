@@ -315,27 +315,17 @@ const RightContainer = ({
     showModal();
   };
 
-  // const user = {
-  //   email: '',
-  //   image_url: '',
-  //   nickname: '',
-  //   subscribes: [],
-  //   type: 'user',
-  // };
-
   const signOut = () => {
     try {
-      axios
-        .post(`${process.env.REACT_APP_ENDPOINT_URL}/users/signout`, null, {
-          withCredentials: true,
-        })
-        .then(() => {
-          dispatch(resetUserInfo());
-          dispatch(resetInteraction());
-        })
-        .then(history.push('/'));
+      axios.post(`${process.env.REACT_APP_ENDPOINT_URL}/users/signout`, null, {
+        withCredentials: true,
+      });
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch(resetUserInfo());
+      dispatch(resetInteraction());
+      history.push('/');
     }
   };
 

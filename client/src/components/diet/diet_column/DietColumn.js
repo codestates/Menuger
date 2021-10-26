@@ -12,6 +12,7 @@ const DietColumnStyle = styled.div`
   min-width: 200px;
   border-radius: 5px;
   overflow-y: hidden;
+  position: relative;
   background-color: #f5f5f5;
   box-shadow: 0 1px rgba(0, 0, 0, 0.3);
   > .button-container {
@@ -133,16 +134,20 @@ const DietColumn = ({
     }
 
     const newFromDietCardList = [...fromColumn.column.dietCardList];
-    newFromDietCardList.splice(cardIndex, 1);
+    //ctrlKey === true ? 복사 : 이동;
+    if (e.ctrlKey === false) {
+      newFromDietCardList.splice(cardIndex, 1);
+    }
     const newFromColumn = {
       ...fromColumn.column,
       dietCardList: newFromDietCardList,
     };
     let newDietCardList = [...column.dietCardList];
 
+    //컬럼 내부에서 이동할 때
     if (index === fromColumn.index) {
       newDietCardList = newFromDietCardList;
-      if (cardIndex < cardToIndex) {
+      if (e.ctrlKey === false && cardIndex < cardToIndex) {
         cardToIndex--;
       }
     }

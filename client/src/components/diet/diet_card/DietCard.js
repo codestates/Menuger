@@ -12,8 +12,20 @@ const DietCardStyle = styled.div`
   border-radius: 5px;
   position: relative;
   cursor: ${props => (props.draggable ? 'grab' : 'default')};
-  background-color: ${props => (props.isSelected ? '#f5f5f5' : '#fff')};
+  background-color: #fff;
   box-shadow: 0 1px rgba(0, 0, 0, 0.3);
+
+  &::after {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: ${props => (props.isSelected ? 'block' : 'none')};
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 `;
 
 const DietCard = ({
@@ -85,6 +97,7 @@ const DietCard = ({
 
   const onDragStart = e => {
     e.stopPropagation();
+
     dragCardData.setCard(card, index);
     setFromColumn(dragCardData);
     setIsSelected(true);

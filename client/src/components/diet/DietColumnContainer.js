@@ -119,17 +119,21 @@ const DietColumnContainer = ({ dietColumnList, updateColumnList, readonly = fals
     }
   };
 
-  const onDrop = () => {
+  const onDrop = e => {
     const { column, index: columnIndex } = dragColumnData;
     let { toIndex: columnToIndex } = dragColumnData;
     if (column === null) {
       return;
     }
-    if (columnToIndex > columnIndex) {
+
+    if (e.ctrlKey === false && columnToIndex > columnIndex) {
       columnToIndex--;
     }
+
     const newColumnList = [...dietColumnList];
-    newColumnList.splice(columnIndex, 1);
+    if (e.ctrlKey === false) {
+      newColumnList.splice(columnIndex, 1);
+    }
     newColumnList.splice(columnToIndex, 0, column);
     updateColumnList(newColumnList);
     setColumnShadowIndex(-1);
